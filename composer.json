@@ -1,0 +1,28 @@
+{
+    "name": "imi/magento2-friendly-captcha",
+    "version": "0.1.0",
+    "description": "Friendly Captcha integration for Magento2",
+    "require": {
+        "php": "^7.1|^7.2|^7.3",
+        "magento/magento-composer-installer": "*",
+        "magento/module-customer": "*",
+        "magento/module-checkout": "*",
+        "magento/module-newsletter": "*"
+    },
+    "authors": [
+        {
+            "name": "Daniel Galla",
+            "email": "d.galla@imi.de"
+        }
+    ],
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "IMI\\FriendlyCaptcha\\": ""
+        }
+    }
+}

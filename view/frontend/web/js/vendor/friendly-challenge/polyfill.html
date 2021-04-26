@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>FriendlyCaptcha</title>
+
+    <script type="module" src="widget.module.min.js" defer async></script>
+    <script nomodule src="widget.polyfilled.min.js" defer async></script>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  </head>
+  <body>
+    <!-- This index.html is used for e2e testing -->
+    <form>
+      <div class="frc-captcha" data-sitekey="FCMGEMUD2KTDSQ5H" data-callback="doneCallback"></div>
+    </form>
+    <button id="start-button">Start widget</button>
+    <button id="reset-button">Reset widget</button>
+    <button id="destroy-button">Destroy widget</button>
+    <button id="theme-button">Change Theme</button>
+    <script>
+      function doneCallback() {
+        const doneEl = document.createElement("div")
+        doneEl.id = "frc-captcha-done-callback-generated-element";
+        document.body.appendChild(doneEl);
+      }
+
+      document.querySelector("#start-button").addEventListener("click", function() {
+        friendlyChallenge.autoWidget.start();
+      });
+
+      document.querySelector("#reset-button").addEventListener("click", function() {
+        friendlyChallenge.autoWidget.reset();
+      });
+
+      document.querySelector("#destroy-button").addEventListener("click", function() {
+        friendlyChallenge.autoWidget.destroy();
+      });
+
+      document.querySelector("#theme-button").addEventListener("click", function() {
+        document.querySelector(".frc-captcha").classList.toggle("dark");
+      });
+    </script>
+  </body>
+</html>

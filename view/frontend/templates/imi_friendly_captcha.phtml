@@ -1,0 +1,4 @@
+<?php
+/** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
+?>
+<div class="frc-captcha" data-sitekey="<?= $block->getSiteKey() ?>" <?php if ($block->useEuEndpoint()): ?>data-puzzle-endpoint="https://eu-api.friendlycaptcha.eu/api/v1/puzzle"<?php endif; ?>></div>

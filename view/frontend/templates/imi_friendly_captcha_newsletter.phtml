@@ -1,0 +1,25 @@
+<?php
+
+/** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
+?>
+<div class="field-friendly-captcha"
+     id="<?= /* @noEscape */ $block->getRecaptchaId() ?>-container"
+     data-bind="scope:'<?= /* @noEscape */ $block->getRecaptchaId() ?>'"
+>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/javascript">
+    require(['jquery', 'domReady!'], function ($) {
+        $('#<?= /* @noEscape */ $block->getRecaptchaId() ?>-container')
+            .appendTo('#newsletter-validate-detail');
+    });
+</script>
+
+<script type="text/x-magento-init">
+{
+    "#<?= /* @noEscape */ $block->getRecaptchaId() ?>-container": {
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+    }
+}
+</script>

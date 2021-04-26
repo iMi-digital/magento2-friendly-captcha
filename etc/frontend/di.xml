@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="imi_friendly_captcha" xsi:type="object">\IMI\FriendlyCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- User login -->
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\LoginObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\BeforeAuthUrlProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_login</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\LoginObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\LoginObserver</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Forgot password -->
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\ForgotPassword"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\SimpleUrlProvider">
+        <arguments>
+            <argument name="urlPath" xsi:type="string">*/*/forgotpassword</argument>
+            <argument name="urlParams" xsi:type="array">
+                <item name="_secure" xsi:type="boolean">true</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\ForgotPasswordObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\ForgotPassword</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\ForgotPassword"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_forgot</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\ForgotPasswordObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\ForgotPassword</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\ForgotPasswordObserver</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Create User -->
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\CreateUser"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\SimpleUrlProvider">
+        <arguments>
+            <argument name="urlPath" xsi:type="string">*/*/create</argument>
+            <argument name="urlParams" xsi:type="array">
+                <item name="_secure" xsi:type="boolean">true</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\CreateUserObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\CreateUser</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\CreateUser"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_create</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\CreateUserObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\CreateUser</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\CreateUserObserver</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Contact Form -->
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\ContactForm"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\SimpleUrlProvider">
+        <arguments>
+            <argument name="urlPath" xsi:type="string">contact/index/index</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\ContactFormObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\ContactForm</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\ContactForm"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_contact</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\ContactFormObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\ContactForm</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\ContactFormObserver</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- AjaxLogin Form -->
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login</argument>
+            <argument name="responseProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\AjaxResponseProvider</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\AjaxResponseFailure</argument>
+        </arguments>
+    </virtualType>
+    
+    <type name="Magento\Customer\Block\Account\AuthenticationPopup">
+        <plugin sortOrder="1" name="imiFriendlyCaptchaAuthenticationPopup"
+                type="IMI\FriendlyCaptcha\Plugin\Block\Account\AuthenticationPopupPlugin"/>
+    </type>
+
+    <!-- Send to Friend Form -->
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\SendFriendObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\SendFriendForm</argument>
+            <argument name="responseProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\DefaultResponseProvider</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\SendFriendObserver</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\SendFriendForm"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_sendfriend</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\SendFriendObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\ReferrerUrlProvider</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Review Form -->
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\ReviewFormObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\RefererProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\ReviewForm"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_review</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\ReviewFormObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\ReviewForm</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\ReviewFormObserver</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Newsletter -->
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Newsletter"
+                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired">
+        <arguments>
+            <argument name="enableConfigFlag"
+                      xsi:type="string">imi_friendly_captcha/frontend/enabled_newsletter</argument>
+            <argument name="area" xsi:type="string">frontend</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\NewsletterObserver"
+                 type="IMI\FriendlyCaptcha\Model\Provider\Failure\ObserverRedirectFailure">
+        <arguments>
+            <argument name="redirectUrlProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl\ReferrerUrlProvider</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\NewsletterObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Newsletter</argument>
+            <argument name="responseProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\DefaultResponseProvider</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\NewsletterObserver</argument>
+        </arguments>
+    </virtualType>
+</config>
