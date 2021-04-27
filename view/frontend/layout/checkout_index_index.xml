@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+  -  Copyright © iMi digital GmbH, based on work by MageSpecialist
+  -  See LICENSE for license details.
+  -->
+
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 
