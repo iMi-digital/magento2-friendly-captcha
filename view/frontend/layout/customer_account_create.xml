@@ -8,7 +8,7 @@
         <referenceContainer name="form.additional.info">
             <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha" name="imi_friendly_captcha_widget" after="-"
                    template="IMI_FriendlyCaptcha::imi_friendly_captcha.phtml"
-                   ifconfig="imi_friendly_captcha/frontend/enabled" />
+                   ifconfig="imi_friendly_captcha/frontend/enabled_create" />
         </referenceContainer>
     </body>
 </page>

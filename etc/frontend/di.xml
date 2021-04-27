@@ -2,13 +2,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\Checkout\Block\Onepage">
-        <arguments>
-            <argument name="layoutProcessors" xsi:type="array">
-                <item name="imi_friendly_captcha" xsi:type="object">\IMI\FriendlyCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>
-            </argument>
-        </arguments>
-    </type>
+<!--    <type name="Magento\Checkout\Block\Onepage">-->
+<!--        <arguments>-->
+<!--            <argument name="layoutProcessors" xsi:type="array">-->
+<!--                <item name="imi_friendly_captcha" xsi:type="object">\IMI\FriendlyCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>-->
+<!--            </argument>-->
+<!--        </arguments>-->
+<!--    </type>-->
 
     <!-- User login -->
     <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\LoginObserver"
@@ -139,22 +139,22 @@
     </virtualType>
 
     <!-- AjaxLogin Form -->
-    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver"
-                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
-        <arguments>
-            <argument name="isCheckRequired"
-                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login</argument>
-            <argument name="responseProvider"
-                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\AjaxResponseProvider</argument>
-            <argument name="failureProvider"
-                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\AjaxResponseFailure</argument>
-        </arguments>
-    </virtualType>
-    
-    <type name="Magento\Customer\Block\Account\AuthenticationPopup">
-        <plugin sortOrder="1" name="imiFriendlyCaptchaAuthenticationPopup"
-                type="IMI\FriendlyCaptcha\Plugin\Block\Account\AuthenticationPopupPlugin"/>
-    </type>
+<!--    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver"-->
+<!--                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">-->
+<!--        <arguments>-->
+<!--            <argument name="isCheckRequired"-->
+<!--                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login</argument>-->
+<!--            <argument name="responseProvider"-->
+<!--                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\AjaxResponseProvider</argument>-->
+<!--            <argument name="failureProvider"-->
+<!--                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\AjaxResponseFailure</argument>-->
+<!--        </arguments>-->
+<!--    </virtualType>-->
+<!--    -->
+<!--    <type name="Magento\Customer\Block\Account\AuthenticationPopup">-->
+<!--        <plugin sortOrder="1" name="imiFriendlyCaptchaAuthenticationPopup"-->
+<!--                type="IMI\FriendlyCaptcha\Plugin\Block\Account\AuthenticationPopupPlugin"/>-->
+<!--    </type>-->
 
     <!-- Send to Friend Form -->
     <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\SendFriendObserver"
@@ -163,7 +163,7 @@
             <argument name="isCheckRequired"
                       xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\SendFriendForm</argument>
             <argument name="responseProvider"
-                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\DefaultResponseProvider</argument>
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\DefaultSolutionProvider</argument>
             <argument name="failureProvider"
                       xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\SendFriendObserver</argument>
         </arguments>
@@ -232,7 +232,7 @@
             <argument name="isCheckRequired"
                       xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Newsletter</argument>
             <argument name="responseProvider"
-                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\DefaultResponseProvider</argument>
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\DefaultSolutionProvider</argument>
             <argument name="failureProvider"
                       xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\NewsletterObserver</argument>
         </arguments>

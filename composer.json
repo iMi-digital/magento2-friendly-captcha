@@ -4,6 +4,7 @@
     "description": "Friendly Captcha integration for Magento2",
     "require": {
         "php": "^7.1|^7.2|^7.3",
+        "ext-intl": ">=1.0.0",
         "magento/magento-composer-installer": "*",
         "magento/module-customer": "*",
         "magento/module-checkout": "*",

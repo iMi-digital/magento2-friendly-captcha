@@ -1,4 +1,22 @@
 <?php
 /** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
 ?>
-<div class="frc-captcha" data-sitekey="<?= $block->getSiteKey() ?>" <?php if ($block->useEuEndpoint()): ?>data-puzzle-endpoint="https://eu-api.friendlycaptcha.eu/api/v1/puzzle"<?php endif; ?>></div>
+<div id="<?= $block->getWidgetId() ?>"
+     class="frc-captcha"
+     data-sitekey="<?= $block->getSiteKey() ?>"
+     <?php if ($block->useEuEndpoint()): ?>data-puzzle-endpoint="https://eu-api.friendlycaptcha.eu/api/v1/puzzle"<?php endif; ?>
+     data-lang="<?= $block->getLang() ?>"
+     data-callback="captchaSolved_<?= $block->getWidgetId() ?>"
+></div>
+<script>
+    require([
+        'jquery'
+    ], function ($) {
+        var widgetId = '<?= $block->getWidgetId() ?>';
+        $('#' + widgetId).closest("form").find('button[type="submit"]').prop('disabled', true);
+
+        window.captchaSolved_<?= $block->getWidgetId() ?> = function (solution) {
+            $('#' + widgetId).closest("form").find('button[type="submit"]').prop('disabled', false);
+        }
+    });
+</script>

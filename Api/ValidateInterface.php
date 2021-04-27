@@ -4,15 +4,14 @@ namespace IMI\FriendlyCaptcha\Api;
 
 interface ValidateInterface
 {
-    const PARAM_RECAPTCHA_RESPONSE = 'g-friendly-captcha-response';
+    const PARAM_FRIENDLY_CAPTCHA_SOLUTION = 'frc-captcha-solution';
 
     /**
      * Return true if friendlyCaptcha validation has passed
      *
-     * @param string $friendlyCaptchaResponse
-     * @param string $remoteIp
+     * @param string $friendlyCaptchaSolution
      *
      * @return bool
      */
-    public function validate($friendlyCaptchaResponse, $remoteIp);
+    public function validate(string $friendlyCaptchaSolution): bool;
 }

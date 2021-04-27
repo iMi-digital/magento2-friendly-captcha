@@ -1,51 +1,49 @@
 <?xml version="1.0"?>
-<!--
--->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 
-    <body>
-        <referenceBlock name="authentication-popup">
-            <arguments>
-                <argument name="jsLayout" xsi:type="array">
-                    <item name="components" xsi:type="array">
-                        <item name="authenticationPopup" xsi:type="array">
-                            <item name="children" xsi:type="array">
-                                <item name="imi_friendly_captcha" xsi:type="array">
-                                    <item name="component" xsi:type="string">IMI_FriendlyCaptcha/js/friendlyCaptcha</item>
-                                    <item name="displayArea" xsi:type="string">additional-login-form-fields</item>
-                                    <item name="configSource" xsi:type="string">checkoutConfig</item>
-                                    <item name="friendlyCaptchaId" xsi:type="string">imi-friendly-captcha-popup-login</item>
-                                    <item name="zone" xsi:type="string">login</item>
-                                    <item name="badge" xsi:type="string">inline</item>
-                                </item>
-                            </item>
-                        </item>
-                    </item>
-                </argument>
-            </arguments>
-        </referenceBlock>
-        <referenceContainer name="footer">
-            <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha"
-                   name="imi-friendly-captcha-newsletter"
-                   after="-"
-                   template="IMI_FriendlyCaptcha::imi_friendly_captcha_newsletter.phtml">
-                <arguments>
-                    <argument name="jsLayout" xsi:type="array">
-                        <item name="components" xsi:type="array">
-                            <item name="imi-friendly-captcha" xsi:type="array">
-                                <item name="component" xsi:type="string">IMI_FriendlyCaptcha/js/friendlyCaptcha</item>
-                                <item name="friendlyCaptchaId" xsi:type="string">imi-friendly-captcha-newsletter</item>
-                                <item name="zone" xsi:type="string">newsletter</item>
-                                <item name="badge" xsi:type="string">bottomright</item>
-                                <item name="settings" xsi:type="array">
-                                    <item name="size" xsi:type="string">invisible</item>
-                                </item>
-                            </item>
-                        </item>
-                    </argument>
-                </arguments>
-            </block>
-        </referenceContainer>
-    </body>
+<!--    <body>-->
+<!--        <referenceBlock name="authentication-popup">-->
+<!--            <arguments>-->
+<!--                <argument name="jsLayout" xsi:type="array">-->
+<!--                    <item name="components" xsi:type="array">-->
+<!--                        <item name="authenticationPopup" xsi:type="array">-->
+<!--                            <item name="children" xsi:type="array">-->
+<!--                                <item name="imi_friendly_captcha" xsi:type="array">-->
+<!--                                    <item name="component" xsi:type="string">IMI_FriendlyCaptcha/js/friendlyCaptcha</item>-->
+<!--                                    <item name="displayArea" xsi:type="string">additional-login-form-fields</item>-->
+<!--                                    <item name="configSource" xsi:type="string">checkoutConfig</item>-->
+<!--                                    <item name="friendlyCaptchaId" xsi:type="string">imi-friendly-captcha-popup-login</item>-->
+<!--                                    <item name="zone" xsi:type="string">login</item>-->
+<!--                                    <item name="badge" xsi:type="string">inline</item>-->
+<!--                                </item>-->
+<!--                            </item>-->
+<!--                        </item>-->
+<!--                    </item>-->
+<!--                </argument>-->
+<!--            </arguments>-->
+<!--        </referenceBlock>-->
+<!--        <referenceContainer name="footer">-->
+<!--            <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha"-->
+<!--                   name="imi-friendly-captcha-newsletter"-->
+<!--                   after="-"-->
+<!--                   template="IMI_FriendlyCaptcha::imi_friendly_captcha_newsletter.phtml">-->
+<!--                <arguments>-->
+<!--                    <argument name="jsLayout" xsi:type="array">-->
+<!--                        <item name="components" xsi:type="array">-->
+<!--                            <item name="imi-friendly-captcha" xsi:type="array">-->
+<!--                                <item name="component" xsi:type="string">IMI_FriendlyCaptcha/js/friendlyCaptcha</item>-->
+<!--                                <item name="friendlyCaptchaId" xsi:type="string">imi-friendly-captcha-newsletter</item>-->
+<!--                                <item name="zone" xsi:type="string">newsletter</item>-->
+<!--                                <item name="badge" xsi:type="string">bottomright</item>-->
+<!--                                <item name="settings" xsi:type="array">-->
+<!--                                    <item name="size" xsi:type="string">invisible</item>-->
+<!--                                </item>-->
+<!--                            </item>-->
+<!--                        </item>-->
+<!--                    </argument>-->
+<!--                </arguments>-->
+<!--            </block>-->
+<!--        </referenceContainer>-->
+<!--    </body>-->
 </page>

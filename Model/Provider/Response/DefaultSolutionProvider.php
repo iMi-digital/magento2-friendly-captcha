@@ -4,9 +4,9 @@ namespace IMI\FriendlyCaptcha\Model\Provider\Response;
 
 use Magento\Framework\App\RequestInterface;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
-use IMI\FriendlyCaptcha\Model\Provider\ResponseProviderInterface;
+use IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface;
 
-class DefaultResponseProvider implements ResponseProviderInterface
+class DefaultSolutionProvider implements SolutionProviderInterface
 {
     /**
      * @var RequestInterface
@@ -24,14 +24,12 @@ class DefaultResponseProvider implements ResponseProviderInterface
     }
 
     /**
-     * Handle friendlyCaptcha failure
+     * Get Friendly Captcha solution from request
      *
      * @return string
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function execute()
+    public function execute(): string
     {
-        return $this->request->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
+        return $this->request->getParam(ValidateInterface::PARAM_FRIENDLY_CAPTCHA_SOLUTION);
     }
 }

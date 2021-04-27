@@ -3,13 +3,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="IMI\FriendlyCaptcha\Api\ValidateInterface" type="IMI\FriendlyCaptcha\Model\Validate"/>
 
-    <type name="Magento\Framework\View\Asset\Minification">
-        <plugin name="imi_friendly_captcha_exclude" type="IMI\FriendlyCaptcha\Plugin\ExcludeFromMinification"/>
-    </type>
-
     <!-- Default HTTP response provider -->
-    <preference for="IMI\FriendlyCaptcha\Model\Provider\ResponseProviderInterface"
-                type="IMI\FriendlyCaptcha\Model\Provider\Response\DefaultResponseProvider"/>
+    <preference for="IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface"
+                type="IMI\FriendlyCaptcha\Model\Provider\Response\DefaultSolutionProvider"/>
 
     <preference for="IMI\FriendlyCaptcha\Model\IsCheckRequiredInterface"
                 type="IMI\FriendlyCaptcha\Model\IsCheckRequired"/>
@@ -18,10 +14,11 @@
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>
             <argument name="sensitive" xsi:type="array">
-                <item name="imi_friendly_captcha/general/sitekey" xsi:type="string">1</item>
+                <item name="imi_friendly_captcha/general/apikey" xsi:type="string">1</item>
             </argument>
             <argument name="environment" xsi:type="array">
                 <item name="imi_friendly_captcha/general/sitekey" xsi:type="string">1</item>
+                <item name="imi_friendly_captcha/general/apikey" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>

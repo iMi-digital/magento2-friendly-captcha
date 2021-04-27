@@ -3,16 +3,12 @@
 namespace IMI\FriendlyCaptcha\Block\Frontend;
 
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\View\Element\Template;
 use IMI\FriendlyCaptcha\Model\Config;
 use IMI\FriendlyCaptcha\Model\LayoutSettings;
 use Zend\Json\Json;
 
-/**
- * Class FriendlyCaptcha
- * @package IMI\FriendlyCaptcha\Block\Frontend
- * @todo: use view model instead
- */
 class FriendlyCaptcha extends Template
 {
     /**
@@ -26,27 +22,36 @@ class FriendlyCaptcha extends Template
     private $layoutSettings;
 
     /**
+     * @var ResolverInterface
+     */
+    private $localeResolver;
+
+    /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
+     * @param ResolverInterface $localeResolver
      * @param array $data
      * @param Config|null $config
      */
     public function __construct(
         Template\Context $context,
         LayoutSettings $layoutSettings,
+        ResolverInterface $localeResolver,
         array $data = [],
         Config $config = null
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
         $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
+        $this->localeResolver = $localeResolver;
     }
 
     /**
      * Get public friendlyCaptcha key
+     *
      * @return string
      */
-    public function getSiteKey()
+    public function getSiteKey(): string
     {
         return $this->config->getSiteKey();
     }
@@ -60,11 +65,15 @@ class FriendlyCaptcha extends Template
     }
 
     /**
-     * Get current recaptcha ID
+     * Get the current language
+     *
+     * @return string
      */
-    public function getRecaptchaId()
+    public function getLang(): string
     {
-        return (string) $this->getData('recaptcha_id') ?: 'imi-friendly-captcha-' . md5($this->getNameInLayout());
+        $locale = locale_parse($this->localeResolver->getLocale());
+
+        return $locale['language'];
     }
 
     /**
@@ -77,25 +86,39 @@ class FriendlyCaptcha extends Template
         if ($this->config->isEnabledFrontend()) {
             // Backward compatibility with fixed scope name
             if (isset($layout['components']['imi-friendly-captcha'])) {
-                $layout['components'][$this->getRecaptchaId()] = $layout['components']['imi-friendly-captcha'];
+                $layout['components'][$this->getWidgetId()] = $layout['components']['imi-friendly-captcha'];
                 unset($layout['components']['imi-friendly-captcha']);
             }
 
             $recaptchaComponentSettings = [];
-            if (isset($layout['components'][$this->getRecaptchaId()]['settings'])) {
-                $recaptchaComponentSettings = $layout['components'][$this->getRecaptchaId()]['settings'];
+            if (isset($layout['components'][$this->getWidgetId()]['settings'])) {
+                $recaptchaComponentSettings = $layout['components'][$this->getWidgetId()]['settings'];
             }
-            $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
+            $layout['components'][$this->getWidgetId()]['settings'] = array_replace_recursive(
                 $this->layoutSettings->getCaptchaSettings(),
                 $recaptchaComponentSettings
             );
 
-            $layout['components'][$this->getRecaptchaId()]['friendlyCaptchaId'] = $this->getRecaptchaId();
+            $layout['components'][$this->getWidgetId()]['friendlyCaptchaId'] = $this->getWidgetId();
         }
 
         return Json::encode($layout);
     }
-    
+
+    /**
+     * Get widget ID
+     *
+     * @return string
+     */
+    public function getWidgetId(): string
+    {
+        if (!$this->hasData('widget_id')) {
+            $this->setData('widget_id', md5($this->getNameInLayout()));
+        }
+
+        return $this->getData('widget_id');
+    }
+
     /**
      * @return string
      */

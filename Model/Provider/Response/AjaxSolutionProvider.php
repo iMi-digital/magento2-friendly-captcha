@@ -3,10 +3,10 @@
 namespace IMI\FriendlyCaptcha\Model\Provider\Response;
 
 use Magento\Framework\App\RequestInterface;
-use IMI\FriendlyCaptcha\Model\Provider\ResponseProviderInterface;
+use IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 
-class AjaxResponseProvider implements ResponseProviderInterface
+class AjaxSolutionProvider implements SolutionProviderInterface
 {
     /**
      * @var RequestInterface
@@ -34,10 +34,10 @@ class AjaxResponseProvider implements ResponseProviderInterface
 
     /**
      * Handle friendlyCaptcha failure
+     *
      * @return string
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function execute()
+    public function execute(): string
     {
         if ($content = $this->request->getContent()) {
             try {
