@@ -1,6 +1,6 @@
 {
     "name": "imi/magento2-friendly-captcha",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Friendly Captcha integration for Magento2",
     "require": {
         "php": "^7.1|^7.2|^7.3",
