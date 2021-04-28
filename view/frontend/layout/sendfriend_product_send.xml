@@ -6,14 +6,14 @@
 
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <script src="IMI_FriendlyCaptcha::js/vendor/friendly-challenge/widget.module.js" type="module" async="true" />
-    </head>
     <body>
         <referenceContainer name="form.additional.info">
             <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha" name="imi_friendly_captcha_widget" after="-"
                    template="IMI_FriendlyCaptcha::imi_friendly_captcha.phtml"
                    ifconfig="imi_friendly_captcha/frontend/enabled_sendfriend" />
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" template="IMI_FriendlyCaptcha::imi_friendly_captcha_js.phtml" name="friendly_captcha_js" ifconfig="imi_friendly_captcha/frontend/enabled"/>
         </referenceContainer>
     </body>
 </page>
