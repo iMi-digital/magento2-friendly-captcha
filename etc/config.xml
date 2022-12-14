@@ -9,6 +9,8 @@
     <default>
         <imi_friendly_captcha>
             <general>
+                <sitekey/>
+                <apikey backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <eu_endpoint>0</eu_endpoint>
             </general>
             <frontend>

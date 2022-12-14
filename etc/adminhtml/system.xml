@@ -25,9 +25,10 @@
                        showInWebsite="1" showInStore="0">
                     <label>Friendly Captcha Site Key</label>
                 </field>
-                <field id="apikey" translate="label" type="password" sortOrder="20" showInDefault="1"
+                <field id="apikey" translate="label" type="obscure" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="0">
                     <label>Friendly Captcha API Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
                 <field id="eu_endpoint" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Use EU API Endpoint</label>
