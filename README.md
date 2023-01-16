@@ -1,6 +1,6 @@
 # IMI FriendlyCaptcha
 
-## Installing on Magento2:
+## Installing on Magento 2
 
 **1. Install using composer**
 
@@ -20,7 +20,7 @@ https://friendlycaptcha.com/signup
 
 Stores > Configuration > Security > Friendly Captcha
 
-## Frontend:
+## Frontend
 
 IMI_FriendlyCaptcha adds a Friendly Captcha widget to:
 - Login
@@ -28,3 +28,7 @@ IMI_FriendlyCaptcha adds a Friendly Captcha widget to:
 - Contact form
 - Forgot password
 - Send to Friend
+
+## Security Scan
+
+This module is accepted by the Magento security scan by Adobe, which normally looks for Google ReCAPTCHA, i.e. replacing the ReCAPTCHA with the Friendly Captcha should not trigger any false positives.
