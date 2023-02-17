@@ -78,7 +78,7 @@ class Validate implements ValidateInterface
         $curl = $this->curlFactory->create();
 
         try {
-            $curl->post('https://friendlycaptcha.com/api/v1/siteverify', $parameters);
+            $curl->post('https://api.friendlycaptcha.com/api/v1/siteverify', $parameters);
             $response = $this->serializer->unserialize($curl->getBody());
 
             if ($curl->getStatus() === 200) {
