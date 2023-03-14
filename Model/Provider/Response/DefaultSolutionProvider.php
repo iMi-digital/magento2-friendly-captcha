@@ -34,6 +34,6 @@ class DefaultSolutionProvider implements SolutionProviderInterface
      */
     public function execute(): string
     {
-        return $this->request->getParam(ValidateInterface::PARAM_FRIENDLY_CAPTCHA_SOLUTION);
+        return (string)$this->request->getParam(ValidateInterface::PARAM_FRIENDLY_CAPTCHA_SOLUTION);
     }
 }
