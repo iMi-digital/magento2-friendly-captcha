@@ -20,7 +20,7 @@
                 <enabled_contact>1</enabled_contact>
                 <enabled_create>1</enabled_create>
                 <enabled_review>1</enabled_review>
-<!--                <enabled_newsletter>1</enabled_newsletter>-->
+                <enabled_newsletter>1</enabled_newsletter>
                 <enabled_sendfriend>1</enabled_sendfriend>
             </frontend>
         </imi_friendly_captcha>
