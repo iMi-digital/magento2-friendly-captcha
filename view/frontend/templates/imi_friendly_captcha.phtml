@@ -14,14 +14,21 @@
      data-callback="captchaSolved_<?= $block->getWidgetId() ?>"
 ></div>
 <script>
-    require([
-        'jquery'
-    ], function ($) {
-        var widgetId = '<?= $block->getWidgetId() ?>';
-        $('#' + widgetId).closest("form").find('button[type="submit"]').prop('disabled', true);
+    'use strict';
 
-        window.captchaSolved_<?= $block->getWidgetId() ?> = function (solution) {
-            $('#' + widgetId).closest("form").find('button[type="submit"]').prop('disabled', false);
+    document.addEventListener('DOMContentLoaded', function () {
+        function setButtonDisabled(disabled) {
+            const button = Array.from(document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>').closest('form').elements).find(el => el.type === 'submit');
+            if (!button) {
+                return;
+            }
+            button.disabled = disabled;
+        }
+
+        setButtonDisabled(true);
+
+        window.captchaSolved_<?= /* @noEscape */ $block->getWidgetId() ?> = function () {
+            setButtonDisabled(false);
         }
     });
 </script>
