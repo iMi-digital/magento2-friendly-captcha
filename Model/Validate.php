@@ -78,7 +78,7 @@ class Validate implements ValidateInterface
         $curl = $this->curlFactory->create();
 
         try {
-            $curl->post('https://api.friendlycaptcha.com/api/v1/siteverify', $parameters);
+            $curl->post($this->getSiteVerifyUrl(), $parameters);
             $response = $this->serializer->unserialize($curl->getBody());
 
             if ($curl->getStatus() === 200) {
@@ -91,5 +91,14 @@ class Validate implements ValidateInterface
         }
 
         return true;
+    }
+
+    public function getSiteVerifyUrl(): string
+    {
+        if ($this->config->useEuEndpoint()) {
+            return 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify';
+        }
+
+        return 'https://api.friendlycaptcha.com/api/v1/siteverify';
     }
 }
