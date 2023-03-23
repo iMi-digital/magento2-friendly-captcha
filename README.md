@@ -28,6 +28,7 @@ IMI_FriendlyCaptcha adds a Friendly Captcha widget to:
 - Contact form
 - Forgot password
 - Send to Friend
+- Newsletter signup
 
 ## Security Scan
 
