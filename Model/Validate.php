@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace IMI\FriendlyCaptcha\Model;
 
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
+use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Psr\Log\LoggerInterface;
@@ -81,7 +82,7 @@ class Validate implements ValidateInterface
             $curl->post($this->getSiteVerifyUrl(), $parameters);
             $response = $this->serializer->unserialize($curl->getBody());
 
-            if ($curl->getStatus() === 200) {
+            if ($this->shouldUseResponse($curl, $response)) {
                 return $response['success'];
             } else {
                 $this->logger->error('Error validating captcha solution.', ['response' => var_export($response, true)]);
@@ -100,5 +101,15 @@ class Validate implements ValidateInterface
         }
 
         return 'https://api.friendlycaptcha.com/api/v1/siteverify';
+    }
+
+    private function shouldUseResponse(Curl $curl, $response): bool
+    {
+        $isResponseOk = $curl->getStatus() === 200;
+        $isSolutionMissingOrBadRequest = $curl->getStatus() === 400
+            && isset($response['success'], $response['errors'])
+            && array_intersect($response['errors'], ['solution_missing', 'bad_request']);
+
+        return $isResponseOk || $isSolutionMissingOrBadRequest;
     }
 }
