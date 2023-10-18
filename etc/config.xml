@@ -11,7 +11,7 @@
             <general>
                 <sitekey/>
                 <apikey backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
-                <eu_endpoint>0</eu_endpoint>
+                <endpoint>0</endpoint>
             </general>
             <frontend>
                 <enabled>0</enabled>

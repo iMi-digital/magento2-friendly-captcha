@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Model;
 
+use IMI\FriendlyCaptcha\Model\Config\Source\Endpoint;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
 use Magento\Store\Model\ScopeInterface;
@@ -18,7 +19,7 @@ class Config
 
     public const CONFIG_PATH_APIEKEY = 'imi_friendly_captcha/general/apikey';
 
-    public const CONFIG_PATH_EU_ENDPOINT = 'imi_friendly_captcha/general/eu_endpoint';
+    public const CONFIG_PATH_ENDPOINT = 'imi_friendly_captcha/general/endpoint';
 
     public const CONFIG_PATH_ENABLED_FRONTEND = 'imi_friendly_captcha/frontend/enabled';
 
@@ -35,6 +36,10 @@ class Config
     public const CONFIG_PATH_ENABLED_FRONTEND_NEWSLETTER = 'imi_friendly_captcha/frontend/enabled_newsletter';
 
     public const CONFIG_PATH_ENABLED_FRONTEND_SENDFRIEND = 'imi_friendly_captcha/frontend/enabled_sendfriend';
+
+    protected const CONFIG_PATH_CUSTOM_PUZZLE = 'imi_friendly_captcha/general/custom_puzzle';
+
+    protected const CONFIG_PATH_CUSTOM_VERIFY = 'imi_friendly_captcha/general/custom_verify';
 
     /**
      * @var ScopeConfigInterface
@@ -116,14 +121,43 @@ class Config
     }
 
     /**
-     * Get Friendly Captcha endpoint
-     *
-     * @return bool
+     * Get Friendly Captcha puzzle endpoint
      */
-    public function useEuEndpoint(): bool
+    public function getPuzzleEndpoint(): string
     {
-        return (bool)$this->scopeConfig->getValue(static::CONFIG_PATH_EU_ENDPOINT,
-            ScopeInterface::SCOPE_WEBSITE);
+        $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+
+        switch ($endpoint) {
+            case Endpoint::EU:
+                return 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle';
+            case Endpoint::CUSTOM:
+                return (string)$this->scopeConfig->getValue(
+                    static::CONFIG_PATH_CUSTOM_PUZZLE,
+                    ScopeInterface::SCOPE_WEBSITE
+                );
+            default:
+                return '';
+        }
+    }
+
+    /**
+     * Get Friendly Captcha verify endpoint
+     */
+    public function getVerifyEndpoint(): string
+    {
+        $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+
+        switch ($endpoint) {
+            case Endpoint::EU:
+                return 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle';
+            case Endpoint::CUSTOM:
+                return (string)$this->scopeConfig->getValue(
+                    static::CONFIG_PATH_CUSTOM_VERIFY,
+                    ScopeInterface::SCOPE_WEBSITE
+                );
+            default:
+                return 'https://api.friendlycaptcha.com/api/v1/siteverify';
+        }
     }
 
     /**

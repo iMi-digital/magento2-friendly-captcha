@@ -30,9 +30,25 @@
                     <label>Friendly Captcha API Key</label>
                     <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
-                <field id="eu_endpoint" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Use EU API Endpoint</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                <field id="endpoint" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>API Endpoint</label>
+                    <source_model>IMI\FriendlyCaptcha\Model\Config\Source\Endpoint</source_model>
+                </field>
+                <field id="custom_puzzle" translate="label" type="text" sortOrder="31" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Custom Puzzle Endpoint URL</label>
+                    <depends>
+                        <field id="endpoint">2</field>
+                    </depends>
+                    <validate>required-entry validate-url validate-no-html-tags</validate>
+                </field>
+                <field id="custom_verify" translate="label" type="text" sortOrder="32" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Custom Verify Endpoint URL</label>
+                    <depends>
+                        <field id="endpoint">2</field>
+                    </depends>
+                    <validate>required-entry validate-url validate-no-html-tags</validate>
                 </field>
             </group>
             <group id="frontend" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
