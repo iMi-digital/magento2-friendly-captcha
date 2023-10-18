@@ -6,7 +6,7 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Failure;
 
-use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\Response\Http;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use IMI\FriendlyCaptcha\Model\Config;
 use IMI\FriendlyCaptcha\Model\Provider\FailureProviderInterface;
@@ -30,12 +30,12 @@ class AuthenticationExceptionFailure implements FailureProviderInterface
 
     /**
      * Handle friendlyCaptcha failure
-     * @param ResponseInterface $response
+     * @param Http $response
      * @return void
      * @throws AuthenticationException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function execute(ResponseInterface $response = null)
+    public function execute(Http $response)
     {
         throw new AuthenticationException($this->config->getErrorDescription());
     }

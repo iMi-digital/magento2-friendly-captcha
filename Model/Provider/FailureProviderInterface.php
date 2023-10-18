@@ -6,6 +6,7 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider;
 
+use Magento\Framework\App\Response\Http;
 use Magento\Framework\App\ResponseInterface;
 
 interface FailureProviderInterface
@@ -13,9 +14,9 @@ interface FailureProviderInterface
     /**
      * Handle friendlyCaptcha failure
      *
-     * @param ResponseInterface|null $response
+     * @param Http $response
      *
      * @return void
      */
-    public function execute(ResponseInterface $response = null);
+    public function execute(Http $response);
 }
