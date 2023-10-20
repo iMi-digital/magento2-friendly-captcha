@@ -9,5 +9,9 @@
 <script>
     'use strict';
 
-    document.getElementById('newsletter-validate-detail').append(document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>'));
+    if (document.getElementById('newsletter-validate-detail')) {
+        document.getElementById('newsletter-validate-detail').append(document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>'));
+    } else {
+        document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>').remove();
+    }
 </script>
