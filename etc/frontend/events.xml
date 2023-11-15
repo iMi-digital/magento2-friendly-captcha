@@ -10,9 +10,9 @@
     <event name="controller_action_predispatch_customer_account_loginPost">
         <observer name="imi_friendly_captcha_account_loginPost" instance="IMI\FriendlyCaptcha\Observer\Frontend\LoginObserver" />
     </event>
-<!--    <event name="controller_action_predispatch_customer_ajax_login">-->
-<!--        <observer name="imi_friendly_captcha_ajax_login" instance="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver" />-->
-<!--    </event>-->
+    <event name="controller_action_predispatch_customer_ajax_login">
+        <observer name="imi_friendly_captcha_ajax_login" instance="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver" />
+    </event>
     <event name="controller_action_predispatch_customer_account_createpost">
         <observer name="imi_friendly_captcha_account_createpost" instance="IMI\FriendlyCaptcha\Observer\Frontend\CreateUserObserver" />
     </event>
