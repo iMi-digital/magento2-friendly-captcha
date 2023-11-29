@@ -60,12 +60,9 @@ class FriendlyCaptcha extends Template
         return $this->config->getSiteKey();
     }
 
-    /**
-     * @return bool
-     */
-    public function useEuEndpoint(): bool
+    public function getPuzzleEndpoint(): string
     {
-        return $this->config->useEuEndpoint();
+        return $this->config->getPuzzleEndpoint();
     }
 
     /**

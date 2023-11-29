@@ -6,7 +6,9 @@
 
 namespace IMI\FriendlyCaptcha\Observer;
 
+use Magento\Framework\App\Action\AbstractAction;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Response\Http as HttpResponse;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
@@ -38,6 +40,11 @@ class FriendlyCaptchaObserver implements ObserverInterface
     private $isCheckRequired;
 
     /**
+     * @var HttpResponse
+     */
+    private $response;
+
+    /**
      * @param SolutionProviderInterface $responseProvider
      * @param ValidateInterface $validate
      * @param FailureProviderInterface $failureProvider
@@ -47,12 +54,14 @@ class FriendlyCaptchaObserver implements ObserverInterface
         SolutionProviderInterface $responseProvider,
         ValidateInterface $validate,
         FailureProviderInterface $failureProvider,
-        IsCheckRequiredInterface $isCheckRequired
+        IsCheckRequiredInterface $isCheckRequired,
+        HttpResponse $response
     ) {
         $this->responseProvider = $responseProvider;
         $this->validate = $validate;
         $this->failureProvider = $failureProvider;
         $this->isCheckRequired = $isCheckRequired;
+        $this->response = $response;
     }
 
     /**
@@ -68,7 +77,7 @@ class FriendlyCaptchaObserver implements ObserverInterface
             if (!$this->validate->validate($friendlyCaptchaResponse)) {
                 /** @var Action $controller */
                 $controller = $observer->getControllerAction();
-                $this->failureProvider->execute($controller ? $controller->getResponse() : null);
+                $this->failureProvider->execute($controller instanceof AbstractAction ? $controller->getResponse() : $this->response);
             }
         }
     }

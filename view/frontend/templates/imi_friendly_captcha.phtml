@@ -5,11 +5,13 @@
  */
 
 /** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
+/** @var $escaper \Magento\Framework\Escaper */
+$endpoint = $block->getPuzzleEndpoint();
 ?>
 <div id="<?= $block->getWidgetId() ?>"
      class="frc-captcha"
      data-sitekey="<?= $block->getSiteKey() ?>"
-     <?php if ($block->useEuEndpoint()): ?>data-puzzle-endpoint="https://eu-api.friendlycaptcha.eu/api/v1/puzzle"<?php endif; ?>
+     <?php if ($endpoint !== ''): ?>data-puzzle-endpoint="<?= $escaper->escapeUrl($endpoint) ?>"<?php endif; ?>
      data-lang="<?= $block->getLang() ?>"
      data-callback="captchaSolved_<?= $block->getWidgetId() ?>"
 ></div>

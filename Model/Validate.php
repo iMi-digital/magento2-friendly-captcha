@@ -96,11 +96,7 @@ class Validate implements ValidateInterface
 
     private function getSiteVerifyUrl(): string
     {
-        if ($this->config->useEuEndpoint()) {
-            return 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify';
-        }
-
-        return 'https://api.friendlycaptcha.com/api/v1/siteverify';
+        return $this->config->getVerifyEndpoint();
     }
 
     private function shouldUseResponse(Curl $curl, $response): bool

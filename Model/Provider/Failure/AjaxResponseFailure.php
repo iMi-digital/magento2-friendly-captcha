@@ -7,7 +7,7 @@
 namespace IMI\FriendlyCaptcha\Model\Provider\Failure;
 
 use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\Response\Http;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Json\EncoderInterface;
 use IMI\FriendlyCaptcha\Model\Config;
@@ -48,10 +48,10 @@ class AjaxResponseFailure implements FailureProviderInterface
 
     /**
      * Handle friendlyCaptcha failure
-     * @param ResponseInterface $response
+     * @param Http $response
      * @return void
      */
-    public function execute(ResponseInterface $response = null)
+    public function execute(Http $response)
     {
         $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
