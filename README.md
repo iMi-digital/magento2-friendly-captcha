@@ -23,12 +23,16 @@ Stores > Configuration > Security > Friendly Captcha
 ## Frontend
 
 IMI_FriendlyCaptcha adds a Friendly Captcha widget to:
+
 - Login
 - Register
 - Contact form
 - Forgot password
 - Send to Friend
-- Newsletter signup
+- Newsletter signup*
+- Product Reviews
+
+*If you are not using the Magento Newsletter function, please disable the Newsletter Captcha in the settings - otherwise it would still be loaded on each page and later removed via JavaScript.
 
 ## Security Scan
 
