@@ -54,6 +54,9 @@ class EncryptExistingApiKeys implements DataPatchInterface
             ->addFieldToFilter('path', Config::CONFIG_PATH_APIEKEY);
         /** @var ConfigValue $configValue */
         foreach ($configValues as $configValue) {
+            if (!$configValue->getValue()) {
+                continue;
+            }            
             $this->writer->save(
                 $configValue->getPath(),
                 $this->encryptor->encrypt($configValue->getValue()),
