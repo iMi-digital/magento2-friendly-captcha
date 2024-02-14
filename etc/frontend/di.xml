@@ -7,13 +7,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <!--    <type name="Magento\Checkout\Block\Onepage">-->
-    <!--        <arguments>-->
-    <!--            <argument name="layoutProcessors" xsi:type="array">-->
-    <!--                <item name="imi_friendly_captcha" xsi:type="object">\IMI\FriendlyCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>-->
-    <!--            </argument>-->
-    <!--        </arguments>-->
-    <!--    </type>-->
+<!--    <type name="Magento\Checkout\Block\Onepage">-->
+<!--        <arguments>-->
+<!--            <argument name="layoutProcessors" xsi:type="array">-->
+<!--                <item name="imi_friendly_captcha" xsi:type="object">\IMI\FriendlyCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>-->
+<!--            </argument>-->
+<!--        </arguments>-->
+<!--    </type>-->
 
     <!-- User login -->
     <virtualType name="IMI\FriendlyCaptcha\Model\Provider\Failure\LoginObserver"
@@ -156,10 +156,10 @@
         </arguments>
     </virtualType>
 
-    <!--    <type name="Magento\Customer\Block\Account\AuthenticationPopup">-->
-    <!--        <plugin sortOrder="1" name="imiFriendlyCaptchaAuthenticationPopup"-->
-    <!--                type="IMI\FriendlyCaptcha\Plugin\Block\Account\AuthenticationPopupPlugin"/>-->
-    <!--    </type>-->
+<!--    <type name="Magento\Customer\Block\Account\AuthenticationPopup">-->
+<!--        <plugin sortOrder="1" name="imiFriendlyCaptchaAuthenticationPopup"-->
+<!--                type="IMI\FriendlyCaptcha\Plugin\Block\Account\AuthenticationPopupPlugin"/>-->
+<!--    </type>-->
 
     <!-- Send to Friend Form -->
     <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\SendFriendObserver"
