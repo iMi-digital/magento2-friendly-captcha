@@ -144,18 +144,18 @@
     </virtualType>
 
     <!-- AjaxLogin Form -->
-<!--    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver"-->
-<!--                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">-->
-<!--        <arguments>-->
-<!--            <argument name="isCheckRequired"-->
-<!--                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login</argument>-->
-<!--            <argument name="responseProvider"-->
-<!--                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\AjaxResponseProvider</argument>-->
-<!--            <argument name="failureProvider"-->
-<!--                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\AjaxResponseFailure</argument>-->
-<!--        </arguments>-->
-<!--    </virtualType>-->
-<!--    -->
+    <virtualType name="IMI\FriendlyCaptcha\Observer\Frontend\AjaxLoginObserver"
+                 type="IMI\FriendlyCaptcha\Observer\FriendlyCaptchaObserver">
+        <arguments>
+            <argument name="isCheckRequired"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\IsCheckRequired\Frontend\Login</argument>
+            <argument name="responseProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Response\AjaxSolutionProvider</argument>
+            <argument name="failureProvider"
+                      xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\AjaxResponseFailure</argument>
+        </arguments>
+    </virtualType>
+
 <!--    <type name="Magento\Customer\Block\Account\AuthenticationPopup">-->
 <!--        <plugin sortOrder="1" name="imiFriendlyCaptchaAuthenticationPopup"-->
 <!--                type="IMI\FriendlyCaptcha\Plugin\Block\Account\AuthenticationPopupPlugin"/>-->
