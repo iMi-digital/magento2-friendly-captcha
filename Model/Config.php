@@ -149,7 +149,7 @@ class Config
 
         switch ($endpoint) {
             case Endpoint::EU:
-                return 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle';
+                return 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify';
             case Endpoint::CUSTOM:
                 return (string)$this->scopeConfig->getValue(
                     static::CONFIG_PATH_CUSTOM_VERIFY,
