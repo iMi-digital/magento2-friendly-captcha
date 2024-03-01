@@ -11,6 +11,7 @@ interface Localization {
     text_error: string;
     button_retry: string;
     text_fetch_error: string;
+    rtl?: boolean;
 }
 declare const localizations: {
     en: Localization;
@@ -43,8 +44,10 @@ declare const localizations: {
     hu: Localization;
     ro: Localization;
     zh: Localization;
-    zh_TW: Localization;
+    zh_tw: Localization;
     vi: Localization;
+    he: Localization;
+    th: Localization;
     nb: Localization;
 };
 
@@ -92,6 +95,11 @@ declare class WidgetInstance {
     private expiryTimeout;
     constructor(element: HTMLElement, options?: Partial<WidgetInstanceOptions>);
     init(forceStart?: boolean): void;
+    /**
+     * Loads the configured language, or a language passed to this function.
+     * Note that only the next update will be in the new language, consider calling `reset()` after switching languages.
+     */
+    loadLanguage(lang?: keyof typeof localizations | Localization): void;
     /**
      * Add a listener to the button that calls `this.start` on click.
      */

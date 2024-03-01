@@ -37,3 +37,18 @@ IMI_FriendlyCaptcha adds a Friendly Captcha widget to:
 ## Security Scan
 
 This module is accepted by the Magento security scan by Adobe, which normally looks for Google ReCAPTCHA, i.e. replacing the ReCAPTCHA with the Friendly Captcha should not trigger any false positives.
+
+## Development
+
+### Updating the vendor code
+
+```bash
+cd view/frontend/web/js/vendor
+rm -r friendly-challenge
+npm pack friendly-challenge
+tar -xvf friendly-challenge-*.tgz
+rm friendly-challenge-*.tgz
+mv package friendly-challenge
+```
+
+Then make a pullrequest.

@@ -21,7 +21,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 (function () {
   'use strict';
 
-  var css = '.frc-captcha *{margin:0;padding:0;border:0;text-align:initial;border-radius:px;filter:none!important;transition:none!important;font-weight:400;font-size:14px;line-height:1.2;text-decoration:none;background-color:initial;color:#222}.frc-captcha{position:relative;min-width:250px;max-width:312px;border:1px solid #f4f4f4;padding-bottom:12px;background-color:#fff}.frc-captcha b{font-weight:700}.frc-container{display:flex;align-items:center;min-height:52px}.frc-icon{fill:#222;stroke:#222;flex-shrink:0;margin:8px 8px 0}.frc-icon.frc-warning{fill:#c00}.frc-success .frc-icon{animation:1s ease-in both frc-fade-in}.frc-content{white-space:nowrap;display:flex;flex-direction:column;margin:4px 6px 0 0;overflow-x:auto;flex-grow:1}.frc-banner{position:absolute;bottom:0;right:6px;line-height:1}.frc-banner *{font-size:10px;opacity:.8;text-decoration:none}.frc-progress{-webkit-appearance:none;-moz-appearance:none;appearance:none;margin:3px 0;height:4px;border:none;background-color:#eee;color:#222;width:100%;transition:.5s linear}.frc-progress::-webkit-progress-bar{background:#eee}.frc-progress::-webkit-progress-value{background:#222}.frc-progress::-moz-progress-bar{background:#222}.frc-button{cursor:pointer;padding:2px 6px;background-color:#f1f1f1;border:1px solid transparent;text-align:center;font-weight:600;text-transform:none}.frc-button:focus{border:1px solid #333}.frc-button:hover{background-color:#ddd}.frc-captcha-solution{display:none}.frc-err-url{text-decoration:underline;font-size:.9em}.dark.frc-captcha{color:#fff;background-color:#222;border-color:#333}.dark.frc-captcha *{color:#fff}.dark.frc-captcha button{background-color:#444}.dark .frc-icon{fill:#fff;stroke:#fff}.dark .frc-progress{background-color:#444}.dark .frc-progress::-webkit-progress-bar{background:#444}.dark .frc-progress::-webkit-progress-value{background:#ddd}.dark .frc-progress::-moz-progress-bar{background:#ddd}@keyframes frc-fade-in{from{opacity:0}to{opacity:1}}'; // This is not an enum to save some bytes in the output bundle.
+  var css = '.frc-captcha *{margin:0;padding:0;border:0;text-align:initial;border-radius:px;filter:none!important;transition:none!important;font-weight:400;font-size:14px;line-height:1.2;text-decoration:none;background-color:initial;color:#222}.frc-captcha{position:relative;min-width:250px;max-width:312px;border:1px solid #f4f4f4;padding-bottom:12px;background-color:#fff}.frc-captcha b{font-weight:700}.frc-container{display:flex;align-items:center;min-height:52px}.frc-icon{fill:#222;stroke:#222;flex-shrink:0;margin:8px 8px 0}.frc-icon.frc-warning{fill:#c00}.frc-success .frc-icon{animation:1s ease-in both frc-fade-in}.frc-content{white-space:nowrap;display:flex;flex-direction:column;margin:4px 6px 0 0;overflow-x:auto;flex-grow:1}.frc-banner{position:absolute;bottom:0;right:6px;line-height:1}.frc-banner *{font-size:10px;opacity:.8;text-decoration:none}.frc-progress{-webkit-appearance:none;-moz-appearance:none;appearance:none;margin:3px 0;height:4px;border:none;background-color:#eee;color:#222;width:100%;transition:.5s linear}.frc-progress::-webkit-progress-bar{background:#eee}.frc-progress::-webkit-progress-value{background:#222}.frc-progress::-moz-progress-bar{background:#222}.frc-button{cursor:pointer;padding:2px 6px;background-color:#f1f1f1;border:1px solid transparent;text-align:center;font-weight:600;text-transform:none}.frc-button:focus{border:1px solid #333}.frc-button:hover{background-color:#ddd}.frc-captcha-solution{display:none}.frc-err-url{text-decoration:underline;font-size:.9em}.frc-rtl{direction:rtl}.frc-rtl .frc-content{margin:4px 0 0 6px}.frc-banner.frc-rtl{left:6px;right:auto}.dark.frc-captcha{color:#fff;background-color:#222;border-color:#333}.dark.frc-captcha *{color:#fff}.dark.frc-captcha button{background-color:#444}.dark .frc-icon{fill:#fff;stroke:#fff}.dark .frc-progress{background-color:#444}.dark .frc-progress::-webkit-progress-bar{background:#444}.dark .frc-progress::-webkit-progress-value{background:#ddd}.dark .frc-progress::-moz-progress-bar{background:#ddd}@keyframes frc-fade-in{from{opacity:0}to{opacity:1}}'; // This is not an enum to save some bytes in the output bundle.
 
   var SOLVER_TYPE_JS = 1;
   var CHALLENGE_SIZE_BYTES = 128; // @ts-ignore
@@ -33,11 +33,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
    * The reason we use raw string interpolation here is so we don't have to ship something like lit-html.
    */
 
-  function getTemplate(fieldName, svgContent, svgAriaHidden, textContent, solutionString, buttonText) {
-    var progress = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
-    var debugData = arguments.length > 7 ? arguments[7] : undefined;
-    var additionalContainerClasses = arguments.length > 8 ? arguments[8] : undefined;
-    return "<div class=\"frc-container".concat(additionalContainerClasses ? " " + additionalContainerClasses : "", "\">\n<svg class=\"frc-icon\"").concat(svgAriaHidden ? " aria-hidden=\"true\"" : "", " role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" height=\"32\" width=\"32\" viewBox=\"0 0 24 24\">").concat(svgContent, "</svg>\n<div class=\"frc-content\">\n    <span class=\"frc-text\" ").concat(debugData ? "title=\"".concat(debugData, "\"") : "", ">").concat(textContent, "</span>\n    ").concat(buttonText ? "<button type=\"button\" class=\"frc-button\">".concat(buttonText, "</button>") : "", "\n    ").concat(progress ? "<progress class=\"frc-progress\" value=\"0\">0%</progress>" : "", "\n</div>\n</div><span class=\"frc-banner\"><a lang=\"en\" href=\"https://friendlycaptcha.com/\" rel=\"noopener\" target=\"_blank\"><b>Friendly</b>Captcha \u21D7</a></span>\n<input name=\"").concat(fieldName, "\" class=\"frc-captcha-solution\" type=\"hidden\" value=\"").concat(solutionString, "\">");
+  function getTemplate(fieldName, rtl, svgContent, svgAriaHidden, textContent, solutionString, buttonText) {
+    var progress = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
+    var debugData = arguments.length > 8 ? arguments[8] : undefined;
+    var additionalContainerClasses = arguments.length > 9 ? arguments[9] : undefined;
+    return "<div class=\"frc-container".concat(additionalContainerClasses ? " " + additionalContainerClasses : "").concat(rtl ? " frc-rtl" : "", "\">\n<svg class=\"frc-icon\"").concat(svgAriaHidden ? ' aria-hidden="true"' : "", " role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" height=\"32\" width=\"32\" viewBox=\"0 0 24 24\">").concat(svgContent, "</svg>\n<div class=\"frc-content\">\n    <span class=\"frc-text\" ").concat(debugData ? "data-debug=\"".concat(debugData, "\"") : "", ">").concat(textContent, "</span>\n    ").concat(buttonText ? "<button type=\"button\" class=\"frc-button\">".concat(buttonText, "</button>") : "", "\n    ").concat(progress ? "<progress class=\"frc-progress\" value=\"0\">0%</progress>" : "", "\n</div>\n</div><span class=\"frc-banner").concat(rtl ? " frc-rtl" : "", "\"><a lang=\"en\" href=\"https://friendlycaptcha.com/\" rel=\"noopener\" target=\"_blank\"><b>Friendly</b>Captcha \u21D7</a></span>\n").concat(fieldName === "-" ? "" : "<input name=\"".concat(fieldName, "\" class=\"frc-captcha-solution\" type=\"hidden\" value=\"").concat(solutionString, "\">"));
   }
   /**
    * Used when the widget is ready to start solving.
@@ -45,7 +45,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
   function getReadyHTML(fieldName, l) {
-    return getTemplate(fieldName, "<path d=\"M17,11c0.34,0,0.67,0.04,1,0.09V6.27L10.5,3L3,6.27v4.91c0,4.54,3.2,8.79,7.5,9.82c0.55-0.13,1.08-0.32,1.6-0.55 C11.41,19.47,11,18.28,11,17C11,13.69,13.69,11,17,11z\"/><path d=\"M17,13c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C21,14.79,19.21,13,17,13z M17,14.38\"/>", true, l.text_ready, ".UNSTARTED", l.button_start, false);
+    return getTemplate(fieldName, l.rtl, "<path d=\"M17,11c0.34,0,0.67,0.04,1,0.09V6.27L10.5,3L3,6.27v4.91c0,4.54,3.2,8.79,7.5,9.82c0.55-0.13,1.08-0.32,1.6-0.55 C11.41,19.47,11,18.28,11,17C11,13.69,13.69,11,17,11z\"/><path d=\"M17,13c-2.21,0-4,1.79-4,4c0,2.21,1.79,4,4,4s4-1.79,4-4C21,14.79,19.21,13,17,13z M17,14.38\"/>", true, l.text_ready, ".UNSTARTED", l.button_start, false);
   }
   /**
    * Used when the widget is retrieving a puzzle
@@ -53,7 +53,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
   function getFetchingHTML(fieldName, l) {
-    return getTemplate(fieldName, loaderSVG, true, l.text_fetching, ".FETCHING", undefined, true);
+    return getTemplate(fieldName, l.rtl, loaderSVG, true, l.text_fetching, ".FETCHING", undefined, true);
   }
   /**
    * Used when the solver is running, displays a progress bar.
@@ -61,22 +61,22 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
   function getRunningHTML(fieldName, l) {
-    return getTemplate(fieldName, loaderSVG, true, l.text_solving, ".UNFINISHED", undefined, true);
+    return getTemplate(fieldName, l.rtl, loaderSVG, true, l.text_solving, ".UNFINISHED", undefined, true);
   }
 
   function getDoneHTML(fieldName, l, solution, data) {
     var timeData = "".concat(data.t.toFixed(0), "s (").concat((data.h / data.t * 0.001).toFixed(0), "K/s)").concat(data.solver === SOLVER_TYPE_JS ? " JS Fallback" : "");
-    return getTemplate(fieldName, "<title>".concat(l.text_completed_sr, "</title><path d=\"M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z\"></path>"), false, l.text_completed, solution, undefined, false, timeData, "frc-success");
+    return getTemplate(fieldName, l.rtl, "<title>".concat(l.text_completed_sr, "</title><path d=\"M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z\"></path>"), false, l.text_completed, solution, undefined, false, timeData, "frc-success");
   }
 
   function getExpiredHTML(fieldName, l) {
-    return getTemplate(fieldName, errorSVG, true, l.text_expired, ".EXPIRED", l.button_restart);
+    return getTemplate(fieldName, l.rtl, errorSVG, true, l.text_expired, ".EXPIRED", l.button_restart);
   }
 
   function getErrorHTML(fieldName, l, errorDescription) {
     var recoverable = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
     var headless = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-    return getTemplate(fieldName, errorSVG, true, "<b>".concat(l.text_error, "</b><br>").concat(errorDescription), headless ? ".HEADLESS_ERROR" : ".ERROR", recoverable ? l.button_retry : undefined);
+    return getTemplate(fieldName, l.rtl, errorSVG, true, "<b>".concat(l.text_error, "</b><br>").concat(errorDescription), headless ? ".HEADLESS_ERROR" : ".ERROR", recoverable ? l.button_retry : undefined);
   }
 
   function findCaptchaElements() {
@@ -203,7 +203,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     }
 
     return bytes;
-  } // Defensive init to make it easier to integrate with Gatsby and friends.
+  } // Defensive init to make it easier to integrate with Gatsby, NextJS, and friends.
 
 
   var nav;
@@ -221,21 +221,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
   function isHeadless() {
-    var correctPluginPrototype = true;
-
-    try {
-      if (nav.plugins.length > 0) {
-        correctPluginPrototype = Plugin.prototype === nav.plugins[0].__proto__;
-      }
-    } catch (e) {
-      /* Do nothing, this browser misbehaves in mysterious ways */
-    }
-
     return (//tell-tale bot signs
       ua.indexOf("headless") !== -1 || nav.appVersion.indexOf("Headless") !== -1 || ua.indexOf("bot") !== -1 || // http://www.useragentstring.com/pages/useragentstring.php?typ=Browser
       ua.indexOf("crawl") !== -1 || // Only IE5 has two distributions that has this on windows NT.. so yeah.
-      nav.webdriver === true || !nav.language || nav.languages !== undefined && !nav.languages.length || // IE 11 does not support NavigatorLanguage.languages https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/languages
-      !correctPluginPrototype
+      nav.webdriver === true || !nav.language || nav.languages !== undefined && !nav.languages.length // IE 11 does not support NavigatorLanguage.languages https://developer.mozilla.org/en-US/docs/Web/API/NavigatorLanguage/languages
+
     );
   }
   /**
@@ -291,32 +281,32 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     return new Promise(function ($return, $error) {
       var urls;
       urls = urlsSeparatedByComma.split(",");
-      var $Loop_5_trampoline, $Loop_5_local;
+      var $Loop_4_trampoline, $Loop_4_local;
 
-      function $Loop_5_step() {
-        var _$Loop_5_local = $Loop_5_local(),
-            _$Loop_5_local2 = _slicedToArray(_$Loop_5_local, 1),
-            i = _$Loop_5_local2[0];
+      function $Loop_4_step() {
+        var _$Loop_4_local = $Loop_4_local(),
+            _$Loop_4_local2 = _slicedToArray(_$Loop_4_local, 1),
+            i = _$Loop_4_local2[0];
 
         i++;
-        return $Loop_5.bind(this, i);
+        return $Loop_4.bind(this, i);
       }
 
-      function $Loop_5(i) {
-        $Loop_5_local = function $Loop_5_local() {
+      function $Loop_4(i) {
+        $Loop_4_local = function $Loop_4_local() {
           return [i];
         };
 
         if (i < urls.length) {
-          var $Try_2_Post = function $Try_2_Post() {
+          var $Try_1_Post = function $Try_1_Post() {
             try {
-              return $Loop_5_step;
+              return $Loop_4_step;
             } catch ($boundEx) {
               return $error($boundEx);
             }
           };
 
-          var $Try_2_Catch = function $Try_2_Catch(e) {
+          var $Try_1_Catch = function $Try_1_Catch(e) {
             try {
               {
                 console.error("[FRC Fetch]:", e);
@@ -333,30 +323,30 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           try {
             var response;
             return Promise.resolve(fetchAndRetryWithBackoff(urls[i] + "?sitekey=" + siteKey, {
-              headers: [["x-frc-client", "js-0.9.9"]],
+              headers: [["x-frc-client", "js-0.9.14"]],
               mode: "cors"
-            }, 2)).then(function ($await_8) {
+            }, 2)).then(function ($await_7) {
               try {
-                var $If_7 = function $If_7() {
-                  return $Try_2_Post();
+                var $If_6 = function $If_6() {
+                  return $Try_1_Post();
                 };
 
-                response = $await_8;
+                response = $await_7;
 
                 if (response.ok) {
                   var json;
-                  return Promise.resolve(response.json()).then(function ($await_9) {
+                  return Promise.resolve(response.json()).then(function ($await_8) {
                     try {
-                      json = $await_9;
+                      json = $await_8;
                       return $return(json.data.puzzle);
                     } catch ($boundEx) {
-                      return $Try_2_Catch($boundEx);
+                      return $Try_1_Catch($boundEx);
                     }
-                  }, $Try_2_Catch);
+                  }, $Try_1_Catch);
                 } else {
                   var _json;
 
-                  var $Try_3_Post = function () {
+                  var $Try_2_Post = function () {
                     try {
                       if (_json && _json.errors && _json.errors[0] === "endpoint_not_enabled") {
                         throw Error("Endpoint not allowed (".concat(response.status, ")"));
@@ -366,61 +356,61 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
                         throw Error("Response status ".concat(response.status, " ").concat(response.statusText, " ").concat(_json ? _json.errors : ""));
                       }
 
-                      return $If_7.call(this);
+                      return $If_6.call(this);
                     } catch ($boundEx) {
-                      return $Try_2_Catch($boundEx);
+                      return $Try_1_Catch($boundEx);
                     }
                   }.bind(this);
 
-                  var $Try_3_Catch = function $Try_3_Catch(e) {
+                  var $Try_2_Catch = function $Try_2_Catch(e) {
                     /* Do nothing, the error is not valid JSON */
                     try {
-                      return $Try_3_Post();
+                      return $Try_2_Post();
                     } catch ($boundEx) {
-                      return $Try_2_Catch($boundEx);
+                      return $Try_1_Catch($boundEx);
                     }
                   };
 
                   try {
-                    return Promise.resolve(response.json()).then(function ($await_10) {
+                    return Promise.resolve(response.json()).then(function ($await_9) {
                       try {
-                        _json = $await_10;
-                        return $Try_3_Post();
+                        _json = $await_9;
+                        return $Try_2_Post();
                       } catch ($boundEx) {
-                        return $Try_3_Catch($boundEx);
+                        return $Try_2_Catch($boundEx);
                       }
-                    }, $Try_3_Catch);
+                    }, $Try_2_Catch);
                   } catch (e) {
-                    $Try_3_Catch(e);
+                    $Try_2_Catch(e);
                   }
                 }
 
-                return $If_7.call(this);
+                return $If_6.call(this);
               } catch ($boundEx) {
-                return $Try_2_Catch($boundEx);
+                return $Try_1_Catch($boundEx);
               }
-            }.bind(this), $Try_2_Catch);
+            }.bind(this), $Try_1_Catch);
           } catch (e) {
-            $Try_2_Catch(e);
+            $Try_1_Catch(e);
           }
         } else return [1];
       }
 
-      return ($Loop_5_trampoline = function (q) {
+      return ($Loop_4_trampoline = function (q) {
         while (q) {
-          if (q.then) return void q.then($Loop_5_trampoline, $error);
+          if (q.then) return void q.then($Loop_4_trampoline, $error);
 
           try {
             if (q.pop) {
-              if (q.length) return q.pop() ? $Loop_5_exit.call(this) : q;else q = $Loop_5_step;
+              if (q.length) return q.pop() ? $Loop_4_exit.call(this) : q;else q = $Loop_4_step;
             } else q = q.call(this);
           } catch (_exception) {
             return $error(_exception);
           }
         }
-      }.bind(this))($Loop_5.bind(this, 0));
+      }.bind(this))($Loop_4.bind(this, 0));
 
-      function $Loop_5_exit() {
+      function $Loop_4_exit() {
         // This code should never be reached.
         return $error(Error("Internal error"));
       }
@@ -442,7 +432,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           if (n === 0) return $error(error);
           return Promise.resolve(new Promise(function (r) {
             return setTimeout(r, time);
-          })).then(function ($await_11) {
+          })).then(function ($await_10) {
             try {
               time *= 4;
               return $return(fetchAndRetryWithBackoff(url, opts, n - 1));
@@ -457,11 +447,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
   var LANG_EN = {
-    text_init: "Initializing..",
+    text_init: "Initializing...",
     text_ready: "Anti-Robot Verification",
     button_start: "Click to start verification",
     text_fetching: "Fetching Challenge",
-    text_solving: "Verifying you are human..",
+    text_solving: "Verifying you are human...",
     text_completed: "I am human",
     text_completed_sr: "Automatic spam check completed",
     text_expired: "Anti-Robot verification expired",
@@ -472,26 +462,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // French
 
   var LANG_FR = {
-    text_init: "Chargement..",
-    text_ready: "Verification Anti-Robot",
-    button_start: "Cliquez ici pour vérifier",
-    text_fetching: "Chargement du challenge",
-    text_solving: "Vérification que vous êtes humain..",
-    text_completed: "Je suis humain",
+    text_init: "Chargement...",
+    text_ready: "Vérification Anti-Robot",
+    button_start: "Clique ici pour vérifier",
+    text_fetching: "Chargement du défi",
+    text_solving: "Nous vérifions que vous n'êtes pas un robot...",
+    text_completed: "Je ne suis pas un robot",
     text_completed_sr: "Vérification automatique des spams terminée",
-    text_expired: "Verification échue",
-    button_restart: "Recommencer",
-    text_error: "Echec de verification",
+    text_expired: "Vérification anti-robot expirée",
+    button_restart: "Redémarrer",
+    text_error: "Échec de la vérification",
     button_retry: "Recommencer",
     text_fetch_error: "Problème de connexion avec"
   }; // German
 
   var LANG_DE = {
-    text_init: "Initialisierung..",
+    text_init: "Initialisierung...",
     text_ready: "Anti-Roboter-Verifizierung",
     button_start: "Hier klicken",
-    text_fetching: "Herausforderung laden..",
-    text_solving: "Verifizierung, dass Sie ein Mensch sind..",
+    text_fetching: "Herausforderung laden...",
+    text_solving: "Verifizierung, dass Sie ein Mensch sind...",
     text_completed: "Ich bin ein Mensch",
     text_completed_sr: "Automatische Spamprüfung abgeschlossen",
     text_expired: "Verifizierung abgelaufen",
@@ -502,11 +492,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Dutch
 
   var LANG_NL = {
-    text_init: "Initializeren..",
+    text_init: "Initializeren...",
     text_ready: "Anti-robotverificatie",
     button_start: "Klik om te starten",
-    text_fetching: "Aan het laden..",
-    text_solving: "Anti-robotverificatie bezig..",
+    text_fetching: "Aan het laden...",
+    text_solving: "Anti-robotverificatie bezig...",
     text_completed: "Ik ben een mens",
     text_completed_sr: "Automatische anti-spamcheck voltooid",
     text_expired: "Verificatie verlopen",
@@ -532,11 +522,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Portuguese
 
   var LANG_PT = {
-    text_init: "Inicializando..",
+    text_init: "Inicializando...",
     text_ready: "Verificação Anti-Robô",
     button_start: "Clique para iniciar verificação",
-    text_fetching: "Carregando..",
-    text_solving: "Verificando se você é humano..",
+    text_fetching: "Carregando...",
+    text_solving: "Verificando se você é humano...",
     text_completed: "Eu sou humano",
     text_completed_sr: "Verificação automática de spam concluída",
     text_expired: "Verificação Anti-Robô expirada",
@@ -547,11 +537,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Spanish
 
   var LANG_ES = {
-    text_init: "Inicializando..",
+    text_init: "Inicializando...",
     text_ready: "Verificación Anti-Robot",
     button_start: "Haga clic para iniciar la verificación",
     text_fetching: "Cargando desafío",
-    text_solving: "Verificando que eres humano..",
+    text_solving: "Verificando que eres humano...",
     text_completed: "Soy humano",
     text_completed_sr: "Verificación automática de spam completada",
     text_expired: "Verificación Anti-Robot expirada",
@@ -566,7 +556,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     text_ready: "Verificació Anti-Robot",
     button_start: "Fes clic per començar la verificació",
     text_fetching: "Carregant repte",
-    text_solving: "Verificant que ets humà..",
+    text_solving: "Verificant que ets humà...",
     text_completed: "Soc humà",
     text_completed_sr: "Verificació automàtica de correu brossa completada",
     text_expired: "La verificació Anti-Robot ha expirat",
@@ -607,11 +597,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Russian
 
   var LANG_RU = {
-    text_init: "Инициализация..",
+    text_init: "Инициализация...",
     text_ready: "АнтиРобот проверка",
     button_start: "Нажмите, чтобы начать проверку",
     text_fetching: "Получаю задачу",
-    text_solving: "Проверяю, что вы человек..",
+    text_solving: "Проверяю, что вы человек...",
     text_completed: "Я человек",
     text_completed_sr: "Aвтоматическая проверка на спам завершена",
     text_expired: "Срок АнтиРоботной проверки истёк",
@@ -637,11 +627,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Turkish
 
   var LANG_TR = {
-    text_init: "Başlatılıyor..",
+    text_init: "Başlatılıyor...",
     text_ready: "Anti-Robot Doğrulaması",
     button_start: "Doğrulamayı başlatmak için tıklayın",
     text_fetching: "Yükleniyor",
-    text_solving: "Robot olmadığınız doğrulanıyor..",
+    text_solving: "Robot olmadığınız doğrulanıyor...",
     text_completed: "Ben bir insanım",
     text_completed_sr: "Otomatik spam kontrolü tamamlandı",
     text_expired: "Anti-Robot doğrulamasının süresi doldu",
@@ -652,26 +642,26 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Greek
 
   var LANG_EL = {
-    text_init: "Προετοιμασία..",
+    text_init: "Προετοιμασία...",
     text_ready: "Anti-Robot Επαλήθευση",
-    button_start: " Κάντε κλικ για να ξεκινήσει η επαλήθευσης",
+    button_start: " Κάντε κλικ για να ξεκινήσει η επαλήθευση",
     text_fetching: " Λήψη πρόκλησης",
-    text_solving: " Επιβεβαίωση ανθρώπου..",
+    text_solving: " Επιβεβαίωση ανθρώπου...",
     text_completed: "Είμαι άνθρωπος",
     text_completed_sr: " Ο αυτόματος έλεγχος ανεπιθύμητου περιεχομένου ολοκληρώθηκε",
     text_expired: " Η επαλήθευση Anti-Robot έληξε",
     button_restart: " Επανεκκίνηση",
     text_error: " Η επαλήθευση απέτυχε",
-    button_retry: " Δοκιμάσετε ξανά",
+    button_retry: " Δοκιμάστε ξανά",
     text_fetch_error: " Αποτυχία σύνδεσης με"
   }; // Ukrainian
 
   var LANG_UK = {
-    text_init: "Ініціалізація..",
+    text_init: "Ініціалізація...",
     text_ready: "Антиробот верифікація",
     button_start: "Натисніть, щоб розпочати верифікацію",
     text_fetching: "З’єднання",
-    text_solving: "Перевірка, що ви не робот..",
+    text_solving: "Перевірка, що ви не робот...",
     text_completed: "Я не робот",
     text_completed_sr: "Автоматична перевірка спаму завершена",
     text_expired: "Час вичерпано",
@@ -697,11 +687,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Czech
 
   var LANG_CS = {
-    text_init: "Inicializace..",
+    text_init: "Inicializace...",
     text_ready: "Ověření proti robotům",
     button_start: "Klikněte pro ověření",
     text_fetching: "Problém při načítání",
-    text_solving: "Ověření, že jste člověk..",
+    text_solving: "Ověření, že jste člověk...",
     text_completed: "Jsem člověk",
     text_completed_sr: "Automatická kontrola spamu dokončena",
     text_expired: "Ověření proti robotům vypršelo",
@@ -712,11 +702,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Slovak
 
   var LANG_SK = {
-    text_init: "Inicializácia..",
+    text_init: "Inicializácia...",
     text_ready: "Overenie proti robotom",
     button_start: "Kliknite pre overenie",
     text_fetching: "Problém pri načítaní",
-    text_solving: "Overenie, že ste človek..",
+    text_solving: "Overenie, že ste človek...",
     text_completed: "Som človek",
     text_completed_sr: "Automatická kontrola spamu dokončená",
     text_expired: "Overenie proti robotom vypršalo",
@@ -757,11 +747,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Latvian
 
   var LANG_LV = {
-    text_init: "Notiek inicializēšana..",
+    text_init: "Notiek inicializēšana...",
     text_ready: "Verifikācija, ka neesat robots",
     button_start: "Noklikšķiniet, lai sāktu verifikāciju",
     text_fetching: "Notiek drošības uzdevuma izgūšana",
-    text_solving: "Notiek pārbaude, vai esat cilvēks..",
+    text_solving: "Notiek pārbaude, vai esat cilvēks...",
     text_completed: "Es esmu cilvēks",
     text_completed_sr: "Automātiska surogātpasta pārbaude pabeigta",
     text_expired: "Verifikācijas, ka neesat robots, derīgums beidzies",
@@ -772,11 +762,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Lithuanian
 
   var LANG_LT = {
-    text_init: "Inicijuojama..",
+    text_init: "Inicijuojama...",
     text_ready: "Patikrinimas, ar nesate robotas",
     button_start: "Spustelėkite patikrinimui pradėti",
     text_fetching: "Gavimo iššūkis",
-    text_solving: "Tikrinama, ar esate žmogus..",
+    text_solving: "Tikrinama, ar esate žmogus...",
     text_completed: "Esu žmogus",
     text_completed_sr: "Automatinė patikra dėl pašto šiukšlių atlikta",
     text_expired: "Patikrinimas, ar nesate robotas, baigė galioti",
@@ -787,11 +777,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Polish
 
   var LANG_PL = {
-    text_init: "Inicjowanie..",
+    text_init: "Inicjowanie...",
     text_ready: "Weryfikacja antybotowa",
     button_start: "Kliknij, aby rozpocząć weryfikację",
     text_fetching: "Pobieranie",
-    text_solving: "Weryfikacja, czy nie jesteś robotem..",
+    text_solving: "Weryfikacja, czy nie jesteś robotem...",
     text_completed: "Nie jestem robotem",
     text_completed_sr: "Zakończono automatyczne sprawdzanie spamu",
     text_expired: "Weryfikacja antybotowa wygasła",
@@ -802,11 +792,11 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Estonian
 
   var LANG_ET = {
-    text_init: "Initsialiseerimine..",
+    text_init: "Initsialiseerimine...",
     text_ready: "Robotivastane kinnitus",
     button_start: "Kinnitamisega alustamiseks klõpsake",
     text_fetching: "Väljakutse toomine",
-    text_solving: "Kinnitatakse, et sa oled inimene..",
+    text_solving: "Kinnitatakse, et sa oled inimene...",
     text_completed: "Ma olen inimene",
     text_completed_sr: "Automaatne rämpsposti kontroll on lõpetatud",
     text_expired: "Robotivastane kinnitus aegus",
@@ -821,7 +811,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     text_ready: "Provjera protiv robota",
     button_start: "Kliknite za početak provjere",
     text_fetching: "Dohvaćanje izazova",
-    text_solving: "Provjeravamo jeste li čovjek..",
+    text_solving: "Provjeravamo jeste li čovjek...",
     text_completed: "Nisam robot",
     text_completed_sr: "Automatska provjera je završena",
     text_expired: "Vrijeme za provjeru protiv robota je isteklo",
@@ -847,7 +837,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Slovenian
 
   var LANG_SL = {
-    text_init: "Inicializiranje..",
+    text_init: "Inicializiranje...",
     text_ready: "Preverjanje robotov",
     button_start: "Kliknite za začetek preverjanja",
     text_fetching: "Prenašanje izziva",
@@ -877,18 +867,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Romanian
 
   var LANG_RO = {
-    text_init: "Se inițializează..",
+    text_init: "Se inițializează...",
     text_ready: "Verificare anti-robot",
     button_start: "Click pentru a începe verificarea",
     text_fetching: "Downloading",
-    text_solving: "Verificare ca ești om..",
+    text_solving: "Verificare că ești om...",
     text_completed: "Sunt om",
     text_completed_sr: "Verificarea automată a spam-ului a fost finalizată",
     text_expired: "Verificarea anti-robot a expirat",
     button_restart: "Restart",
     text_error: "Verificare eșuată",
     button_retry: "Reîncearcă",
-    text_fetch_error: "Nu s-a putut conecta la"
+    text_fetch_error: "Nu s-a putut conecta"
   }; // Chinese
 
   var LANG_ZH = {
@@ -922,18 +912,49 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   }; // Vietnamese
 
   var LANG_VI = {
-    text_init: "Đang khởi tạo..",
+    text_init: "Đang khởi tạo...",
     text_ready: "Xác minh chống Robot",
     button_start: "Bấm vào đây để xác minh",
     text_fetching: "Tìm nạp và xử lý thử thách",
-    text_solving: "Xác minh bạn là người..",
-    text_completed: "Bạn là người",
+    text_solving: "Xác minh bạn là người...",
+    text_completed: "Bạn là con người",
     text_completed_sr: "Xác minh hoàn tất",
     text_expired: "Xác minh đã hết hạn",
     button_restart: "Khởi động lại",
     text_error: "Xác minh thất bại",
     button_retry: "Thử lại",
     text_fetch_error: "Không kết nối được"
+  }; // Hebrew
+
+  var LANG_HE = {
+    text_init: "בביצוע...",
+    text_ready: "אימות אנוש",
+    button_start: "צריך ללחוץ להתחלת האימות",
+    text_fetching: "אתגר המענה בהכנה",
+    text_solving: "מתבצע אימות אנוש...",
+    text_completed: "אני לא רובוט",
+    text_completed_sr: "בדיקת הספאם האוטומטית הסתיימה",
+    text_expired: "פג תוקף אימות האנוש",
+    button_restart: "להתחיל שוב",
+    text_error: "אימות האנוש נכשל",
+    button_retry: "לנסות שוב",
+    text_fetch_error: "נכשל החיבור אל",
+    rtl: true
+  }; // Thai
+
+  var LANG_TH = {
+    text_init: "การเริ่มต้น...",
+    text_ready: " การตรวจสอบต่อต้านหุ่นยนต์",
+    button_start: "คลิกเพื่อเริ่มการตรวจสอบ",
+    text_fetching: "การดึงความท้าทาย",
+    text_solving: "ยืนยันว่าคุณเป็นมนุษย์...",
+    text_completed: "ฉันเป็นมนุษย์",
+    text_completed_sr: "การตรวจสอบสแปมอัตโนมัติเสร็จสมบูรณ์",
+    text_expired: "การตรวจสอบ ต่อต้านหุ่นยนต์ หมดอายุ",
+    button_restart: "รีสตาร์ท",
+    text_error: "การยืนยันล้มเหลว",
+    button_retry: "ลองใหม่",
+    text_fetch_error: "ไม่สามารถเชื่อมต่อได้"
   };
   var localizations = {
     en: LANG_EN,
@@ -966,8 +987,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     hu: LANG_HU,
     ro: LANG_RO,
     zh: LANG_ZH,
-    zh_TW: LANG_ZH_TW,
+    zh_tw: LANG_ZH_TW,
     vi: LANG_VI,
+    he: LANG_HE,
+    th: LANG_TH,
     // alternative language codes
     nb: LANG_NO
   };
@@ -1221,22 +1244,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         solutionFieldName: element.dataset["solutionFieldName"] || "frc-captcha-solution"
       }, options);
       this.e = element;
-      this.e.friendlyChallengeWidget = this; // Load language
-
-      if (typeof this.opts.language === "string") {
-        var l = localizations[this.opts.language.toLowerCase()];
-
-        if (l === undefined) {
-          console.error('FriendlyCaptcha: language "' + this.opts.language + '" not found.'); // Fall back to English
-
-          l = localizations.en;
-        }
-
-        this.lang = l;
-      } else {
-        // We assign to a copy of the English language localization, so that any missing values will be English
-        this.lang = Object.assign(Object.assign({}, localizations.en), this.opts.language);
-      }
+      this.e.friendlyChallengeWidget = this;
+      this.loadLanguage(); // @ts-ignore Ignore is required as TS thinks that `this.lang` is not assigned yet, but it happens in `this.loadLanguage()` above.
 
       element.innerText = this.lang.text_init;
 
@@ -1271,6 +1280,35 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           } else {
             console.log("FriendlyCaptcha div seems not to be contained in a form, autostart will not work");
           }
+        }
+      }
+      /**
+       * Loads the configured language, or a language passed to this function.
+       * Note that only the next update will be in the new language, consider calling `reset()` after switching languages.
+       */
+
+    }, {
+      key: "loadLanguage",
+      value: function loadLanguage(lang) {
+        if (lang !== undefined) {
+          this.opts.language = lang;
+        } else if (this.e.dataset["lang"]) {
+          this.opts.language = this.e.dataset["lang"];
+        }
+
+        if (typeof this.opts.language === "string") {
+          var l = localizations[this.opts.language.toLowerCase()];
+
+          if (l === undefined) {
+            console.error('FriendlyCaptcha: language "' + this.opts.language + '" not found.'); // Fall back to English
+
+            l = localizations.en;
+          }
+
+          this.lang = l;
+        } else {
+          // We assign to a copy of the English language localization, so that any missing values will be English
+          this.lang = Object.assign(Object.assign({}, localizations.en), this.opts.language);
         }
       }
       /**
@@ -1400,7 +1438,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
           this.hasBeenStarted = true;
 
-          var $Try_4_Post = function () {
+          var $Try_3_Post = function () {
             try {
               this.workerGroup.start(this.puzzle);
               return $return();
@@ -1409,7 +1447,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
             }
           }.bind(this);
 
-          var $Try_4_Catch = function (e) {
+          var $Try_3_Catch = function (e) {
             try {
               {
                 console.error("[FRC]", e);
@@ -1440,23 +1478,23 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
           try {
             this.e.innerHTML = getFetchingHTML(this.opts.solutionFieldName, this.lang);
-            return Promise.resolve(getPuzzle(this.opts.puzzleEndpoint, sitekey, this.lang)).then(function ($await_12) {
+            return Promise.resolve(getPuzzle(this.opts.puzzleEndpoint, sitekey, this.lang)).then(function ($await_11) {
               var _this5 = this;
 
               try {
-                this.puzzle = decodeBase64Puzzle($await_12);
+                this.puzzle = decodeBase64Puzzle($await_11);
                 if (this.expiryTimeout) clearTimeout(this.expiryTimeout);
                 this.expiryTimeout = setTimeout(function () {
                   return _this5.expire();
                 }, this.puzzle.expiry - 30000); // 30s grace
 
-                return $Try_4_Post();
+                return $Try_3_Post();
               } catch ($boundEx) {
-                return $Try_4_Catch($boundEx);
+                return $Try_3_Catch($boundEx);
               }
-            }.bind(this), $Try_4_Catch);
+            }.bind(this), $Try_3_Catch);
           } catch (e) {
-            $Try_4_Catch(e);
+            $Try_3_Catch(e);
           }
         }.bind(this));
       }
