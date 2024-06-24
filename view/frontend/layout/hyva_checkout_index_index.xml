@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+  -  Copyright © iMi digital GmbH, based on work by MageSpecialist
+  -  See LICENSE for license details.
+  -->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="hyva.checkout.navigation.right">
+            <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha" name="imi_friendly_captcha_widget" after="checkout.place-order"
+                   template="IMI_FriendlyCaptcha::hyva_checkout/imi_friendly_captcha.phtml" />
+<!--                   ifconfig="imi_friendly_captcha/frontend/enabled_create"-->
+        </referenceContainer>
+        <referenceContainer name="before.body.end">
+            <block class="Magento\Framework\View\Element\Template" template="IMI_FriendlyCaptcha::imi_friendly_captcha_js.phtml" name="friendly_captcha_js" />
+        </referenceContainer>
+    </body>
+</page>

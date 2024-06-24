@@ -242,4 +242,9 @@
                       xsi:type="object">IMI\FriendlyCaptcha\Model\Provider\Failure\NewsletterObserver</argument>
         </arguments>
     </virtualType>
+
+    <!-- Hyvä Checkout -->
+    <type name="Hyva\Checkout\Model\Magewire\Payment\AbstractPlaceOrderService">
+        <plugin name="fc_test" type="IMI\FriendlyCaptcha\Plugin\Model\Magewire\Payment\CaptchaValidation" />
+    </type>
 </config>

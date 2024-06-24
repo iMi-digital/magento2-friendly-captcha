@@ -1,0 +1,42 @@
+<?php
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
+
+/** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
+/** @var $escaper \Magento\Framework\Escaper */
+
+use IMI\FriendlyCaptcha\Api\ValidateInterface;
+
+$endpoint = $block->getPuzzleEndpoint();
+?>
+<div id="<?= $block->getWidgetId() ?>"
+     class="frc-captcha"
+     data-sitekey="<?= $block->getSiteKey() ?>"
+     <?php if ($endpoint !== ''): ?>data-puzzle-endpoint="<?= $escaper->escapeUrl($endpoint) ?>"<?php endif; ?>
+     data-lang="<?= $block->getLang() ?>"
+     data-callback="captchaSolved_<?= $block->getWidgetId() ?>"
+></div>
+<script>
+    'use strict';
+
+    document.addEventListener('DOMContentLoaded', function () {
+        function setButtonDisabled(disabled) {
+            const button = document.querySelector('.btn-place-order');
+            if (!button) {
+                return;
+            }
+            button.disabled = disabled;
+        }
+
+        setButtonDisabled(true);
+
+        window.captchaSolved_<?= /* @noEscape */ $block->getWidgetId() ?> = function (solution) {
+            setButtonDisabled(false);
+            if (hyvaCheckout && hyvaCheckout.storage) {
+                hyvaCheckout.storage.setValue('<?= ValidateInterface::PARAM_FRIENDLY_CAPTCHA_SOLUTION ?>', solution);
+            }
+        }
+    });
+</script>
