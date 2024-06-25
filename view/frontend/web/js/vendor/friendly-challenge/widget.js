@@ -95,10 +95,17 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
   function injectStyle() {
+    var styleNonce = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
     if (!document.querySelector("#frc-style")) {
       var styleSheet = document.createElement("style");
       styleSheet.id = "frc-style";
       styleSheet.innerHTML = css;
+
+      if (styleNonce) {
+        styleSheet.setAttribute('nonce', styleNonce);
+      }
+
       document.head.appendChild(styleSheet);
     }
   }
@@ -114,7 +121,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
     if (p) {
       p.value = perc;
-      p.innerText = perc.toFixed(2) + "%";
+      p.innerText = (perc * 100).toFixed(1) + "%";
       p.title = data.i + 1 + "/" + data.n + " (" + (data.h / data.t * 0.001).toFixed(0) + "K/s)";
     }
   }
@@ -209,7 +216,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
   var nav;
   var ua;
 
-  if (typeof navigator !== "undefined") {
+  if (typeof navigator !== "undefined" && typeof navigator.userAgent === "string") {
     nav = navigator;
     ua = nav.userAgent.toLowerCase();
   }
@@ -323,7 +330,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
           try {
             var response;
             return Promise.resolve(fetchAndRetryWithBackoff(urls[i] + "?sitekey=" + siteKey, {
-              headers: [["x-frc-client", "js-0.9.14"]],
+              headers: [["x-frc-client", "js-0.9.16"]],
               mode: "cors"
             }, 2)).then(function ($await_7) {
               try {
@@ -955,6 +962,21 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     text_error: "การยืนยันล้มเหลว",
     button_retry: "ลองใหม่",
     text_fetch_error: "ไม่สามารถเชื่อมต่อได้"
+  }; // South Korean
+
+  var LANG_KR = {
+    text_init: "초기화 중",
+    text_ready: "Anti-Robot 검증",
+    button_start: "검증을 위해 클릭해 주세요",
+    text_fetching: "검증 준비 중",
+    text_solving: "검증 중",
+    text_completed: "검증이 완료되었습니다",
+    text_completed_sr: "자동 스팸 확인 완료",
+    text_expired: "Anti-Robot 검증 만료",
+    button_restart: "다시 시작합니다",
+    text_error: "검증 실패",
+    button_retry: "다시 시도해 주세요",
+    text_fetch_error: "연결하지 못했습니다"
   };
   var localizations = {
     en: LANG_EN,
@@ -991,6 +1013,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
     vi: LANG_VI,
     he: LANG_HE,
     th: LANG_TH,
+    kr: LANG_KR,
     // alternative language codes
     nb: LANG_NO
   };
@@ -1241,7 +1264,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         },
         sitekey: element.dataset["sitekey"] || "",
         language: element.dataset["lang"] || "en",
-        solutionFieldName: element.dataset["solutionFieldName"] || "frc-captcha-solution"
+        solutionFieldName: element.dataset["solutionFieldName"] || "frc-captcha-solution",
+        styleNonce: null
       }, options);
       this.e = element;
       this.e.friendlyChallengeWidget = this;
@@ -1250,7 +1274,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
       element.innerText = this.lang.text_init;
 
       if (!this.opts.skipStyleInjection) {
-        injectStyle();
+        injectStyle(this.opts.styleNonce);
       }
 
       this.init(this.opts.startMode === "auto" || this.e.dataset["start"] === "auto");
@@ -1297,7 +1321,14 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
         }
 
         if (typeof this.opts.language === "string") {
-          var l = localizations[this.opts.language.toLowerCase()];
+          var langCode = this.opts.language.toLowerCase();
+          var l = localizations[langCode];
+
+          if (l === undefined && langCode[2] === '-') {
+            // Language has a locale '-' separator, remove it and try again
+            langCode = langCode.substring(0, 2);
+            l = localizations[langCode];
+          }
 
           if (l === undefined) {
             console.error('FriendlyCaptcha: language "' + this.opts.language + '" not found.'); // Fall back to English
