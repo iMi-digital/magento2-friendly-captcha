@@ -107,11 +107,14 @@ function getErrorHTML(fieldName, l, errorDescription, recoverable = true, headle
  * Injects the style if no #frc-style element is already present
  * (to support custom stylesheets)
  */
-function injectStyle() {
+function injectStyle(styleNonce = null) {
     if (!document.querySelector("#frc-style")) {
         const styleSheet = document.createElement("style");
         styleSheet.id = "frc-style";
         styleSheet.innerHTML = css;
+        if (styleNonce) {
+            styleSheet.setAttribute('nonce', styleNonce);
+        }
         document.head.appendChild(styleSheet);
     }
 }
@@ -124,7 +127,7 @@ function updateProgressBar(element, data) {
     const perc = (data.i + 1) / data.n;
     if (p) {
         p.value = perc;
-        p.innerText = perc.toFixed(2) + "%";
+        p.innerText = (perc * 100).toFixed(1) + "%";
         p.title = data.i + 1 + "/" + data.n + " (" + ((data.h / data.t) * 0.001).toFixed(0) + "K/s)";
     }
 }
@@ -150,7 +153,7 @@ function executeOnceOnFocusInEvent(element, listener) {
 // Defensive init to make it easier to integrate with Gatsby, NextJS, and friends.
 let nav;
 let ua;
-if (typeof navigator !== "undefined") {
+if (typeof navigator !== "undefined" && typeof navigator.userAgent === "string") {
     nav = navigator;
     ua = nav.userAgent.toLowerCase();
 }
@@ -219,7 +222,7 @@ async function getPuzzle(urlsSeparatedByComma, siteKey, lang) {
     const urls = urlsSeparatedByComma.split(",");
     for (let i = 0; i < urls.length; i++) {
         try {
-            const response = await fetchAndRetryWithBackoff(urls[i] + "?sitekey=" + siteKey, { headers: [["x-frc-client", "js-0.9.14"]], mode: "cors" }, 2);
+            const response = await fetchAndRetryWithBackoff(urls[i] + "?sitekey=" + siteKey, { headers: [["x-frc-client", "js-0.9.16"]], mode: "cors" }, 2);
             if (response.ok) {
                 const json = await response.json();
                 return json.data.puzzle;
@@ -778,6 +781,21 @@ const LANG_TH = {
     button_retry: "ลองใหม่",
     text_fetch_error: "ไม่สามารถเชื่อมต่อได้"
 };
+// South Korean
+const LANG_KR = {
+    text_init: "초기화 중",
+    text_ready: "Anti-Robot 검증",
+    button_start: "검증을 위해 클릭해 주세요",
+    text_fetching: "검증 준비 중",
+    text_solving: "검증 중",
+    text_completed: "검증이 완료되었습니다",
+    text_completed_sr: "자동 스팸 확인 완료",
+    text_expired: "Anti-Robot 검증 만료",
+    button_restart: "다시 시작합니다",
+    text_error: "검증 실패",
+    button_retry: "다시 시도해 주세요",
+    text_fetch_error: "연결하지 못했습니다",
+};
 const localizations = {
     en: LANG_EN,
     de: LANG_DE,
@@ -813,6 +831,7 @@ const localizations = {
     vi: LANG_VI,
     he: LANG_HE,
     th: LANG_TH,
+    kr: LANG_KR,
     // alternative language codes
     nb: LANG_NO,
 };
@@ -993,6 +1012,7 @@ class WidgetInstance {
             sitekey: element.dataset["sitekey"] || "",
             language: element.dataset["lang"] || "en",
             solutionFieldName: element.dataset["solutionFieldName"] || "frc-captcha-solution",
+            styleNonce: null,
         }, options);
         this.e = element;
         this.e.friendlyChallengeWidget = this;
@@ -1000,7 +1020,7 @@ class WidgetInstance {
         // @ts-ignore Ignore is required as TS thinks that `this.lang` is not assigned yet, but it happens in `this.loadLanguage()` above.
         element.innerText = this.lang.text_init;
         if (!this.opts.skipStyleInjection) {
-            injectStyle();
+            injectStyle(this.opts.styleNonce);
         }
         this.init(this.opts.startMode === "auto" || this.e.dataset["start"] === "auto");
     }
@@ -1036,7 +1056,13 @@ class WidgetInstance {
             this.opts.language = this.e.dataset["lang"];
         }
         if (typeof this.opts.language === "string") {
-            let l = localizations[this.opts.language.toLowerCase()];
+            let langCode = this.opts.language.toLowerCase();
+            let l = localizations[langCode];
+            if (l === undefined && langCode[2] === '-') {
+                // Language has a locale '-' separator, remove it and try again
+                langCode = langCode.substring(0, 2);
+                l = localizations[langCode];
+            }
             if (l === undefined) {
                 console.error('FriendlyCaptcha: language "' + this.opts.language + '" not found.');
                 // Fall back to English

@@ -48,6 +48,7 @@ declare const localizations: {
     vi: Localization;
     he: Localization;
     th: Localization;
+    kr: Localization;
     nb: Localization;
 };
 
@@ -62,6 +63,7 @@ interface WidgetInstanceOptions {
     puzzleEndpoint: string;
     language: keyof typeof localizations | Localization;
     solutionFieldName: string;
+    styleNonce: string;
     sitekey: string;
     readyCallback: () => any;
     startedCallback: () => any;
