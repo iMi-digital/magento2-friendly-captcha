@@ -3,15 +3,24 @@
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
  */
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 /** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
+/** @var $secureRenderer SecureHtmlRenderer */
+
 ?>
-<script>
-    'use strict';
+<?php
+$widgetId = $block->getWidgetId();
+$scriptString = <<<SCRIPT
+ 'use strict';
 
     if (document.getElementById('newsletter-validate-detail')) {
-        document.getElementById('newsletter-validate-detail').append(document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>'));
+        document.getElementById('newsletter-validate-detail').append(document.getElementById('{$widgetId}'));
     } else {
-        document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>').remove();
+        document.getElementById('{$widgetId}').remove();
     }
-</script>
+SCRIPT;
+
+?>
+<?= /** noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false) ?>
