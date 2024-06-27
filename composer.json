@@ -3,7 +3,7 @@
     "description": "Friendly Captcha integration for Magento2",
     "require": {
         "ext-intl": ">=1.0.0",
-        "magento/framework": "^102.0.0|^103.0.0",
+        "magento/framework": "^103.0.0",
         "magento/module-customer": "^102.0.0|^103.0.0",
         "magento/module-checkout": "^100.3.0",
         "magento/module-newsletter": "^100.3.0"

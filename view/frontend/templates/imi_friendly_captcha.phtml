@@ -3,24 +3,29 @@
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
  */
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
 
 /** @var $block IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha */
 /** @var $escaper \Magento\Framework\Escaper */
+/** @var $secureRenderer SecureHtmlRenderer */
+
 $endpoint = $block->getPuzzleEndpoint();
+$widgetId = $block->getWidgetId();
 ?>
-<div id="<?= $block->getWidgetId() ?>"
+<div id="<?= $widgetId ?>"
      class="frc-captcha"
      data-sitekey="<?= $block->getSiteKey() ?>"
      <?php if ($endpoint !== ''): ?>data-puzzle-endpoint="<?= $escaper->escapeUrl($endpoint) ?>"<?php endif; ?>
      data-lang="<?= $block->getLang() ?>"
-     data-callback="captchaSolved_<?= $block->getWidgetId() ?>"
+     data-callback="captchaSolved_<?= $widgetId ?>"
 ></div>
-<script>
+<?php
+$scriptString = <<<SCRIPT
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
         function setButtonDisabled(disabled) {
-            const button = Array.from(document.getElementById('<?= /* @noEscape */ $block->getWidgetId() ?>').closest('form').elements).find(el => el.type === 'submit');
+            const button = Array.from(document.getElementById('{$widgetId}').closest('form').elements).find(el => el.type === 'submit');
             if (!button) {
                 return;
             }
@@ -29,8 +34,11 @@ $endpoint = $block->getPuzzleEndpoint();
 
         setButtonDisabled(true);
 
-        window.captchaSolved_<?= /* @noEscape */ $block->getWidgetId() ?> = function () {
+        window.captchaSolved_{$widgetId} = function () {
             setButtonDisabled(false);
         }
     });
-</script>
+    SCRIPT
+?>
+<?= /** noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false) ?>
