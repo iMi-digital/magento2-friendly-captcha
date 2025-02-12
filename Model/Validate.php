@@ -84,14 +84,14 @@ class Validate implements ValidateInterface
 
             if ($this->shouldUseResponse($curl, $response)) {
                 return $response['success'];
-            } else {
-                $this->logger->error('Error validating captcha solution.', ['response' => var_export($response, true)]);
             }
+            
+            $this->logger->error('Error validating captcha solution.', ['response' => var_export($response, true)]);
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage(), ['exception' => $e]);
         }
 
-        return true;
+        return false;
     }
 
     private function getSiteVerifyUrl(): string
