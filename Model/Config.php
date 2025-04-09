@@ -21,6 +21,8 @@ class Config
 
     public const CONFIG_PATH_ENDPOINT = 'imi_friendly_captcha/general/endpoint';
 
+    public const CONFIG_PATH_WHITELIST_IP = 'imi_friendly_captcha/general/ip_whitelist';
+
     public const CONFIG_PATH_ENABLED_FRONTEND = 'imi_friendly_captcha/frontend/enabled';
 
     public const CONFIG_PATH_ENABLED_FRONTEND_LOGIN = 'imi_friendly_captcha/frontend/enabled_login';
@@ -260,5 +262,20 @@ class Config
             static::CONFIG_PATH_ENABLED_FRONTEND_SENDFRIEND,
             ScopeInterface::SCOPE_WEBSITE
         );
+    }
+
+    /**
+     * Returns whitelist IP
+     *
+     * @return array<string>
+     */
+    public function getWhitelistIp(): array
+    {
+        $config = $this->scopeConfig->getValue(static::CONFIG_PATH_WHITELIST_IP);
+        if ($config === null || $config === '') {
+            return [];
+        }
+
+        return array_map('trim', explode(',', (string)$config));
     }
 }
