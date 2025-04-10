@@ -80,9 +80,9 @@ class Validate implements ValidateInterface
      */
     public function validate(string $friendlyCaptchaSolution): bool
     {
-        $whitelist = $this->config->getWhitelistIp();
+        $ips = $this->config->getTrustedIps();
         $clientIp = $this->remoteAddress->getRemoteAddress();
-        if ($whitelist !== [] && in_array((string)$clientIp, $whitelist, true)) {
+        if ($ips !== [] && in_array((string)$clientIp, $ips, true)) {
             return true;
         }
 

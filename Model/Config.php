@@ -21,7 +21,7 @@ class Config
 
     public const CONFIG_PATH_ENDPOINT = 'imi_friendly_captcha/general/endpoint';
 
-    public const CONFIG_PATH_WHITELIST_IP = 'imi_friendly_captcha/general/ip_whitelist';
+    public const CONFIG_PATH_TRUSTED_IPS = 'imi_friendly_captcha/general/trusted_ips';
 
     public const CONFIG_PATH_ENABLED_FRONTEND = 'imi_friendly_captcha/frontend/enabled';
 
@@ -265,13 +265,13 @@ class Config
     }
 
     /**
-     * Returns whitelist IP
+     * Returns trusted IPS
      *
      * @return array<string>
      */
-    public function getWhitelistIp(): array
+    public function getTrustedIps(): array
     {
-        $config = $this->scopeConfig->getValue(static::CONFIG_PATH_WHITELIST_IP);
+        $config = $this->scopeConfig->getValue(static::CONFIG_PATH_TRUSTED_IPS);
         if ($config === null || $config === '') {
             return [];
         }

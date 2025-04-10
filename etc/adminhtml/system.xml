@@ -51,9 +51,9 @@
                     <validate>required-entry validate-url validate-no-html-tags</validate>
                 </field>
 
-                <field id="ip_whitelist" translate="label comment tooltip" type="textarea" sortOrder="33"
+                <field id="trusted_ips" translate="label comment tooltip" type="textarea" sortOrder="33"
                        showInDefault="1" showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>IP Whitelist</label>
+                    <label>Trusted IPS</label>
                     <tooltip>Friendly captcha will be disabled for the specified IP addresses</tooltip>
                     <comment><![CDATA[For example: <strong>192.168.1.2</strong> </br>Each IP must be seperated by comma]]></comment>
                 </field>
