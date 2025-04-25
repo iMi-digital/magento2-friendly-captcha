@@ -131,4 +131,9 @@ class FriendlyCaptcha extends Template
 
         return parent::toHtml();
     }
+
+    public function isCaptchaEnabled(): bool
+    {
+        return $this->config->isEnabledFrontend();
+    }
 }
