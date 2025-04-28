@@ -21,6 +21,8 @@ class Config
 
     public const CONFIG_PATH_ENDPOINT = 'imi_friendly_captcha/general/endpoint';
 
+    public const CONFIG_PATH_TRUSTED_IPS = 'imi_friendly_captcha/general/trusted_ips';
+
     public const CONFIG_PATH_ENABLED_FRONTEND = 'imi_friendly_captcha/frontend/enabled';
 
     public const CONFIG_PATH_ENABLED_FRONTEND_LOGIN = 'imi_friendly_captcha/frontend/enabled_login';
@@ -260,5 +262,20 @@ class Config
             static::CONFIG_PATH_ENABLED_FRONTEND_SENDFRIEND,
             ScopeInterface::SCOPE_WEBSITE
         );
+    }
+
+    /**
+     * Returns trusted IPS
+     *
+     * @return array<string>
+     */
+    public function getTrustedIps(): array
+    {
+        $config = $this->scopeConfig->getValue(static::CONFIG_PATH_TRUSTED_IPS);
+        if ($config === null || $config === '') {
+            return [];
+        }
+
+        return array_map('trim', explode(',', (string)$config));
     }
 }

@@ -13,6 +13,7 @@ use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
 use Magento\Framework\Serialize\Serializer\Json;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 
 class Validate implements ValidateInterface
 {
@@ -43,23 +44,31 @@ class Validate implements ValidateInterface
     private $serializer;
 
     /**
-     * Validate constructor.
+     * @var
+     */
+    private $remoteAddress;
+
+    /**
+     * Validate Constructor
      *
      * @param LoggerInterface $logger
      * @param Config $config
      * @param CurlFactory $curlFactory
      * @param Json $serializer
+     * @param RemoteAddress $remoteAddress
      */
     public function __construct(
         LoggerInterface $logger,
         Config $config,
         CurlFactory $curlFactory,
-        Json $serializer
+        Json $serializer,
+        RemoteAddress $remoteAddress
     ) {
         $this->logger = $logger;
         $this->config = $config;
         $this->curlFactory = $curlFactory;
         $this->serializer = $serializer;
+        $this->remoteAddress = $remoteAddress;
     }
 
     /**
@@ -71,6 +80,12 @@ class Validate implements ValidateInterface
      */
     public function validate(string $friendlyCaptchaSolution): bool
     {
+        $ips = $this->config->getTrustedIps();
+        $clientIp = $this->remoteAddress->getRemoteAddress();
+        if ($ips !== [] && in_array((string)$clientIp, $ips, true)) {
+            return true;
+        }
+
         $parameters = [
             self::PARAMETER_SOLUTION => $friendlyCaptchaSolution,
             self::PARAMETER_SECRET => $this->config->getApikey(),
