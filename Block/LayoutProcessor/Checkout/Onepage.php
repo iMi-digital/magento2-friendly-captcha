@@ -31,7 +31,7 @@ class Onepage implements LayoutProcessorInterface
      */
     public function __construct(
         LayoutSettings $layoutSettings,
-        Config $config = null
+        ?Config $config = null
     ) {
         $this->layoutSettings = $layoutSettings;
         $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);

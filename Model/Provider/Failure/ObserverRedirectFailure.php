@@ -54,7 +54,7 @@ class ObserverRedirectFailure implements FailureProviderInterface
         ActionFlag $actionFlag,
         Config $config,
         UrlInterface $url,
-        RedirectUrlProviderInterface $redirectUrlProvider = null
+        ?RedirectUrlProviderInterface $redirectUrlProvider = null
     ) {
         $this->messageManager = $messageManager;
         $this->actionFlag = $actionFlag;
