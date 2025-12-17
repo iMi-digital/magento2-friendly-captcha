@@ -21,23 +21,11 @@ class Endpoint implements OptionSourceInterface
     public function toOptionArray()
     {
         return [
-            [
-                'value' => '_none',
-                'label' => __('V1'),
-                'optgroup' => [
-                    ['value' => self::DEFAULT, 'label' => __('Default')],
-                    ['value' => self::EU, 'label' => __('EU Endpoint')]
-                ],
-            ],
-            [
-                'value' => '_none',
-                'label' => __('V2'),
-                'optgroup' => [
-                    ['value' => self::DEFAULT, 'label' => __('Default')],
-                    ['value' => self::EU, 'label' => __('EU Endpoint')]
-                ],
-            ],
-            ['value' => self::CUSTOM, 'label' => __('Custom Endpoint')],
+            ['value' => self::DEFAULT, 'label' => __('V1 - Default endpoint')],
+            ['value' => self::EU, 'label' => __('V1 - EU endpoint')],
+            ['value' => self::V2_DEFAULT, 'label' => __('V2 - Default endpoint')],
+            ['value' => self::V2_EU, 'label' => __('V2 - EU endpoint')],
+            ['value' => self::CUSTOM, 'label' => __('Custom Endpoint')]
         ];
     }
 
@@ -47,10 +35,10 @@ class Endpoint implements OptionSourceInterface
     public function toArray()
     {
         return [
-            self::DEFAULT => __('Default'),
-            self::EU => __('EU Endpoint'),
-            self::V2_DEFAULT => __('V2 Default'),
-            ['value' => self::V2_EU, 'label' => __('V2 EU Endpoint')],
+            self::DEFAULT => __('V1 - Default endpoint'),
+            self::EU => __('V1 - EU endpoint'),
+            self::V2_DEFAULT => __('V2 - Default endpoint'),
+            self::V2_EU => __('V2 - EU endpoint'),
             self::CUSTOM => __('Custom Endpoint'),
         ];
     }
