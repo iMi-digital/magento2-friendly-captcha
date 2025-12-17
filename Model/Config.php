@@ -121,43 +121,56 @@ class Config
     }
 
     /**
-     * Get Friendly Captcha puzzle endpoint
+     * Get Friendly Captcha puzzle endpoint URL based on the configured endpoint.
+     * Returns the appropriate puzzle API endpoint URL depending on the endpoint configuration.
+     *
+     * @return string The Friendly Captcha puzzle API endpoint URL, or empty string if not configured
      */
     public function getPuzzleEndpoint(): string
     {
         $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
-
-        switch ($endpoint) {
-            case Endpoint::EU:
-                return 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle';
-            case Endpoint::CUSTOM:
-                return (string)$this->scopeConfig->getValue(
-                    static::CONFIG_PATH_CUSTOM_PUZZLE,
-                    ScopeInterface::SCOPE_WEBSITE
-                );
-            default:
-                return '';
+        if ($endpoint === Endpoint::CUSTOM) {
+            return (string)$this->scopeConfig->getValue(
+                static::CONFIG_PATH_CUSTOM_PUZZLE,
+                ScopeInterface::SCOPE_WEBSITE
+            );
         }
+
+        $mapping = [
+            Endpoint::EU => 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle',
+            Endpoint::DEFAULT => 'https://api.friendlycaptcha.com/api/v1/puzzlee',
+        ];
+
+        return $mapping[$endpoint] ?? '';
     }
 
     /**
-     * Get Friendly Captcha verify endpoint
+     * Get Friendly Captcha verify endpoint URL based on the configured endpoint. Returns the appropriate siteverify
+     * API endpoint URL depending on the endpoint configuration.
+     *
+     * Falls back to the default global v1 endpoint if the configured endpoint is not recognized.
+     * @see https://developer.friendlycaptcha.com/docs/v2/getting-started/verify
+     *
+     * @return string
      */
     public function getVerifyEndpoint(): string
     {
         $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
-
-        switch ($endpoint) {
-            case Endpoint::EU:
-                return 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify';
-            case Endpoint::CUSTOM:
-                return (string)$this->scopeConfig->getValue(
-                    static::CONFIG_PATH_CUSTOM_VERIFY,
-                    ScopeInterface::SCOPE_WEBSITE
-                );
-            default:
-                return 'https://api.friendlycaptcha.com/api/v1/siteverify';
+        if ($endpoint === Endpoint::CUSTOM) {
+            return (string)$this->scopeConfig->getValue(
+                static::CONFIG_PATH_CUSTOM_VERIFY,
+                ScopeInterface::SCOPE_WEBSITE
+            );
         }
+
+        $mapping = [
+            Endpoint::EU => 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify',
+            Endpoint::DEFAULT => 'https://api.friendlycaptcha.com/api/v1/siteverify',
+            Endpoint::V2_DEFAULT => 'https://global.frcapi.com/api/v2/captcha/siteverify',
+            Endpoint::V2_EU => 'https://eu.frcapi.com/api/v2/captcha/siteverify',
+        ];
+
+        return $mapping[$endpoint] ?? $mapping[Endpoint::DEFAULT];
     }
 
     /**
