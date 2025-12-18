@@ -2,6 +2,7 @@
 
 namespace IMI\FriendlyCaptcha\Model\Validator;
 
+use IMI\FriendlyCaptcha\Api\ValidateInterface;
 use IMI\FriendlyCaptcha\Model\Exception\InvalidSolutionException;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
@@ -14,17 +15,17 @@ use Magento\Framework\Webapi\Response;
  *
  * @see https://developer.friendlycaptcha.com/docs/v1/getting-started/verify
  */
-class ValidatorV1 extends AbstractValidator implements ValidatorInterface
+class ValidatorV1 extends AbstractValidator implements ValidateInterface
 {
     /**
      * @inheritDoc
      */
-    public function validate(string $solution): bool
+    public function validate(string $friendlyCaptchaSolution): bool
     {
         /** @var Curl $curl */
         $curl = $this->curlFactory->create();
         $curl->post($this->config->getVerifyEndpoint(), [
-            'solution' => $solution,
+            'solution' => $friendlyCaptchaSolution,
             'secret' => $this->config->getApikey(),
             'sitekey' => $this->config->getSitekey(),
         ]);
