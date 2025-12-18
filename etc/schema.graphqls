@@ -1,0 +1,10 @@
+type StoreConfig {
+    imi_friendly_captcha_general_sitekey: String
+        @doc(description: "Friendly Captcha Site Key")
+    imi_friendly_captcha_enabled: Boolean
+        @resolver(class: "IMI\\FriendlyCaptcha\\Model\\Resolver\\StoreConfig\\CaptchaEnabled")
+        @doc(description: "Return true if Friendly Captcha is enabled")
+    imi_friendly_captcha_trusted_ips: [String] @doc(description: "Return whitelist IP addresses")
+        @resolver(class: "IMI\\FriendlyCaptcha\\Model\\Resolver\\StoreConfig\\TrustedIps")
+        @doc(description: "Friendly captcha will be disabled for the specified IP addresses.")
+}
