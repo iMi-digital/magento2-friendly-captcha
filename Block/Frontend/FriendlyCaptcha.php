@@ -42,7 +42,7 @@ class FriendlyCaptcha extends Template
         LayoutSettings $layoutSettings,
         ResolverInterface $localeResolver,
         array $data = [],
-        Config $config = null
+        ?Config $config = null
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;

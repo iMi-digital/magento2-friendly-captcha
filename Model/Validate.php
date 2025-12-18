@@ -11,6 +11,7 @@ namespace IMI\FriendlyCaptcha\Model;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
 use IMI\FriendlyCaptcha\Model\Exception\InvalidSolutionException;
 use Psr\Log\LoggerInterface;
+use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 
 /**
  * Friendly Captcha validation service
@@ -42,17 +43,27 @@ class Validate implements ValidateInterface
     private $validatorByEndpoint;
 
     /**
-     * Validate Constructor
+     * @var Json
+     */
+    private $serializer;
+
+    private $remoteAddress;
+
+    /**
+     * Validate constructor.
      *
      * @param LoggerInterface $logger
      * @param Config $config
-     * @param array<int, ValidateInterface> $validatorByEndpoint
+     * @param CurlFactory $curlFactory
+     * @param Json $serializer
      */
     public function __construct(
         LoggerInterface $logger,
         Config $config,
+        RemoteAddress $remoteAddress,
         array $validatorByEndpoint
     ) {
+        $this->remoteAddress = $remoteAddress;
         $this->validatorByEndpoint = $validatorByEndpoint;
         $this->logger = $logger;
         $this->config = $config;
@@ -63,6 +74,12 @@ class Validate implements ValidateInterface
      */
     public function validate(string $friendlyCaptchaSolution): bool
     {
+        $ips = $this->config->getTrustedIps();
+        $clientIp = $this->remoteAddress->getRemoteAddress();
+        if ($ips !== [] && in_array((string)$clientIp, $ips, true)) {
+            return true;
+        }
+
         $endpoint = $this->config->getVerifyEndpoint();
         $validator = $this->validatorByEndpoint[$endpoint] ?? null;
         if ($validator === null) {
