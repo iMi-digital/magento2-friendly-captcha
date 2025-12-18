@@ -43,10 +43,8 @@ class Validate implements ValidateInterface
     private $validatorByEndpoint;
 
     /**
-     * @var Json
+     * @var RemoteAddress
      */
-    private $serializer;
-
     private $remoteAddress;
 
     /**
@@ -54,8 +52,8 @@ class Validate implements ValidateInterface
      *
      * @param LoggerInterface $logger
      * @param Config $config
-     * @param CurlFactory $curlFactory
-     * @param Json $serializer
+     * @param RemoteAddress $remoteAddress
+     * @param array<int, ValidateInterface> $validatorByEndpoint
      */
     public function __construct(
         LoggerInterface $logger,
