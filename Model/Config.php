@@ -121,6 +121,14 @@ class Config
     }
 
     /**
+     * @return int
+     */
+    public function getEndpoint(): int
+    {
+        return (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+    }
+
+    /**
      * Get Friendly Captcha puzzle endpoint URL based on the configured endpoint.
      * Returns the appropriate puzzle API endpoint URL depending on the endpoint configuration.
      *
@@ -128,7 +136,7 @@ class Config
      */
     public function getPuzzleEndpoint(): string
     {
-        $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+        $endpoint = $this->getEndpoint();
         if ($endpoint === Endpoint::CUSTOM) {
             return (string)$this->scopeConfig->getValue(
                 static::CONFIG_PATH_CUSTOM_PUZZLE,
@@ -155,7 +163,7 @@ class Config
      */
     public function getVerifyEndpoint(): string
     {
-        $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+        $endpoint = $this->getEndpoint();
         if ($endpoint === Endpoint::CUSTOM) {
             return (string)$this->scopeConfig->getValue(
                 static::CONFIG_PATH_CUSTOM_VERIFY,

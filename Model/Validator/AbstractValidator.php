@@ -7,9 +7,20 @@ use Magento\Framework\HTTP\Client\Curl;
 
 abstract class AbstractValidator
 {
-    protected Config $config;
-    protected CurlFactory $curlFactory;
-    protected Json $serializer;
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var CurlFactory
+     */
+    protected $curlFactory;
+
+    /**
+     * @var Json
+     */
+    protected $serializer;
 
     /**
      * AbstractValidator constructor.
