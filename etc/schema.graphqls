@@ -1,5 +1,5 @@
 type StoreConfig {
-    imi_friendly_captcha_general_sitekey: String
+    imi_friendly_captcha_sitekey: String
         @doc(description: "Friendly Captcha Site Key")
     imi_friendly_captcha_enabled: Boolean
         @resolver(class: "IMI\\FriendlyCaptcha\\Model\\Resolver\\StoreConfig\\CaptchaEnabled")
