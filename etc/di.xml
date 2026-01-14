@@ -27,4 +27,16 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="IMI\FriendlyCaptcha\Model\Validate">
+        <arguments>
+            <argument name="validatorByEndpoint" xsi:type="array">
+                <item name="0" xsi:type="object">IMI\FriendlyCaptcha\Model\Validator\ValidatorV1</item>
+                <item name="1" xsi:type="object">IMI\FriendlyCaptcha\Model\Validator\ValidatorV1</item>
+                <item name="2" xsi:type="object">IMI\FriendlyCaptcha\Model\Validator\ValidatorV1</item>
+                <item name="3" xsi:type="object">IMI\FriendlyCaptcha\Model\Validator\ValidatorV2</item>
+                <item name="4" xsi:type="object">IMI\FriendlyCaptcha\Model\Validator\ValidatorV2</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
