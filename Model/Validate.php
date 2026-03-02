@@ -78,8 +78,8 @@ class Validate implements ValidateInterface
             return true;
         }
 
-        $endpoint = $this->config->getVerifyEndpoint();
-        $validator = $this->validatorByEndpoint[$endpoint] ?? null;
+        $endpoint = $this->config->getEndpointEnum();
+        $validator = $this->validatorByEndpoint[$endpoint->value] ?? null;
         if ($validator === null) {
             return false;
         }
@@ -87,7 +87,7 @@ class Validate implements ValidateInterface
         if (!$validator instanceof ValidateInterface) {
             throw new \RuntimeException(sprintf(
                 'Validator for endpoint %s is not an instance of %s',
-                $endpoint,
+                $endpoint->value,
                 ValidateInterface::class
             ));
         }
