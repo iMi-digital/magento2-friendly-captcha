@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Model;
 
-use IMI\FriendlyCaptcha\Model\Config\Source\Endpoint;
+use IMI\FriendlyCaptcha\Enum\EndpointEnum;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
 use Magento\Store\Model\ScopeInterface;
@@ -130,11 +130,12 @@ class Config
     }
 
     /**
-     * @return int
+     * @return EndpointEnum
      */
-    public function getEndpoint(): int
+    public function getEndpointEnum(): EndpointEnum
     {
-        return (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+        $id = (int) $this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+        return EndpointEnum::from($id);
     }
 
     /**
@@ -145,20 +146,15 @@ class Config
      */
     public function getPuzzleEndpoint(): string
     {
-        $endpoint = $this->getEndpoint();
-        if ($endpoint === Endpoint::CUSTOM) {
-            return (string)$this->scopeConfig->getValue(
+        $endpoint = $this->getEndpointEnum();
+        if ($endpoint === EndpointEnum::CUSTOM) {
+            return (string) $this->scopeConfig->getValue(
                 static::CONFIG_PATH_CUSTOM_PUZZLE,
                 ScopeInterface::SCOPE_WEBSITE
             );
         }
 
-        $mapping = [
-            Endpoint::EU => 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle',
-            Endpoint::DEFAULT => 'https://api.friendlycaptcha.com/api/v1/puzzlee',
-        ];
-
-        return $mapping[$endpoint] ?? '';
+        return $endpoint->getPuzzleUrl();
     }
 
     /**
@@ -172,22 +168,15 @@ class Config
      */
     public function getVerifyEndpoint(): string
     {
-        $endpoint = $this->getEndpoint();
-        if ($endpoint === Endpoint::CUSTOM) {
-            return (string)$this->scopeConfig->getValue(
+        $endpoint = $this->getEndpointEnum();
+        if ($endpoint === EndpointEnum::CUSTOM) {
+            return (string) $this->scopeConfig->getValue(
                 static::CONFIG_PATH_CUSTOM_VERIFY,
                 ScopeInterface::SCOPE_WEBSITE
             );
         }
 
-        $mapping = [
-            Endpoint::EU => 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify',
-            Endpoint::DEFAULT => 'https://api.friendlycaptcha.com/api/v1/siteverify',
-            Endpoint::V2_DEFAULT => 'https://global.frcapi.com/api/v2/captcha/siteverify',
-            Endpoint::V2_EU => 'https://eu.frcapi.com/api/v2/captcha/siteverify',
-        ];
-
-        return $mapping[$endpoint] ?? $mapping[Endpoint::DEFAULT];
+        return $endpoint->getVerifyUrl();
     }
 
     /**
@@ -201,7 +190,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_FORGOT,
             ScopeInterface::SCOPE_WEBSITE
         );
