@@ -18,6 +18,7 @@
                 <enabled_login>1</enabled_login>
                 <enabled_forgot>1</enabled_forgot>
                 <enabled_contact>1</enabled_contact>
+                <disable_graphql_contact_us_mutation>0</disable_graphql_contact_us_mutation>
                 <enabled_create>1</enabled_create>
                 <enabled_review>1</enabled_review>
                 <enabled_newsletter>1</enabled_newsletter>

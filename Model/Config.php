@@ -31,6 +31,9 @@ class Config
 
     public const CONFIG_PATH_ENABLED_FRONTEND_CONTACT = 'imi_friendly_captcha/frontend/enabled_contact';
 
+    public const CONFIG_PATH_DISABLE_GRAPHQL_CONTACT_US_MUTATION =
+        'imi_friendly_captcha/frontend/disable_graphql_contact_us_mutation';
+
     public const CONFIG_PATH_ENABLED_FRONTEND_CREATE = 'imi_friendly_captcha/frontend/enabled_create';
 
     public const CONFIG_PATH_ENABLED_FRONTEND_REVIEW = 'imi_friendly_captcha/frontend/enabled_review';
@@ -192,6 +195,19 @@ class Config
 
         return (bool)$this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_CONTACT,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Return true if Magento's GraphQL contactUs mutation should be disabled completely
+     *
+     * @return bool
+     */
+    public function isGraphQlContactUsMutationDisabled(): bool
+    {
+        return (bool)$this->scopeConfig->getValue(
+            static::CONFIG_PATH_DISABLE_GRAPHQL_CONTACT_US_MUTATION,
             ScopeInterface::SCOPE_WEBSITE
         );
     }

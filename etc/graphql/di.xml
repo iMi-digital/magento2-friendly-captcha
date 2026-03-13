@@ -8,4 +8,8 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\ContactGraphQl\Model\Resolver\ContactUs">
+        <plugin name="imi_friendly_captcha_disable_contact_us_mutation"
+                type="IMI\FriendlyCaptcha\Plugin\GraphQl\ContactUsPlugin"/>
+    </type>
 </config>

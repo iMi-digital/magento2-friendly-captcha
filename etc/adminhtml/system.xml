@@ -90,6 +90,12 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
+                <field id="disable_graphql_contact_us_mutation" translate="label comment" type="select" sortOrder="225"
+                       showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Disable GraphQL contactUs mutation</label>
+                    <comment><![CDATA[Blocks Magento's <code>contactUs</code> GraphQL mutation completely so contact emails cannot bypass Friendly Captcha.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="enabled_create" translate="label" type="select" sortOrder="230" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Use in Create user</label>

@@ -34,6 +34,14 @@ IMI_FriendlyCaptcha adds a Friendly Captcha widget to:
 
 *If you are not using the Magento Newsletter function, please disable the Newsletter Captcha in the settings - otherwise it would still be loaded on each page and later removed via JavaScript.
 
+## GraphQL Contact Mutation
+
+Magento's `contactUs` GraphQL mutation is not protected by the normal Friendly Captcha frontend widget flow.
+
+If you want to block that bypass completely, enable:
+
+`Stores > Configuration > Security > Friendly Captcha > Frontend > Disable GraphQL contactUs mutation`
+
 ## Security Scan
 
 This module is accepted by the Magento security scan by Adobe, which normally looks for Google ReCAPTCHA, i.e. replacing the ReCAPTCHA with the Friendly Captcha should not trigger any false positives.
