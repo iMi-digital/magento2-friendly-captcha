@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Model;
 
-use IMI\FriendlyCaptcha\Model\Config\Source\Endpoint;
+use IMI\FriendlyCaptcha\Enum\EndpointEnum;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
 use Magento\Store\Model\ScopeInterface;
@@ -126,43 +126,53 @@ class Config
     }
 
     /**
-     * Get Friendly Captcha puzzle endpoint
+     * @return EndpointEnum
      */
-    public function getPuzzleEndpoint(): string
+    public function getEndpointEnum(): EndpointEnum
     {
-        $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
-
-        switch ($endpoint) {
-            case Endpoint::EU:
-                return 'https://eu-api.friendlycaptcha.eu/api/v1/puzzle';
-            case Endpoint::CUSTOM:
-                return (string)$this->scopeConfig->getValue(
-                    static::CONFIG_PATH_CUSTOM_PUZZLE,
-                    ScopeInterface::SCOPE_WEBSITE
-                );
-            default:
-                return '';
-        }
+        $id = (int) $this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+        return EndpointEnum::from($id);
     }
 
     /**
-     * Get Friendly Captcha verify endpoint
+     * Get Friendly Captcha puzzle endpoint URL based on the configured endpoint.
+     * Returns the appropriate puzzle API endpoint URL depending on the endpoint configuration.
+     *
+     * @return string The Friendly Captcha puzzle API endpoint URL, or empty string if not configured
+     */
+    public function getPuzzleEndpoint(): string
+    {
+        $endpoint = $this->getEndpointEnum();
+        if ($endpoint === EndpointEnum::CUSTOM) {
+            return (string) $this->scopeConfig->getValue(
+                static::CONFIG_PATH_CUSTOM_PUZZLE,
+                ScopeInterface::SCOPE_WEBSITE
+            );
+        }
+
+        return $endpoint->getPuzzleUrl();
+    }
+
+    /**
+     * Get Friendly Captcha verify endpoint URL based on the configured endpoint. Returns the appropriate siteverify
+     * API endpoint URL depending on the endpoint configuration.
+     *
+     * Falls back to the default global v1 endpoint if the configured endpoint is not recognized.
+     * @see https://developer.friendlycaptcha.com/docs/v2/getting-started/verify
+     *
+     * @return string
      */
     public function getVerifyEndpoint(): string
     {
-        $endpoint = (int)$this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
-
-        switch ($endpoint) {
-            case Endpoint::EU:
-                return 'https://eu-api.friendlycaptcha.eu/api/v1/siteverify';
-            case Endpoint::CUSTOM:
-                return (string)$this->scopeConfig->getValue(
-                    static::CONFIG_PATH_CUSTOM_VERIFY,
-                    ScopeInterface::SCOPE_WEBSITE
-                );
-            default:
-                return 'https://api.friendlycaptcha.com/api/v1/siteverify';
+        $endpoint = $this->getEndpointEnum();
+        if ($endpoint === EndpointEnum::CUSTOM) {
+            return (string) $this->scopeConfig->getValue(
+                static::CONFIG_PATH_CUSTOM_VERIFY,
+                ScopeInterface::SCOPE_WEBSITE
+            );
         }
+
+        return $endpoint->getVerifyUrl();
     }
 
     /**
@@ -176,7 +186,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_FORGOT,
             ScopeInterface::SCOPE_WEBSITE
         );
