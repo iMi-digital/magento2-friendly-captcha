@@ -36,8 +36,8 @@ class ContactUsPlugin
         Field $field,
         $context,
         ResolveInfo $info,
-        array $value = null,
-        array $args = null
+        ?array $value = null,
+        ?array $args = null
     ): array {
         if ($this->config->isGraphQlContactUsMutationDisabled()) {
             throw new GraphQlInputException(__('The contactUs GraphQL mutation is disabled.'));
