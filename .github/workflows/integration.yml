@@ -6,23 +6,9 @@ on:
   pull_request:
 
 jobs:
-  integration-tests:
-#    env:
-#      REPOSITORY_URL: https://repo.magento.com/
-#      MAGENTO_MARKETPLACE_USERNAME: ${{ secrets.MAGENTO_MARKETPLACE_USERNAME }}
-#      MAGENTO_MARKETPLACE_PASSWORD: ${{ secrets.MAGENTO_MARKETPLACE_PASSWORD }}    
-    name: Magento ${{ matrix.magento_version }} Integration Tests (PHP ${{ matrix.php_version }})
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - magento_version: '2.4.6-p14'
-            php_version: '8.1'
-          - magento_version: '2.4.7-p9'
-            php_version: '8.2'
-          - magento_version: '2.4.8-p4'
-            php_version: '8.3'
+  integration-tests-246:
+    name: Magento 2.4.6-p14 Integration Tests (PHP 8.1)
+    runs-on: ubuntu-22.04
     services:
       mysql:
         image: mysql:5.7
@@ -38,24 +24,59 @@ jobs:
         options: --health-cmd="curl localhost:9200/_cluster/health?wait_for_status=yellow&timeout=60s" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v6
-      - name: M2 Integration Tests with Magento 2 (${{ matrix.magento_version }}, PHP 8.1)
-        if: matrix.php_version == '8.1'
+      - name: M2 Integration Tests with Magento 2 (2.4.6-p14, PHP 8.1)
         uses: extdn/github-actions-m2/magento-integration-tests/8.1@master
         with:
           module_name: IMI_FriendlyCaptcha
           composer_name: imi/magento2-friendly-captcha
-          magento_version: ${{ matrix.magento_version }}
-      - name: M2 Integration Tests with Magento 2 (${{ matrix.magento_version }}, PHP 8.2)
-        if: matrix.php_version == '8.2'
+          magento_version: '2.4.6-p14'
+
+  integration-tests-247:
+    name: Magento 2.4.7-p9 Integration Tests (PHP 8.2)
+    runs-on: ubuntu-22.04
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        options: --tmpfs /tmp:rw --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      es:
+        image: docker.io/wardenenv/elasticsearch:7.8
+        env:
+          'discovery.type': single-node
+          'xpack.security.enabled': false
+          ES_JAVA_OPTS: "-Xms64m -Xmx512m"
+        options: --health-cmd="curl localhost:9200/_cluster/health?wait_for_status=yellow&timeout=60s" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v6
+      - name: M2 Integration Tests with Magento 2 (2.4.7-p9, PHP 8.2)
         uses: extdn/github-actions-m2/magento-integration-tests/8.2@master
         with:
           module_name: IMI_FriendlyCaptcha
           composer_name: imi/magento2-friendly-captcha
-          magento_version: ${{ matrix.magento_version }}
-      - name: M2 Integration Tests with Magento 2 (${{ matrix.magento_version }}, PHP 8.3)
-        if: matrix.php_version == '8.3'
+          magento_version: '2.4.7-p9'
+
+  integration-tests-248:
+    name: Magento 2.4.8-p4 Integration Tests (PHP 8.3)
+    runs-on: ubuntu-22.04
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        options: --tmpfs /tmp:rw --tmpfs /var/lib/mysql:rw --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      es:
+        image: docker.io/wardenenv/elasticsearch:7.8
+        env:
+          'discovery.type': single-node
+          'xpack.security.enabled': false
+          ES_JAVA_OPTS: "-Xms64m -Xmx512m"
+        options: --health-cmd="curl localhost:9200/_cluster/health?wait_for_status=yellow&timeout=60s" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v6
+      - name: M2 Integration Tests with Magento 2 (2.4.8-p4, PHP 8.3)
         uses: extdn/github-actions-m2/magento-integration-tests/8.3@master
         with:
           module_name: IMI_FriendlyCaptcha
           composer_name: imi/magento2-friendly-captcha
-          magento_version: ${{ matrix.magento_version }}
+          magento_version: '2.4.8-p4'
