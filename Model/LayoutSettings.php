@@ -6,7 +6,6 @@
 
 namespace IMI\FriendlyCaptcha\Model;
 
-
 class LayoutSettings
 {
     /**

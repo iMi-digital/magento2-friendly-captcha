@@ -114,7 +114,7 @@ class FriendlyCaptcha extends Template
     public function getWidgetId(): string
     {
         if (!$this->hasData('widget_id')) {
-            $this->setData('widget_id', md5($this->getNameInLayout()));
+            $this->setData('widget_id', hash('sha256', $this->getNameInLayout()));
         }
 
         return $this->getData('widget_id');

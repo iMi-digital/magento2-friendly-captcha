@@ -61,8 +61,13 @@ class Onepage implements LayoutProcessorInterface
                     ['shippingAddress']['children']['customer-email']['children']['imi_friendly_captcha']);
             }
 
-            if (isset($jsLayout['components']['checkout']['children']['authentication']['children']['imi_friendly_captcha'])) {
-                unset($jsLayout['components']['checkout']['children']['authentication']['children']['imi_friendly_captcha']);
+            if (isset(
+                $jsLayout['components']['checkout']['children']['authentication']['children']['imi_friendly_captcha']
+            )) {
+                unset(
+                    $jsLayout['components']['checkout']['children']['authentication']['children']
+                        ['imi_friendly_captcha']
+                );
             }
         }
 
