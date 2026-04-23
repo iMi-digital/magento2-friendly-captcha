@@ -56,7 +56,7 @@ class EncryptExistingApiKeys implements DataPatchInterface
         foreach ($configValues as $configValue) {
             if (!$configValue->getValue()) {
                 continue;
-            }            
+            }
             $this->writer->save(
                 $configValue->getPath(),
                 $this->encryptor->encrypt($configValue->getValue()),

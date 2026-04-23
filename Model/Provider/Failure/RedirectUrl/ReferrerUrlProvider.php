@@ -10,9 +10,7 @@ use Magento\Framework\App\Response\RedirectInterface;
 use IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrlProviderInterface;
 
 /**
- * Class ReferrerUrlProvider
- *
- * @package IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl
+ * Provides the browser referrer URL for redirect failures.
  */
 class ReferrerUrlProvider implements RedirectUrlProviderInterface
 {

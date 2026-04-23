@@ -12,12 +12,14 @@ use Magento\Framework\View\Helper\SecureHtmlRenderer;
 $endpoint = $block->getPuzzleEndpoint();
 $widgetId = $block->getWidgetId();
 ?>
-<div id="<?= $widgetId ?>"
+<div id="<?= $escaper->escapeHtmlAttr($widgetId) ?>"
      class="frc-captcha"
-     data-sitekey="<?= $block->getSiteKey() ?>"
-     <?php if ($endpoint !== ''): ?>data-puzzle-endpoint="<?= $escaper->escapeUrl($endpoint) ?>"<?php endif; ?>
-     data-lang="<?= $block->getLang() ?>"
-     data-callback="captchaSolved_<?= $widgetId ?>"
+     data-sitekey="<?= $escaper->escapeHtmlAttr($block->getSiteKey()) ?>"
+     <?php if ($endpoint !== ''): ?>
+         data-puzzle-endpoint="<?= $escaper->escapeUrl($endpoint) ?>"
+     <?php endif; ?>
+     data-lang="<?= $escaper->escapeHtmlAttr($block->getLang()) ?>"
+     data-callback="captchaSolved_<?= $escaper->escapeHtmlAttr($widgetId) ?>"
 ></div>
 <?php
 $scriptString = <<<SCRIPT
@@ -25,7 +27,9 @@ $scriptString = <<<SCRIPT
 
     document.addEventListener('DOMContentLoaded', function () {
         function setButtonDisabled(disabled) {
-            const button = Array.from(document.getElementById('{$widgetId}').closest('form').elements).find(el => el.type === 'submit');
+            const button = Array
+                .from(document.getElementById('{$widgetId}').closest('form').elements)
+                .find(el => el.type === 'submit');
             if (!button) {
                 return;
             }

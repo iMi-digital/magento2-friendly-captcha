@@ -77,7 +77,9 @@ class FriendlyCaptchaObserver implements ObserverInterface
             if (!$this->validate->validate($friendlyCaptchaResponse)) {
                 /** @var Action $controller */
                 $controller = $observer->getControllerAction();
-                $this->failureProvider->execute($controller instanceof AbstractAction ? $controller->getResponse() : $this->response);
+                $this->failureProvider->execute(
+                    $controller instanceof AbstractAction ? $controller->getResponse() : $this->response
+                );
             }
         }
     }

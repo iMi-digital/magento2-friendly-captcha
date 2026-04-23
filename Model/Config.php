@@ -110,8 +110,10 @@ class Config
      */
     public function getSitekey(): string
     {
-        return trim((string)$this->scopeConfig->getValue(static::CONFIG_PATH_SITEKEY,
-            ScopeInterface::SCOPE_WEBSITE));
+        return trim((string)$this->scopeConfig->getValue(
+            static::CONFIG_PATH_SITEKEY,
+            ScopeInterface::SCOPE_WEBSITE
+        ));
     }
 
     /**
@@ -121,8 +123,10 @@ class Config
      */
     public function getApikey(): string
     {
-        return trim((string)$this->scopeConfig->getValue(static::CONFIG_PATH_APIEKEY,
-            ScopeInterface::SCOPE_WEBSITE));
+        return trim((string)$this->scopeConfig->getValue(
+            static::CONFIG_PATH_APIEKEY,
+            ScopeInterface::SCOPE_WEBSITE
+        ));
     }
 
     /**

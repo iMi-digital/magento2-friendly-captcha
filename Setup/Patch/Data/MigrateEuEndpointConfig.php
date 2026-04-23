@@ -10,17 +10,17 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 
 class MigrateEuEndpointConfig implements DataPatchInterface
 {
+
     public function __construct(
         private readonly ConfigResource $configResource,
         private readonly ConfigCollectionFactory $configCollectionFactory
     ) {
     }
 
-
     /**
      * @inheritDoc
      */
-    public static function getDependencies()
+    public static function getDependencies(): array
     {
         return [];
     }
@@ -28,7 +28,7 @@ class MigrateEuEndpointConfig implements DataPatchInterface
     /**
      * @inheritDoc
      */
-    public function getAliases()
+    public function getAliases(): array
     {
         return [];
     }
@@ -36,7 +36,7 @@ class MigrateEuEndpointConfig implements DataPatchInterface
     /**
      * @inheritDoc
      */
-    public function apply()
+    public function apply(): self
     {
         $collection = $this->configCollectionFactory->create();
         $collection->addFieldToFilter('path', ['eq' => 'imi_friendly_captcha/general/eu_endpoint']);
@@ -47,5 +47,7 @@ class MigrateEuEndpointConfig implements DataPatchInterface
             $config->setPath('imi_friendly_captcha/general/endpoint');
             $this->configResource->save($config);
         }
+
+        return $this;
     }
 }
