@@ -10,8 +10,9 @@ use IMI\FriendlyCaptcha\Model\Exception\InvalidSolutionException;
 
 interface ValidateInterface
 {
-    const PARAM_FRIENDLY_CAPTCHA_SOLUTION = 'frc-captcha-solution';
-
+    const PARAM_FRIENDLY_CAPTCHA_SOLUTION = 'frc-captcha-solution'; // v1
+    const PARAM_FRIENDLY_CAPTCHA_RESPONSE = 'frc-captcha-response'; // v2
+    
     /**
      * Return true if friendlyCaptcha validation has passed
      *
