@@ -2,7 +2,10 @@
 
 namespace IMI\FriendlyCaptcha\Model\Exception;
 
-class InvalidSolutionException extends \Exception
+use Exception;
+use Throwable;
+
+class InvalidSolutionException extends Exception
 {
     protected array $response;
 
