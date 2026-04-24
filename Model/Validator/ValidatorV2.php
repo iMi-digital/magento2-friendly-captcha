@@ -29,7 +29,7 @@ class ValidatorV2 extends AbstractValidator implements ValidateInterface
         ]);
 
         $curl->post($this->config->getVerifyEndpoint(), [
-            'solution' => $friendlyCaptchaSolution,
+            'response' => $friendlyCaptchaSolution,
             'sitekey' => $this->config->getSitekey(),
         ]);
 
