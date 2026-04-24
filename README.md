@@ -62,13 +62,26 @@ We use [act](https://nektosact.com/installation/index.html) to run actions local
 
 ### Updating the vendor code
 
+#### v1
 ```bash
+# v1
 cd view/frontend/web/js/vendor
 rm -r friendly-challenge
 npm pack friendly-challenge
 tar -xvf friendly-challenge-*.tgz
 rm friendly-challenge-*.tgz
 mv package friendly-challenge
+```
+
+#### v2
+```bash`
+cd view/frontend/web/js/vendor
+rm -r friendlycaptcha-sdk
+npm pack @friendlycaptcha/sdk
+tar -xvf friendlycaptcha-sdk-*.tgz
+rm friendlycaptcha-sdk-*.tgz
+mv package friendlycaptcha-sdk
+rm -r friendlycaptcha-sdk/{src,docs,contrib}
 ```
 
 Then make a pullrequest.
