@@ -1,0 +1,24 @@
+{
+  "name": "@friendlycaptcha/sdk",
+  "version": "1.0.0",
+  "description": "In-browser SDK for Friendly Captcha v2",
+  "main": "sdk.js",
+  "exports": {
+    ".": {
+      "import": "./sdk.js",
+      "require": "./sdk.cjs"
+    },
+    "./src/*": "./src/*"
+  },
+  "type": "module",
+  "author": "Friendly Captcha GmbH",
+  "license": "MPL-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FriendlyCaptcha/friendly-captcha-sdk"
+  }
+}

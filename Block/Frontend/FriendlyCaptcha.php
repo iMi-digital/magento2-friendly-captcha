@@ -15,6 +15,9 @@ use Zend\Json\Json;
 
 class FriendlyCaptcha extends Template
 {
+    private const TEMPLATE_V1 = 'IMI_FriendlyCaptcha::imi_friendly_captcha_v1.phtml';
+    private const TEMPLATE_V2 = 'IMI_FriendlyCaptcha::imi_friendly_captcha_v2.phtml';
+
     /**
      * @var Config
      */
@@ -48,6 +51,10 @@ class FriendlyCaptcha extends Template
         $this->layoutSettings = $layoutSettings;
         $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
         $this->localeResolver = $localeResolver;
+
+        if (!$this->getTemplate()) {
+            $this->setTemplate($this->config->isV2Api() ? self::TEMPLATE_V2 : self::TEMPLATE_V1);
+        }
     }
 
     /**
