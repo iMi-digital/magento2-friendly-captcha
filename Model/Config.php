@@ -138,6 +138,18 @@ class Config
         return EndpointEnum::from($id);
     }
 
+    public function isV2Api(): bool
+    {
+        return in_array(
+            $this->getEndpointEnum(),
+            [
+                EndpointEnum::V2_DEFAULT,
+                EndpointEnum::V2_EU,
+            ],
+            true
+        );
+    }
+
     /**
      * Get Friendly Captcha puzzle endpoint URL based on the configured endpoint.
      * Returns the appropriate puzzle API endpoint URL depending on the endpoint configuration.

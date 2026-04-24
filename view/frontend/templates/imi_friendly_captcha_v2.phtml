@@ -18,11 +18,9 @@ $widgetId = $block->getWidgetId();
      <?php if ($endpoint !== ''): ?>
          data-puzzle-endpoint="<?= $escaper->escapeUrl($endpoint) ?>"
      <?php endif; ?>
-     data-lang="<?= $escaper->escapeHtmlAttr($block->getLang()) ?>"
-     data-callback="captchaSolved_<?= $escaper->escapeHtmlAttr($widgetId) ?>"
 ></div>
 <?php
-$scriptString = <<<SCRIPT
+$scriptString = <<<JS
     'use strict';
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -38,11 +36,20 @@ $scriptString = <<<SCRIPT
 
         setButtonDisabled(true);
 
-        window.captchaSolved_{$widgetId} = function () {
-            setButtonDisabled(false);
-        }
+        document.getElementById('{$widgetId}').addEventListener('frc:widget.statechange', function (event) {
+            const detail = event.detail;
+            if (detail.state === 'completed') { 
+                setButtonDisabled(false);
+            } else if (detail.state === 'error') {
+                console.error(detail.error);
+                // It is best practice to enable your submit button when an error occurs.
+                setButtonDisabled(false);
+            } else {
+              setButtonDisabled(true);
+            }
+          });
     });
-    SCRIPT;
+    JS;
 ?>
 <?= /** noEscape */
 $secureRenderer->renderTag('script', [], $scriptString, false) ?>

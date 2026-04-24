@@ -22,15 +22,13 @@
             <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha"
                    name="imi-friendly-captcha-newsletter"
                    after="-"
-                   template="IMI_FriendlyCaptcha::imi_friendly_captcha.phtml"
                    ifconfig="imi_friendly_captcha/frontend/enabled_newsletter">
                 <action method="setData">
                     <argument name="name" xsi:type="string">widget_id</argument>
                     <argument name="value" xsi:type="string">imi_friendly_captcha_newsletter</argument>
                 </action>
             </block>
-            <block class="Magento\Framework\View\Element\Template"
-                   template="IMI_FriendlyCaptcha::imi_friendly_captcha_js.phtml"
+            <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptchaJs"
                    name="friendly_captcha_js"
                    ifconfig="imi_friendly_captcha/frontend/enabled_newsletter"/>
         </referenceContainer>
