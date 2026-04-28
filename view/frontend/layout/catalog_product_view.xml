@@ -8,7 +8,6 @@
     <body>
         <referenceContainer name="product.review.form.fields.before">
             <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptcha" name="imi_friendly_captcha" after="-"
-                   template="IMI_FriendlyCaptcha::imi_friendly_captcha.phtml"
                    ifconfig="imi_friendly_captcha/frontend/enabled_review">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
@@ -23,7 +22,7 @@
             </block>
         </referenceContainer>
         <referenceContainer name="before.body.end">
-            <block class="Magento\Framework\View\Element\Template" template="IMI_FriendlyCaptcha::imi_friendly_captcha_js.phtml" name="friendly_captcha_js_review" ifconfig="imi_friendly_captcha/frontend/enabled_review"/>
+            <block class="IMI\FriendlyCaptcha\Block\Frontend\FriendlyCaptchaJs" name="friendly_captcha_js_review" ifconfig="imi_friendly_captcha/frontend/enabled_review"/>
         </referenceContainer>
     </body>
 </page>
