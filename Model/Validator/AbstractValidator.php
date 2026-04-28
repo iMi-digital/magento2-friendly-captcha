@@ -18,33 +18,15 @@ use Magento\Framework\Serialize\Serializer\Json;
 abstract class AbstractValidator
 {
     /**
-     * @var Config
-     */
-    protected $config;
-
-    /**
-     * @var CurlFactory
-     */
-    protected $curlFactory;
-
-    /**
-     * @var Json
-     */
-    protected $serializer;
-
-    /**
      * @param Config $config
      * @param CurlFactory $curlFactory
      * @param Json $serializer
      */
     public function __construct(
-        Config $config,
-        CurlFactory $curlFactory,
-        Json $serializer,
+        protected readonly Config $config,
+        protected readonly CurlFactory $curlFactory,
+        protected readonly Json $serializer,
     ) {
-        $this->config = $config;
-        $this->curlFactory = $curlFactory;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -63,4 +45,6 @@ abstract class AbstractValidator
 
         return $curl->getStatus() === 200 && $success === true;
     }
+
+    abstract public function validate(string $friendlyCaptchaSolution): bool;
 }

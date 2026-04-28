@@ -16,7 +16,7 @@ interface ValidateInterface
     /**
      * Return true if friendlyCaptcha validation has passed
      *
-     * @param string $friendlyCaptchaSolution The solution value that the user submitted in the `frc-captcha-solution` field
+     * @param string $friendlyCaptchaSolution The solution value that the user submitted in the `frc-captcha-solution` or `frc-captcha-response` field
      *
      * @return bool
      * @throws InvalidSolutionException

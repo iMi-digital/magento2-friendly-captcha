@@ -173,9 +173,6 @@ class Config
      * Get Friendly Captcha verify endpoint URL based on the configured endpoint. Returns the appropriate siteverify
      * API endpoint URL depending on the endpoint configuration.
      *
-     * Falls back to the default global v1 endpoint if the configured endpoint is not recognized.
-     * @see https://developer.friendlycaptcha.com/docs/v2/getting-started/verify
-     *
      * @return string
      */
     public function getVerifyEndpoint(): string

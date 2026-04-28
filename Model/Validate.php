@@ -93,11 +93,7 @@ class Validate implements ValidateInterface
         }
 
         try {
-            $result = $validator->validate($friendlyCaptchaSolution);
-            if ($result === true) {
-                return true;
-            }
-
+            return $validator->validate($friendlyCaptchaSolution);
         } catch (InvalidSolutionException $e) {
             $this->logger->error($e->getMessage(), ['response' => var_export($e->getResponse(), true)]);
         } catch (\Exception $e) {
