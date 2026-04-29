@@ -43,13 +43,25 @@ abstract class AbstractValidator
     protected function isSuccessResponse(Curl $curl, array $response): bool
     {
         $status = $curl->getStatus(); 
-        if ($status !== 200) {
-            throw new RuntimeException('Friendly Captcha API returned non-200 status code: ' . $status);
+        if (!$this->shouldUseResponse($status, $response)) {
+            throw new RuntimeException('Friendly Captcha returned and error which we should not use: ' 
+                . 'Status=' . $status 
+                . 'Response=' . var_export($response, true));
         }
         
         $success = $response['success'] ?? false;
 
         return $success === true;
+    }
+
+    protected function shouldUseResponse($status, $response): bool
+    {
+        $isResponseOk = $status === 200;
+        $isSolutionMissingOrBadRequest = $status === 400
+            && isset($response['success'], $response['errors'])
+            && array_intersect($response['errors'], ['solution_missing', 'bad_request']);
+
+        return $isResponseOk || $isSolutionMissingOrBadRequest;
     }
 
     abstract public function validate(string $friendlyCaptchaSolution): bool;

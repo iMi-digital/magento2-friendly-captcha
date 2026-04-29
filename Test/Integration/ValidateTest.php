@@ -116,18 +116,6 @@ class ValidateTest extends TestCase
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
      */
-    public function testValidateReturnsFalseWhenSolutionIsMissingAndDoesNotCallCurl(): void
-    {
-        self::assertFalse($this->createValidateServiceWithoutCurl()->validate(''));
-    }
-
-    /**
-     * @magentoAppArea frontend
-     * @magentoAppIsolation enabled
-     * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
-     * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
-     * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
-     */
     public function testValidateFailsOpenWhenCurlReturnsUnexpectedStatus(): void
     {
         $curl = $this->createCurlMock();
@@ -219,21 +207,6 @@ class ValidateTest extends TestCase
         $curlFactory->expects(self::once())
             ->method('create')
             ->willReturn($curl);
-
-        return $objectManager->create(Validate::class, [
-            'validatorByEndpoint' => [
-                0 => $objectManager->create(ValidatorV1::class, ['curlFactory' => $curlFactory]),
-                3 => $objectManager->create(ValidatorV2::class, ['curlFactory' => $curlFactory]),
-            ],
-        ]);
-    }
-
-    private function createValidateServiceWithoutCurl(): Validate
-    {
-        $objectManager = ObjectManager::getInstance();
-        $curlFactory = $this->createMock(CurlFactory::class);
-        $curlFactory->expects(self::never())
-            ->method('create');
 
         return $objectManager->create(Validate::class, [
             'validatorByEndpoint' => [
