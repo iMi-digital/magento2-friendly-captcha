@@ -6,9 +6,9 @@
 
 namespace IMI\FriendlyCaptcha\Plugin\Block\Account;
 
-use Magento\Customer\Block\Account\AuthenticationPopup;
 use IMI\FriendlyCaptcha\Model\Config;
 use IMI\FriendlyCaptcha\Model\LayoutSettings;
+use Magento\Customer\Block\Account\AuthenticationPopup;
 use Magento\Framework\Serialize\Serializer\Json;
 
 class AuthenticationPopupPlugin

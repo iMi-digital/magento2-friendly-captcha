@@ -27,8 +27,10 @@ class ContactUsPlugin
      * @param mixed $context
      * @param array<mixed>|null $value
      * @param array<mixed>|null $args
-     * @return array<string, bool>
+     *
      * @throws GraphQlInputException
+     *
+     * @return array<string, bool>
      */
     public function aroundResolve(
         ContactUs $subject,

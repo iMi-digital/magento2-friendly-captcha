@@ -6,12 +6,12 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Failure;
 
-use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\Response\Http;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\Json\EncoderInterface;
 use IMI\FriendlyCaptcha\Model\Config;
 use IMI\FriendlyCaptcha\Model\Provider\FailureProviderInterface;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
+use Magento\Framework\App\Response\Http;
+use Magento\Framework\Json\EncoderInterface;
 
 class AjaxResponseFailure implements FailureProviderInterface
 {
@@ -32,6 +32,7 @@ class AjaxResponseFailure implements FailureProviderInterface
 
     /**
      * AjaxResponseFailure constructor.
+     *
      * @param ActionFlag $actionFlag
      * @param EncoderInterface $encoder
      * @param Config $config
@@ -48,7 +49,9 @@ class AjaxResponseFailure implements FailureProviderInterface
 
     /**
      * Handle friendlyCaptcha failure
+     *
      * @param Http $response
+     *
      * @return void
      */
     public function execute(Http $response)

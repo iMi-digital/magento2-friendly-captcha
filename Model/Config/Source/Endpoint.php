@@ -1,10 +1,13 @@
 <?php
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
 
 namespace IMI\FriendlyCaptcha\Model\Config\Source;
 
 use IMI\FriendlyCaptcha\Enum\EndpointEnum;
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\Phrase;
 
 class Endpoint implements OptionSourceInterface
 {
@@ -17,7 +20,7 @@ class Endpoint implements OptionSourceInterface
         foreach (EndpointEnum::cases() as $key => $value) {
             $options[] = [
                 'value' => $key,
-                'label' => $value->getLabel()
+                'label' => $value->getLabel(),
             ];
         }
 

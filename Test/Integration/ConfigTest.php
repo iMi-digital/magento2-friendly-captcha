@@ -1,4 +1,9 @@
 <?php
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
+
 declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Test\Integration;
@@ -11,7 +16,9 @@ class ConfigTest extends TestCase
 {
     /**
      * @magentoAppArea frontend
+     *
      * @magentoAppIsolation enabled
+     *
      * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      */

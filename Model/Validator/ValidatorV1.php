@@ -9,9 +9,6 @@ namespace IMI\FriendlyCaptcha\Model\Validator;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
 use IMI\FriendlyCaptcha\Model\Exception\InvalidSolutionException;
 use Magento\Framework\HTTP\Client\Curl;
-use Magento\Framework\HTTP\Client\CurlFactory;
-use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\Webapi\Response;
 
 /**
  * Validator implementation for Friendly Captcha v1 API.

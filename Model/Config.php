@@ -80,7 +80,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_LOGIN,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -97,7 +97,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -110,7 +110,7 @@ class Config
      */
     public function getSitekey(): string
     {
-        return trim((string)$this->scopeConfig->getValue(
+        return trim((string) $this->scopeConfig->getValue(
             static::CONFIG_PATH_SITEKEY,
             ScopeInterface::SCOPE_WEBSITE
         ));
@@ -123,7 +123,7 @@ class Config
      */
     public function getApikey(): string
     {
-        return trim((string)$this->scopeConfig->getValue(
+        return trim((string) $this->scopeConfig->getValue(
             static::CONFIG_PATH_APIEKEY,
             ScopeInterface::SCOPE_WEBSITE
         ));
@@ -135,6 +135,7 @@ class Config
     public function getEndpointEnum(): EndpointEnum
     {
         $id = (int) $this->scopeConfig->getValue(static::CONFIG_PATH_ENDPOINT, ScopeInterface::SCOPE_WEBSITE);
+
         return EndpointEnum::from($id);
     }
 
@@ -216,7 +217,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_CONTACT,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -229,7 +230,7 @@ class Config
      */
     public function isGraphQlContactUsMutationDisabled(): bool
     {
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_DISABLE_GRAPHQL_CONTACT_US_MUTATION,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -246,7 +247,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_CREATE,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -263,7 +264,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_REVIEW,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -280,7 +281,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_NEWSLETTER,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -297,7 +298,7 @@ class Config
             return false;
         }
 
-        return (bool)$this->scopeConfig->getValue(
+        return (bool) $this->scopeConfig->getValue(
             static::CONFIG_PATH_ENABLED_FRONTEND_SENDFRIEND,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -315,6 +316,6 @@ class Config
             return [];
         }
 
-        return array_map('trim', explode(',', (string)$config));
+        return array_map('trim', explode(',', (string) $config));
     }
 }

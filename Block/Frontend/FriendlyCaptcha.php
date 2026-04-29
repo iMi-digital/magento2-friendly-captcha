@@ -6,11 +6,11 @@
 
 namespace IMI\FriendlyCaptcha\Block\Frontend;
 
+use IMI\FriendlyCaptcha\Model\Config;
+use IMI\FriendlyCaptcha\Model\LayoutSettings;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\View\Element\Template;
-use IMI\FriendlyCaptcha\Model\Config;
-use IMI\FriendlyCaptcha\Model\LayoutSettings;
 use Zend\Json\Json;
 
 class FriendlyCaptcha extends Template

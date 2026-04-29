@@ -8,10 +8,12 @@ declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Model;
 
+use Exception;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
 use IMI\FriendlyCaptcha\Model\Exception\InvalidSolutionException;
-use Psr\Log\LoggerInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Psr\Log\LoggerInterface;
+use RuntimeException;
 
 /**
  * Friendly Captcha validation service
@@ -38,6 +40,7 @@ class Validate implements ValidateInterface
     /**
      * Map of endpoint identifiers to validator implementations.
      * Key is the endpoint constant, value is the validator instance.
+     *
      * @var array<int, ValidateInterface>
      */
     private $validatorByEndpoint;
@@ -74,7 +77,7 @@ class Validate implements ValidateInterface
     {
         $ips = $this->config->getTrustedIps();
         $clientIp = $this->remoteAddress->getRemoteAddress();
-        if ($ips !== [] && in_array((string)$clientIp, $ips, true)) {
+        if ($ips !== [] && in_array((string) $clientIp, $ips, true)) {
             return true;
         }
 
@@ -85,7 +88,7 @@ class Validate implements ValidateInterface
         }
 
         if (!$validator instanceof ValidateInterface) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Validator for endpoint %s is not an instance of %s',
                 $endpoint->value,
                 ValidateInterface::class
@@ -96,7 +99,7 @@ class Validate implements ValidateInterface
             return $validator->validate($friendlyCaptchaSolution);
         } catch (InvalidSolutionException $e) {
             $this->logger->error($e->getMessage(), ['response' => var_export($e->getResponse(), true)]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->critical($e->getMessage(), ['exception' => $e]);
         }
 

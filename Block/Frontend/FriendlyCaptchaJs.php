@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Block\Frontend;
 
+use IMI\FriendlyCaptcha\Model\Config;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\View\Element\Template;
-use IMI\FriendlyCaptcha\Model\Config;
 
 class FriendlyCaptchaJs extends Template
 {

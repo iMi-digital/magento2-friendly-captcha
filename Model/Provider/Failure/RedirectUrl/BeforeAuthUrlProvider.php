@@ -6,9 +6,9 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl;
 
+use IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrlProviderInterface;
 use Magento\Customer\Model\Url;
 use Magento\Framework\Session\SessionManagerInterface;
-use IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrlProviderInterface;
 
 class BeforeAuthUrlProvider implements RedirectUrlProviderInterface
 {
@@ -24,6 +24,7 @@ class BeforeAuthUrlProvider implements RedirectUrlProviderInterface
 
     /**
      * BeforeAuthUrlProvider constructor.
+     *
      * @param SessionManagerInterface $sessionManager
      * @param Url $url
      */
@@ -37,11 +38,13 @@ class BeforeAuthUrlProvider implements RedirectUrlProviderInterface
 
     /**
      * Get redirection URL
+     *
      * @return string
      */
     public function execute()
     {
         $beforeUrl = $this->sessionManager->getBeforeAuthUrl();
+
         return $beforeUrl ?: $this->url->getLoginUrl();
     }
 }

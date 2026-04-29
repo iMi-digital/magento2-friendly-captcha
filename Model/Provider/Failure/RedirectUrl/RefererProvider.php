@@ -15,9 +15,10 @@ class RefererProvider implements RedirectUrlProviderInterface
      * @var RedirectInterface
      */
     private $redirect;
-    
+
     /**
      * RefererProvider constructor.
+     *
      * @param RedirectInterface $redirect
      */
     public function __construct(
@@ -28,6 +29,7 @@ class RefererProvider implements RedirectUrlProviderInterface
 
     /**
      * Get redirection URL
+     *
      * @return string
      */
     public function execute()

@@ -8,8 +8,8 @@ namespace IMI\FriendlyCaptcha\Model\Resolver\StoreConfig;
 
 use IMI\FriendlyCaptcha\Model\Config;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 class CaptchaEnabled implements ResolverInterface
 {

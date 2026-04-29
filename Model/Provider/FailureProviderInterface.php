@@ -7,7 +7,6 @@
 namespace IMI\FriendlyCaptcha\Model\Provider;
 
 use Magento\Framework\App\Response\Http;
-use Magento\Framework\App\ResponseInterface;
 
 interface FailureProviderInterface
 {

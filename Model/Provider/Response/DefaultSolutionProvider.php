@@ -6,9 +6,9 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Response;
 
-use Magento\Framework\App\RequestInterface;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
 use IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface;
+use Magento\Framework\App\RequestInterface;
 
 class DefaultSolutionProvider implements SolutionProviderInterface
 {

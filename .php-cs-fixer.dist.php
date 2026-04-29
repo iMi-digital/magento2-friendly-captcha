@@ -34,7 +34,7 @@ return (new PhpCsFixer\Config())
             'separate'     => 'bottom',
         ],
         'binary_operator_spaces'                 => ['default' => 'single_space'],
-        'blank_line_after_opening_tag'           => true,
+        'blank_line_after_opening_tag'           => false,
         'blank_line_before_statement'            => ['statements' => ['return', 'throw', 'try']],
         'cast_spaces'                            => ['space' => 'single'],
         'concat_space'                           => ['spacing' => 'one'],

@@ -1,4 +1,8 @@
 <?php
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
 
 namespace IMI\FriendlyCaptcha\Enum;
 
@@ -9,7 +13,7 @@ use Magento\Framework\Phrase;
  *
  * Defines the available Friendly Captcha API endpoints that can be configured.
  * Supports both v1 and v2 API versions across different regions.
- * 
+ *
  * Fallback is V1 - Default.
  */
 enum EndpointEnum: int

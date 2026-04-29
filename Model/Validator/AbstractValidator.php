@@ -1,4 +1,8 @@
 <?php
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
 
 namespace IMI\FriendlyCaptcha\Model\Validator;
 
@@ -37,6 +41,7 @@ abstract class AbstractValidator
      *
      * @param Curl $curl
      * @param array $response
+     *
      * @return bool True if the captcha solution was accepted, false otherwise
      */
     protected function isSuccessResponse(Curl $curl, array $response): bool
