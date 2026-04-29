@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  phpstan:
+  phpstan81:
     name: M2 PHPStan
     runs-on: ubuntu-22.04
     steps:
@@ -14,3 +14,28 @@ jobs:
       - uses: extdn/github-actions-m2/magento-phpstan/8.1@master
         with:
           composer_name: imi/magento2-friendly-captcha
+  phpstan82:
+    name: M2 PHPStan
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extdn/github-actions-m2/magento-phpstan/8.2@master
+        with:
+          composer_name: imi/magento2-friendly-captcha
+  phpstan83:
+    name: M2 PHPStan
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extdn/github-actions-m2/magento-phpstan/8.3@master
+        with:
+          composer_name: imi/magento2-friendly-captcha
+  phpstan84:
+    name: M2 PHPStan
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extdn/github-actions-m2/magento-phpstan/8.4@master
+        with:
+          composer_name: imi/magento2-friendly-captcha
+          
