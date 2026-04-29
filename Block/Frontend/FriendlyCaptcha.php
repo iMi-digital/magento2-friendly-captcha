@@ -8,10 +8,10 @@ namespace IMI\FriendlyCaptcha\Block\Frontend;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Locale\ResolverInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
 use IMI\FriendlyCaptcha\Model\Config;
 use IMI\FriendlyCaptcha\Model\LayoutSettings;
-use Zend\Json\Json;
 
 class FriendlyCaptcha extends Template
 {
@@ -34,23 +34,31 @@ class FriendlyCaptcha extends Template
     private $localeResolver;
 
     /**
+     * @var Json
+     */
+    private $serializer;
+
+    /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
      * @param ResolverInterface $localeResolver
      * @param array $data
      * @param Config|null $config
+     * @param Json|null $serializer
      */
     public function __construct(
         Template\Context $context,
         LayoutSettings $layoutSettings,
         ResolverInterface $localeResolver,
         array $data = [],
-        ?Config $config = null
+        ?Config $config = null,
+        ?Json $serializer = null
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
         $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
         $this->localeResolver = $localeResolver;
+        $this->serializer = $serializer ?: ObjectManager::getInstance()->get(Json::class);
 
         if (!$this->getTemplate()) {
             $this->setTemplate($this->config->isV2Api() ? self::TEMPLATE_V2 : self::TEMPLATE_V1);
@@ -89,7 +97,7 @@ class FriendlyCaptcha extends Template
      */
     public function getJsLayout()
     {
-        $layout = Json::decode(parent::getJsLayout(), Json::TYPE_ARRAY);
+        $layout = $this->serializer->unserialize(parent::getJsLayout());
 
         if ($this->config->isEnabledFrontend()) {
             // Backward compatibility with fixed scope name
@@ -110,7 +118,7 @@ class FriendlyCaptcha extends Template
             $layout['components'][$this->getWidgetId()]['friendlyCaptchaId'] = $this->getWidgetId();
         }
 
-        return Json::encode($layout);
+        return $this->serializer->serialize($layout);
     }
 
     /**
