@@ -2,3 +2,5 @@
 bin/act
 .php-cs-fixer.cache
 .php-cs-fixer.php
+/vendor/
+composer.lock
