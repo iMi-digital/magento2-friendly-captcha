@@ -10,6 +10,12 @@
         "magento/module-checkout": "^100.3.0",
         "magento/module-newsletter": "^100.3.0"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
     "authors": [
         {
             "name": "Daniel Galla",
@@ -24,6 +30,11 @@
         ],
         "psr-4": {
             "IMI\\FriendlyCaptcha\\": ""
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "magento/composer-dependency-version-audit-plugin": true
         }
     }
 }
