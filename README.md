@@ -78,7 +78,12 @@ The frontend widget and JS include templates are selected in the block classes b
 
 Custom templates set explicitly in layout XML still take precedence.
 
-### Run Github Actions locally
+### Pull Requests: Rebase Instead of Merging Back
+
+When making a pull request, please allow "edits from maintainers".
+Never merge master back into your branch, rebase instead.
+
+### Run Github Actions Locally
 
 We use [act](https://nektosact.com/installation/index.html) to run actions locally.
 
@@ -88,6 +93,7 @@ We use [act](https://nektosact.com/installation/index.html) to run actions local
 ### Updating the vendor code
 
 #### v1
+
 ```bash
 # v1
 cd view/frontend/web/js/vendor
@@ -99,7 +105,8 @@ mv package friendly-challenge
 ```
 
 #### v2
-```bash`
+
+```bash
 cd view/frontend/web/js/vendor
 rm -r friendlycaptcha-sdk
 npm pack @friendlycaptcha/sdk
