@@ -7,7 +7,7 @@ on:
 
 jobs:
   phpstan81:
-    name: M2 PHPStan
+    name: M2 PHPStan (PHP 8.1) 
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
@@ -15,7 +15,7 @@ jobs:
         with:
           composer_name: imi/magento2-friendly-captcha
   phpstan82:
-    name: M2 PHPStan
+    name: M2 PHPStan (PHP 8.2) 
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
@@ -23,7 +23,7 @@ jobs:
         with:
           composer_name: imi/magento2-friendly-captcha
   phpstan83:
-    name: M2 PHPStan
+    name: M2 PHPStan (PHP 8.3)
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
@@ -31,7 +31,7 @@ jobs:
         with:
           composer_name: imi/magento2-friendly-captcha
   phpstan84:
-    name: M2 PHPStan
+    name: M2 PHPStan (PHP 8.4)
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
