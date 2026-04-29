@@ -2,6 +2,7 @@
 
 namespace IMI\FriendlyCaptcha\Model\Validator;
 
+use RuntimeException;
 use IMI\FriendlyCaptcha\Model\Config;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
@@ -41,9 +42,14 @@ abstract class AbstractValidator
      */
     protected function isSuccessResponse(Curl $curl, array $response): bool
     {
+        $status = $curl->getStatus(); 
+        if ($status !== 200) {
+            throw new RuntimeException('Friendly Captcha API returned non-200 status code: ' . $status);
+        }
+        
         $success = $response['success'] ?? false;
 
-        return $curl->getStatus() === 200 && $success === true;
+        return $success === true;
     }
 
     abstract public function validate(string $friendlyCaptchaSolution): bool;

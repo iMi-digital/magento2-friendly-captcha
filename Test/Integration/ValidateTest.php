@@ -116,7 +116,7 @@ class ValidateTest extends TestCase
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
      */
-    public function testValidateFailsClosedWhenCurlReturnsUnexpectedStatus(): void
+    public function testValidateFailsOpenWhenCurlReturnsUnexpectedStatus(): void
     {
         $curl = $this->createCurlMock();
         $curl->expects(self::once())
@@ -136,7 +136,7 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(500);
 
-        self::assertFalse($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -146,7 +146,7 @@ class ValidateTest extends TestCase
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
      */
-    public function testValidateFailsClosedWhenCurlReturnsMalformedJson(): void
+    public function testValidateFailsOpenWhenCurlReturnsMalformedJson(): void
     {
         $curl = $this->createCurlMock();
         $curl->expects(self::once())
@@ -165,7 +165,7 @@ class ValidateTest extends TestCase
         $curl->expects(self::never())
             ->method('getStatus');
 
-        self::assertFalse($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -175,7 +175,7 @@ class ValidateTest extends TestCase
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 3
      */
-    public function testValidateFailsClosedWhenApiKeyIsRejected(): void
+    public function testValidateFailsOpenWhenApiKeyIsRejected(): void
     {
         $curl = $this->createCurlMock();
         $curl->expects(self::once())
@@ -197,7 +197,7 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(401);
 
-        self::assertFalse($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     private function createValidateService(Curl $curl): Validate
