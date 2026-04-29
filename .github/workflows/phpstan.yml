@@ -1,0 +1,16 @@
+name: ExtDN M2 PHPStan
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  phpstan:
+    name: M2 PHPStan
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extdn/github-actions-m2/magento-phpstan/8.1@master
+        with:
+          composer_name: imi/magento2-friendly-captcha
