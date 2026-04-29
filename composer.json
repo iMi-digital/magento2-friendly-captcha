@@ -5,6 +5,7 @@
         "php": ">=8.1",
         "ext-intl": ">=1.0.0",
         "magento/framework": "^103.0.0",
+        "magento/module-contact": "^100.4.0",
         "magento/module-customer": "^102.0.0|^103.0.0",
         "magento/module-checkout": "^100.3.0",
         "magento/module-newsletter": "^100.3.0"
