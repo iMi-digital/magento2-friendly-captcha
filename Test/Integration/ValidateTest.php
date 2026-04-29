@@ -86,7 +86,7 @@ class ValidateTest extends TestCase
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
      */
-    public function testValidateReturnsFalseWhenValidatorRejectsSolution(): void
+    public function testValidateReturnsTrueWhenValidatorReturnsBadRequest(): void
     {
         $curl = $this->createCurlMock();
         $curl->expects(self::once())
@@ -101,12 +101,24 @@ class ValidateTest extends TestCase
             );
         $curl->expects(self::once())
             ->method('getBody')
-            ->willReturn('{"success":false,"errors":["bad-request"]}');
+            ->willReturn('{"errors":["bad_request"]}');
         $curl->expects(self::once())
             ->method('getStatus')
-            ->willReturn(200);
+            ->willReturn(400);
 
-        self::assertFalse($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
+     */
+    public function testValidateReturnsFalseWhenSolutionIsMissingAndDoesNotCallCurl(): void
+    {
+        self::assertFalse($this->createValidateServiceWithoutCurl()->validate(''));
     }
 
     /**
@@ -192,7 +204,7 @@ class ValidateTest extends TestCase
             );
         $curl->expects(self::once())
             ->method('getBody')
-            ->willReturn('{"success":false,"errors":["auth_invalid"]}');
+            ->willReturn('{"success":false,"errors":["secret_invalid"]}');
         $curl->expects(self::once())
             ->method('getStatus')
             ->willReturn(401);
@@ -207,6 +219,21 @@ class ValidateTest extends TestCase
         $curlFactory->expects(self::once())
             ->method('create')
             ->willReturn($curl);
+
+        return $objectManager->create(Validate::class, [
+            'validatorByEndpoint' => [
+                0 => $objectManager->create(ValidatorV1::class, ['curlFactory' => $curlFactory]),
+                3 => $objectManager->create(ValidatorV2::class, ['curlFactory' => $curlFactory]),
+            ],
+        ]);
+    }
+
+    private function createValidateServiceWithoutCurl(): Validate
+    {
+        $objectManager = ObjectManager::getInstance();
+        $curlFactory = $this->createMock(CurlFactory::class);
+        $curlFactory->expects(self::never())
+            ->method('create');
 
         return $objectManager->create(Validate::class, [
             'validatorByEndpoint' => [

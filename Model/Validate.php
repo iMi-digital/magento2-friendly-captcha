@@ -78,6 +78,11 @@ class Validate implements ValidateInterface
             return true;
         }
 
+        if (empty($friendlyCaptchaSolution)) {
+            $this->logger->error('Empty Friendly Captcha solution');
+            return false;
+        }
+        
         $endpoint = $this->config->getEndpointEnum();
         $validator = $this->validatorByEndpoint[$endpoint->value] ?? null;
         if ($validator === null) {
