@@ -10,10 +10,13 @@
         "magento/module-checkout": "^100.3.0",
         "magento/module-newsletter": "^100.3.0"
     },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95"
+    },
     "repositories": [
         {
             "type": "composer",
-            "url": "https://repo.magento.com/"
+            "url": "https://repo-magento-mirror.fooman.co.nz/"
         }
     ],
     "authors": [
@@ -36,5 +39,9 @@
         "allow-plugins": {
             "magento/composer-dependency-version-audit-plugin": true
         }
+    },
+    "scripts": {
+        "phpcsfixer:check": "php-cs-fixer fix --dry-run --diff",
+        "phpcsfixer:fix": "php-cs-fixer fix"
     }
 }

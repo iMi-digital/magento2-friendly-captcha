@@ -1,4 +1,10 @@
 <?php
+
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
+
 declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Test\Integration;
@@ -18,7 +24,9 @@ class ContactFormProtectionTest extends AbstractController
 
     /**
      * @magentoAppArea frontend
+     *
      * @magentoAppIsolation enabled
+     *
      * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/frontend/enabled 1
@@ -59,7 +67,9 @@ class ContactFormProtectionTest extends AbstractController
 
     /**
      * @magentoAppArea frontend
+     *
      * @magentoAppIsolation enabled
+     *
      * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/frontend/enabled 1
@@ -101,7 +111,9 @@ class ContactFormProtectionTest extends AbstractController
 
     /**
      * @magentoAppArea frontend
+     *
      * @magentoAppIsolation enabled
+     *
      * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/frontend/enabled 1
@@ -153,6 +165,6 @@ class ContactFormProtectionTest extends AbstractController
     {
         $locationHeader = $response->getHeader('Location');
 
-        return (string)$locationHeader;
+        return (string) $locationHeader;
     }
 }

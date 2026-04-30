@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,8 +7,8 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrl;
 
-use Magento\Framework\UrlInterface;
 use IMI\FriendlyCaptcha\Model\Provider\Failure\RedirectUrlProviderInterface;
+use Magento\Framework\UrlInterface;
 
 class SimpleUrlProvider implements RedirectUrlProviderInterface
 {
@@ -28,6 +29,7 @@ class SimpleUrlProvider implements RedirectUrlProviderInterface
 
     /**
      * SimpleUrlProvider constructor.
+     *
      * @param UrlInterface $url
      * @param $urlPath
      * @param null $urlParams
@@ -44,6 +46,7 @@ class SimpleUrlProvider implements RedirectUrlProviderInterface
 
     /**
      * Get redirection URL
+     *
      * @return string
      */
     public function execute()

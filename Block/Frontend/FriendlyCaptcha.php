@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,12 +7,12 @@
 
 namespace IMI\FriendlyCaptcha\Block\Frontend;
 
+use IMI\FriendlyCaptcha\Model\Config;
+use IMI\FriendlyCaptcha\Model\LayoutSettings;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
-use IMI\FriendlyCaptcha\Model\Config;
-use IMI\FriendlyCaptcha\Model\LayoutSettings;
 
 class FriendlyCaptcha extends Template
 {

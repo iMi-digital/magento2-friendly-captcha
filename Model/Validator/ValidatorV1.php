@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -9,9 +10,6 @@ namespace IMI\FriendlyCaptcha\Model\Validator;
 use IMI\FriendlyCaptcha\Api\ValidateInterface;
 use IMI\FriendlyCaptcha\Model\Exception\InvalidSolutionException;
 use Magento\Framework\HTTP\Client\Curl;
-use Magento\Framework\HTTP\Client\CurlFactory;
-use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\Webapi\Response;
 
 /**
  * Validator implementation for Friendly Captcha v1 API.
@@ -31,7 +29,7 @@ class ValidatorV1 extends AbstractValidator implements ValidateInterface
         $curl->setHeaders([
             'User-Agent' => $this->getUserAgent(),
         ]);
-        
+
         $curl->post($this->config->getVerifyEndpoint(), [
             'solution' => $friendlyCaptchaSolution,
             'secret' => $this->config->getApikey(),

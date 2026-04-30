@@ -39,6 +39,15 @@ We use [act](https://nektosact.com/installation/index.html) to run actions local
 1. Follow the installation https://nektosact.com/installation/index.html#bash-script
 2. Execute `bin/act`
 
+## Run CS Fixer
+
+With php8.1 run
+
+```bash
+composer install
+composer run phpcsfixer:fix
+```
+
 ## Updating the vendor code
 
 ### v1

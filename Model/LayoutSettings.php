@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -41,7 +42,7 @@ class LayoutSettings
                 'review' => $this->config->isEnabledFrontendReview(),
                 'newsletter' => $this->config->isEnabledFrontendNewsletter(),
                 'sendfriend' => $this->config->isEnabledFrontendSendFriend(),
-            ]
+            ],
         ];
     }
 }

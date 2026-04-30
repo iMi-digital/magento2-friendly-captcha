@@ -1,14 +1,19 @@
 <?php
 
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
+
 namespace IMI\FriendlyCaptcha\Model\Validator;
 
-use RuntimeException;
 use Composer\InstalledVersions;
 use IMI\FriendlyCaptcha\Model\Config;
 use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
 use Magento\Framework\Serialize\Serializer\Json;
+use RuntimeException;
 
 /**
  * Base class for Friendly Captcha solution validators.
@@ -41,24 +46,25 @@ abstract class AbstractValidator
      *
      * @param Curl $curl
      * @param array $response
+     *
      * @return bool True if the captcha solution was accepted, false otherwise
      */
     protected function isSuccessResponse(Curl $curl, array $response): bool
     {
-        $status = $curl->getStatus(); 
+        $status = $curl->getStatus();
         if (!$this->shouldUseResponse($status, $response)) {
-            throw new RuntimeException('Friendly Captcha returned and error which we should not use: ' 
-                . 'Status=' . $status 
+            throw new RuntimeException('Friendly Captcha returned and error which we should not use: '
+                . 'Status=' . $status
                 . 'Response=' . var_export($response, true));
         }
-        
+
         $success = $response['success'] ?? false;
 
         return $success === true;
     }
 
     abstract protected function shouldUseResponse($status, $response): bool;
-    
+
     protected function getUserAgent(): string
     {
         return sprintf(

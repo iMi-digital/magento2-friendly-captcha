@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,10 +7,10 @@
 
 namespace IMI\FriendlyCaptcha\Block\LayoutProcessor\Checkout;
 
-use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\Framework\App\ObjectManager;
 use IMI\FriendlyCaptcha\Model\Config;
 use IMI\FriendlyCaptcha\Model\LayoutSettings;
+use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
+use Magento\Framework\App\ObjectManager;
 
 class Onepage implements LayoutProcessorInterface
 {
@@ -41,6 +42,7 @@ class Onepage implements LayoutProcessorInterface
      * Process js Layout of block
      *
      * @param array $jsLayout
+     *
      * @return array
      */
     public function process($jsLayout)
