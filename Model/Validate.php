@@ -98,6 +98,7 @@ class Validate implements ValidateInterface
             $this->logger->error($e->getMessage(), ['response' => var_export($e->getResponse(), true)]);
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage(), ['exception' => $e]);
+            return true; // fail open, see #50
         }
 
         return false;

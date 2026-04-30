@@ -14,6 +14,7 @@ use Magento\TestFramework\TestCase\AbstractController;
 class ContactFormProtectionTest extends AbstractController
 {
     private const CAPTCHA_SOLUTION = 'valid-captcha-solution';
+    private const INVALID_CAPTCHA_SOLUTION = 'invalid-captcha-solution';
 
     /**
      * @magentoAppArea frontend
@@ -47,6 +48,48 @@ class ContactFormProtectionTest extends AbstractController
             'email' => 'integration@example.com',
             'telephone' => '0123456789',
             'comment' => 'This request should be stopped before the Magento contact controller sends email.',
+        ]);
+
+        $this->dispatch('contact/index/post');
+
+        $response = $this->getResponse();
+        self::assertTrue($response->isRedirect(), 'Contact form submission should redirect after captcha failure.');
+        self::assertStringContainsString('contact/index', $this->getRedirectLocation($response));
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/frontend/enabled 1
+     * @magentoConfigFixture base_website imi_friendly_captcha/frontend/enabled_contact 1
+     */
+    public function testContactFormPostWithInvalidCaptchaSolutionIsRejectedAndDoesNotSendMail(): void
+    {
+        $validator = $this->createMock(ValidateInterface::class);
+        $validator->expects(self::once())
+            ->method('validate')
+            ->with(self::INVALID_CAPTCHA_SOLUTION)
+            ->willReturn(false);
+
+        $mail = $this->createMock(MailInterface::class);
+        $mail->expects(self::never())
+            ->method('send');
+
+        $objectManager = ObjectManager::getInstance();
+        $objectManager->addSharedInstance($validator, ValidateInterface::class);
+        $objectManager->addSharedInstance($validator, Validate::class);
+        $objectManager->addSharedInstance($mail, MailInterface::class);
+        $objectManager->addSharedInstance($mail, Mail::class);
+
+        $this->getRequest()->setMethod('POST');
+        $this->getRequest()->setPostValue([
+            'name' => 'Integration Test',
+            'email' => 'integration@example.com',
+            'telephone' => '0123456789',
+            'comment' => 'This request should not send an email.',
+            ValidateInterface::PARAM_FRIENDLY_CAPTCHA_SOLUTION => self::INVALID_CAPTCHA_SOLUTION,
         ]);
 
         $this->dispatch('contact/index/post');

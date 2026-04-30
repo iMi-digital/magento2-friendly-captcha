@@ -2,6 +2,7 @@
 
 namespace IMI\FriendlyCaptcha\Model\Validator;
 
+use RuntimeException;
 use IMI\FriendlyCaptcha\Model\Config;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
@@ -41,10 +42,19 @@ abstract class AbstractValidator
      */
     protected function isSuccessResponse(Curl $curl, array $response): bool
     {
+        $status = $curl->getStatus(); 
+        if (!$this->shouldUseResponse($status, $response)) {
+            throw new RuntimeException('Friendly Captcha returned and error which we should not use: ' 
+                . 'Status=' . $status 
+                . 'Response=' . var_export($response, true));
+        }
+        
         $success = $response['success'] ?? false;
 
-        return $curl->getStatus() === 200 && $success === true;
+        return $success === true;
     }
 
+    abstract protected function shouldUseResponse($status, $response): bool;
+    
     abstract public function validate(string $friendlyCaptchaSolution): bool;
 }
