@@ -292,6 +292,10 @@ class ValidateTest extends TestCase
     private function assertV2Headers(array $headers): bool
     {
         self::assertSame(self::API_KEY, $headers['X-API-Key'] ?? null);
+        self::assertArrayHasKey('User-Agent', $headers);
+        // Do not require a tagged version  for the module, it would fail in CI with dev-
+        self::assertStringMatchesFormat('FriendlyCaptchaMagentoModule/%s Magento/2.%d.%d%s', $headers['User-Agent']);
+        self::assertStringNotContainsString('/unknown', $headers['User-Agent']);
 
         return true;
     }

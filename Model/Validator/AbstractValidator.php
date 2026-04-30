@@ -3,7 +3,9 @@
 namespace IMI\FriendlyCaptcha\Model\Validator;
 
 use RuntimeException;
+use Composer\InstalledVersions;
 use IMI\FriendlyCaptcha\Model\Config;
+use Magento\Framework\App\ProductMetadataInterface;
 use Magento\Framework\HTTP\Client\Curl;
 use Magento\Framework\HTTP\Client\CurlFactory;
 use Magento\Framework\Serialize\Serializer\Json;
@@ -27,6 +29,7 @@ abstract class AbstractValidator
         protected readonly Config $config,
         protected readonly CurlFactory $curlFactory,
         protected readonly Json $serializer,
+        protected readonly ProductMetadataInterface $productMetadata,
     ) {
     }
 
@@ -56,5 +59,26 @@ abstract class AbstractValidator
 
     abstract protected function shouldUseResponse($status, $response): bool;
     
+    protected function getUserAgent(): string
+    {
+        return sprintf(
+            'FriendlyCaptchaMagentoModule/%s Magento/%s',
+            $this->getModuleVersion(),
+            $this->productMetadata->getVersion()
+        );
+    }
+
+    private function getModuleVersion(): string
+    {
+        if (
+            class_exists(InstalledVersions::class)
+            && InstalledVersions::isInstalled('imi/magento2-friendly-captcha')
+        ) {
+            return InstalledVersions::getPrettyVersion('imi/magento2-friendly-captcha') ?? 'unknown';
+        }
+
+        return 'unknown';
+    }
+
     abstract public function validate(string $friendlyCaptchaSolution): bool;
 }
