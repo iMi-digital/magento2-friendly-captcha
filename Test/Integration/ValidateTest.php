@@ -131,7 +131,7 @@ class ValidateTest extends TestCase
             );
         $curl->expects(self::once())
             ->method('getBody')
-            ->willReturn('{"success":true}');
+            ->willReturn('{"success":false}');
         $curl->expects(self::once())
             ->method('getStatus')
             ->willReturn(500);
