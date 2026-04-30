@@ -16,7 +16,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://repo.magento.com/"
+            "url": "https://repo-magento-mirror.fooman.co.nz/"
         }
     ],
     "authors": [
