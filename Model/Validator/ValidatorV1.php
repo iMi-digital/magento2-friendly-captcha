@@ -28,6 +28,10 @@ class ValidatorV1 extends AbstractValidator implements ValidateInterface
     {
         /** @var Curl $curl */
         $curl = $this->curlFactory->create();
+        $curl->setHeaders([
+            'User-Agent' => $this->getUserAgent(),
+        ]);
+        
         $curl->post($this->config->getVerifyEndpoint(), [
             'solution' => $friendlyCaptchaSolution,
             'secret' => $this->config->getApikey(),
