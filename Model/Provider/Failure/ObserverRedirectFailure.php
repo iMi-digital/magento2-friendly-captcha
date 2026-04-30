@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,13 +7,13 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Failure;
 
+use IMI\FriendlyCaptcha\Model\Config;
+use IMI\FriendlyCaptcha\Model\Provider\FailureProviderInterface;
+use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
 use Magento\Framework\App\Response\Http;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\UrlInterface;
-use IMI\FriendlyCaptcha\Model\Config;
-use IMI\FriendlyCaptcha\Model\Provider\FailureProviderInterface;
 
 class ObserverRedirectFailure implements FailureProviderInterface
 {
@@ -43,6 +44,7 @@ class ObserverRedirectFailure implements FailureProviderInterface
 
     /**
      * RedirectFailure constructor.
+     *
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
      * @param Config $config
@@ -65,6 +67,7 @@ class ObserverRedirectFailure implements FailureProviderInterface
 
     /**
      * Get redirect URL
+     *
      * @return string
      */
     private function getUrl()
@@ -74,7 +77,9 @@ class ObserverRedirectFailure implements FailureProviderInterface
 
     /**
      * Handle friendlyCaptcha failure
+     *
      * @param Http $response
+     *
      * @return void
      */
     public function execute(Http $response)

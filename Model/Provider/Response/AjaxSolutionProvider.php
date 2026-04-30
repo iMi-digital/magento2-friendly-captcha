@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,8 +7,9 @@
 
 namespace IMI\FriendlyCaptcha\Model\Provider\Response;
 
-use Magento\Framework\App\RequestInterface;
+use Exception;
 use IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Serialize\Serializer\Json;
 
 class AjaxSolutionProvider implements SolutionProviderInterface
@@ -49,7 +51,7 @@ class AjaxSolutionProvider implements SolutionProviderInterface
                 if (isset($jsonParams['g-friendly-captcha-response'])) {
                     return $jsonParams['g-friendly-captcha-response'];
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return '';
             }
         }

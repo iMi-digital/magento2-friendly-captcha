@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,19 +7,18 @@
 
 namespace IMI\FriendlyCaptcha\Observer;
 
+use IMI\FriendlyCaptcha\Api\ValidateInterface;
+use IMI\FriendlyCaptcha\Model\IsCheckRequiredInterface;
+use IMI\FriendlyCaptcha\Model\Provider\FailureProviderInterface;
+use IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface;
 use Magento\Framework\App\Action\AbstractAction;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Response\Http as HttpResponse;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use IMI\FriendlyCaptcha\Api\ValidateInterface;
-use IMI\FriendlyCaptcha\Model\IsCheckRequiredInterface;
-use IMI\FriendlyCaptcha\Model\Provider\FailureProviderInterface;
-use IMI\FriendlyCaptcha\Model\Provider\SolutionProviderInterface;
 
 class FriendlyCaptchaObserver implements ObserverInterface
 {
-
     /**
      * @var FailureProviderInterface
      */

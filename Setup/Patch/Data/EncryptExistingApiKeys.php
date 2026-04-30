@@ -1,5 +1,10 @@
 <?php
 
+/**
+ *  Copyright © iMi digital GmbH, based on work by MageSpecialist
+ *  See LICENSE for license details.
+ */
+
 declare(strict_types=1);
 
 namespace IMI\FriendlyCaptcha\Setup\Patch\Data;
@@ -33,9 +38,9 @@ class EncryptExistingApiKeys implements DataPatchInterface
         ConfigCollectionFactory $collectionFactory,
         WriterInterface $writer
     ) {
-        $this->encryptor         = $encryptor;
+        $this->encryptor = $encryptor;
         $this->collectionFactory = $collectionFactory;
-        $this->writer            = $writer;
+        $this->writer = $writer;
     }
 
     public static function getDependencies(): array

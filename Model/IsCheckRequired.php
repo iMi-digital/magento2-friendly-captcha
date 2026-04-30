@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
@@ -6,6 +7,7 @@
 
 namespace IMI\FriendlyCaptcha\Model;
 
+use InvalidArgumentException;
 use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
@@ -68,7 +70,7 @@ class IsCheckRequired implements IsCheckRequiredInterface
         $this->request = $request;
 
         if (!in_array($this->area, [Area::AREA_FRONTEND, Area::AREA_ADMINHTML], true)) {
-            throw new \InvalidArgumentException('Area parameter must be one of frontend or adminhtml');
+            throw new InvalidArgumentException('Area parameter must be one of frontend or adminhtml');
         }
     }
 
