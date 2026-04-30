@@ -200,6 +200,35 @@ class ValidateTest extends TestCase
         self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 3
+     */
+    public function testValidateReturnsFalseWhenResponseIsMissing(): void
+    {
+        $curl = $this->createCurlMock();
+        $curl->expects(self::once())
+            ->method('post')
+            ->with(
+                'https://global.frcapi.com/api/v2/captcha/siteverify',
+                [
+                    'response' => self::CAPTCHA_SOLUTION,
+                    'sitekey' => self::SITE_KEY,
+                ]
+            );
+        $curl->expects(self::once())
+            ->method('getBody')
+            ->willReturn('{"success":false,"errors":["solution_missing"]}');
+        $curl->expects(self::once())
+            ->method('getStatus')
+            ->willReturn(400);
+
+        self::assertFalse($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+    }
+
     private function createValidateService(Curl $curl): Validate
     {
         $objectManager = ObjectManager::getInstance();
