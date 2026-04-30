@@ -54,15 +54,7 @@ abstract class AbstractValidator
         return $success === true;
     }
 
-    protected function shouldUseResponse($status, $response): bool
-    {
-        $isResponseOk = $status === 200;
-        $isSolutionMissingOrBadRequest = $status === 400
-            && isset($response['success'], $response['errors'])
-            && array_intersect($response['errors'], ['solution_missing', 'bad_request']);
-
-        return $isResponseOk || $isSolutionMissingOrBadRequest;
-    }
-
+    abstract protected function shouldUseResponse($status, $response): bool;
+    
     abstract public function validate(string $friendlyCaptchaSolution): bool;
 }

@@ -44,7 +44,7 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(200);
 
-        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateServiceWithV1Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -59,7 +59,7 @@ class ValidateTest extends TestCase
         $curl = $this->createCurlMock();
         $curl->expects(self::once())
             ->method('setHeaders')
-            ->with(['X-API-Key' => self::API_KEY]);
+            ->with(self::callback(fn (array $headers): bool => $this->assertV2Headers($headers)));
         $curl->expects(self::once())
             ->method('post')
             ->with(
@@ -76,7 +76,7 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(200);
 
-        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateServiceWithV2Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -106,7 +106,7 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(400);
 
-        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateServiceWithV1Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -136,7 +136,7 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(500);
 
-        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateServiceWithV1Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -165,7 +165,7 @@ class ValidateTest extends TestCase
         $curl->expects(self::never())
             ->method('getStatus');
 
-        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateServiceWithV1Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -180,7 +180,7 @@ class ValidateTest extends TestCase
         $curl = $this->createCurlMock();
         $curl->expects(self::once())
             ->method('setHeaders')
-            ->with(['X-API-Key' => self::API_KEY]);
+            ->with(self::callback(fn (array $headers): bool => $this->assertV2Headers($headers)));
         $curl->expects(self::once())
             ->method('post')
             ->with(
@@ -197,7 +197,37 @@ class ValidateTest extends TestCase
             ->method('getStatus')
             ->willReturn(401);
 
-        self::assertTrue($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertTrue($this->createValidateServiceWithV2Validator($curl)->validate(self::CAPTCHA_SOLUTION));
+    }
+
+    /**
+     * @magentoAppArea frontend
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/sitekey test-site-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
+     * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 0
+     */
+    public function testValidateReturnsFalseWhenResponseIsMissingV1(): void
+    {
+        $curl = $this->createCurlMock();
+        $curl->expects(self::once())
+            ->method('post')
+            ->with(
+                'https://api.friendlycaptcha.com/api/v1/siteverify',
+                [
+                    'solution' => self::CAPTCHA_SOLUTION,
+                    'secret' => self::API_KEY,
+                    'sitekey' => self::SITE_KEY,
+                ]
+            );
+        $curl->expects(self::once())
+            ->method('getBody')
+            ->willReturn('{"success":false,"errors":["solution_missing"]}');
+        $curl->expects(self::once())
+            ->method('getStatus')
+            ->willReturn(400);
+
+        self::assertFalse($this->createValidateServiceWithV1Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
     /**
@@ -207,9 +237,12 @@ class ValidateTest extends TestCase
      * @magentoConfigFixture base_website imi_friendly_captcha/general/apikey test-api-key
      * @magentoConfigFixture base_website imi_friendly_captcha/general/endpoint 3
      */
-    public function testValidateReturnsFalseWhenResponseIsMissing(): void
+    public function testValidateReturnsFalseWhenResponseIsMissingV2(): void
     {
         $curl = $this->createCurlMock();
+        $curl->expects(self::once())
+            ->method('setHeaders')
+            ->with(self::callback(fn (array $headers): bool => $this->assertV2Headers($headers)));
         $curl->expects(self::once())
             ->method('post')
             ->with(
@@ -221,15 +254,27 @@ class ValidateTest extends TestCase
             );
         $curl->expects(self::once())
             ->method('getBody')
-            ->willReturn('{"success":false,"errors":["solution_missing"]}');
+            ->willReturn(
+                '{"success":false,"error":{"error_code":"response_missing","detail":"Missing response."}}'
+            );
         $curl->expects(self::once())
             ->method('getStatus')
             ->willReturn(400);
 
-        self::assertFalse($this->createValidateService($curl)->validate(self::CAPTCHA_SOLUTION));
+        self::assertFalse($this->createValidateServiceWithV2Validator($curl)->validate(self::CAPTCHA_SOLUTION));
     }
 
-    private function createValidateService(Curl $curl): Validate
+    private function createValidateServiceWithV1Validator(Curl $curl): Validate
+    {
+        return $this->createValidateService($curl, ValidatorV1::class, 0);
+    }
+
+    private function createValidateServiceWithV2Validator(Curl $curl): Validate
+    {
+        return $this->createValidateService($curl, ValidatorV2::class, 3);
+    }
+
+    private function createValidateService(Curl $curl, string $validatorClass, int $endpoint): Validate
     {
         $objectManager = ObjectManager::getInstance();
         $curlFactory = $this->createMock(CurlFactory::class);
@@ -239,10 +284,16 @@ class ValidateTest extends TestCase
 
         return $objectManager->create(Validate::class, [
             'validatorByEndpoint' => [
-                0 => $objectManager->create(ValidatorV1::class, ['curlFactory' => $curlFactory]),
-                3 => $objectManager->create(ValidatorV2::class, ['curlFactory' => $curlFactory]),
+                $endpoint => $objectManager->create($validatorClass, ['curlFactory' => $curlFactory]),
             ],
         ]);
+    }
+
+    private function assertV2Headers(array $headers): bool
+    {
+        self::assertSame(self::API_KEY, $headers['X-API-Key'] ?? null);
+
+        return true;
     }
 
     private function createCurlMock(): Curl

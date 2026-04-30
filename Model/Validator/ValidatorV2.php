@@ -44,4 +44,14 @@ class ValidatorV2 extends AbstractValidator implements ValidateInterface
 
         throw new InvalidSolutionException($response);
     }
+
+    protected function shouldUseResponse($status, $response): bool
+    {
+        $isResponseOk = $status === 200;
+        $isSolutionMissingOrBadRequest = $status === 400
+            && isset($response['success'], $response['error'])
+            && in_array($response['error']['error_code'], ['response_missing', 'bad_request']);
+
+        return $isResponseOk || $isSolutionMissingOrBadRequest;
+    }    
 }
