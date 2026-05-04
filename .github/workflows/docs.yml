@@ -1,0 +1,24 @@
+name: Docs to PDF
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  converttopdf:
+    name: Build PDF
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: baileyjm02/markdown-to-pdf@v1
+        with:
+          input_dir: docs
+          output_dir: pdfs
+          images_dir: docs/images
+          image_import: ./images
+          build_html: false
+      - uses: actions/upload-artifact@v7
+        with:
+          name: docs
+          path: pdfs
