@@ -20,6 +20,7 @@ This guide covers:
 - Magento `>= 2.4.6`
 - PHP `>= 8.1`
 - outbound server access from Magento to the configured Friendly Captcha verification endpoint
+- Friendly Captcha subscription (see <https://friendlycaptcha.com/#pricing>)
 
 ## Supported frontend areas
 
