@@ -76,3 +76,8 @@ rm -r friendlycaptcha-sdk/{src,docs,contrib}
 
 Then make a pullrequest.
 
+## Release on GitHub
+
+* Update composer.json version field
+* Merge to master
+* Tag a new release on master

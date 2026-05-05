@@ -1,5 +1,6 @@
 {
     "name": "imi/magento2-friendly-captcha",
+    "version": "4.1.1",
     "description": "Friendly Captcha integration for Magento2",
     "require": {
         "php": ">=8.1",
