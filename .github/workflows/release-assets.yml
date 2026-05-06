@@ -1,0 +1,79 @@
+name: Release Assets
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  build-docs:
+    name: Build docs PDF
+    uses: ./.github/workflows/docs.yml
+
+  publish-assets:
+    name: Publish release assets
+    runs-on: ubuntu-latest
+    needs:
+      - build-docs
+    env:
+      RELEASE_TAG: ${{ github.event.release.tag_name }}
+      VENDOR_NAME: friendly-captcha
+      MODULE_NAME: magento2-friendly-captcha
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Download docs artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: docs
+          path: release-assets/docs
+
+      - name: Prepare marketplace package
+        run: |
+          set -euo pipefail
+
+          STAGING_DIR="$(mktemp -d)"
+          PACKAGE_DIR="${STAGING_DIR}/${MODULE_NAME}"
+          ZIP_PATH="${RUNNER_TEMP}/${VENDOR_NAME}_${MODULE_NAME}-${RELEASE_TAG}.zip"
+
+          mkdir -p "${PACKAGE_DIR}"
+
+          rsync -rlt \
+            --exclude='.git/' \
+            --exclude='.gitignore' \
+            --exclude='.github' \
+            ./ "${PACKAGE_DIR}/"
+
+          jq \
+            --arg version "${RELEASE_TAG#v}" \
+            '.name = "friendly-captcha/magento2-friendly-captcha"
+            | .version = $version
+            | .conflict = {"imi/magento2-friendly-captcha":"*"}' \
+            "${PACKAGE_DIR}/composer.json" > "${PACKAGE_DIR}/composer.json.tmp"
+
+          mv "${PACKAGE_DIR}/composer.json.tmp" "${PACKAGE_DIR}/composer.json"
+
+          (
+            cd "${STAGING_DIR}"
+            zip -r "${ZIP_PATH}" "${MODULE_NAME}"
+          )
+
+          echo "zip_path=${ZIP_PATH}" >> "${GITHUB_OUTPUT}"
+        id: package
+
+      - name: Upload assets to release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          gh release upload "${RELEASE_TAG}" \
+            "release-assets/docs/USER_GUIDE.pdf" \
+            "${{ steps.package.outputs.zip_path }}" \
+            --clobber

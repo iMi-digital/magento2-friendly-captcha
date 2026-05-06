@@ -1,6 +1,5 @@
 {
     "name": "imi/magento2-friendly-captcha",
-    "version": "4.1.1",
     "description": "Friendly Captcha integration for Magento2",
     "require": {
         "php": ">=8.1",
@@ -22,8 +21,8 @@
     ],
     "authors": [
         {
-            "name": "Daniel Galla",
-            "email": "d.galla@imi.de"
+            "name": "iMi digital GmbH",
+            "email": "digital@imi.de"
         }
     ],
     "type": "magento2-module",
