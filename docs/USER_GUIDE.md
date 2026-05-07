@@ -1,6 +1,8 @@
-# User Guide
+# Magento 2 Friendly Captcha Extension - User Guide 
 
-This is the user guide for the official Friendly Captcha Magento 2 module.
+![FriendlyCaptcha](./images/friendlycaptcha-appicon-240x240.png)
+
+This is the user guide for the official Friendly Captcha Magento 2 module. 
 
 ## Overview
 
@@ -94,9 +96,15 @@ In the Magento Admin, go to:
 
 `Stores > Configuration > Security > Friendly Captcha`
 
-## Settings screen
+### Settings screen
 
 ![Configuration screen](./images/config.png)
+
+## Frontend Example
+
+Frontend form, protected by Friendly Captcha v2:
+
+![Contact Form](./images/contact-form.png)
 
 ## Configuration scopes
 
