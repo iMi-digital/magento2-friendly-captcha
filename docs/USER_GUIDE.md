@@ -44,10 +44,21 @@ There is a Hyva Checkout integration available. Please refer to the [Hyva Checko
 
 ## Installation
 
-Install the extension with Composer and enable the Magento module:
+Install the extension with Composer:
 
 ```bash
 composer require imi/magento2-friendly-captcha
+```
+
+or, to install via Adobe Marketplace: 
+
+```bash
+composer require friendly-captcha/magento2-friendly-captcha
+```
+
+Then enable the module:
+
+```bash
 php bin/magento module:enable IMI_FriendlyCaptcha
 php bin/magento setup:upgrade
 ```
