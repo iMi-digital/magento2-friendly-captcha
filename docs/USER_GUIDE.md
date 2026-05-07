@@ -1,6 +1,8 @@
-# User Guide
+# Magento 2 Friendly Captcha Extension - User Guide 
 
-This is the user guide for the official Friendly Captcha Magento 2 module.
+![FriendlyCaptcha](./images/friendlycaptcha-appicon-240x240.png)
+
+This is the user guide for the official Friendly Captcha Magento 2 module. 
 
 ## Overview
 
@@ -42,10 +44,21 @@ There is a Hyva Checkout integration available. Please refer to the [Hyva Checko
 
 ## Installation
 
-Install the extension with Composer and enable the Magento module:
+Install the extension with Composer:
 
 ```bash
 composer require imi/magento2-friendly-captcha
+```
+
+or, to install via Adobe Marketplace: 
+
+```bash
+composer require friendly-captcha/magento2-friendly-captcha
+```
+
+Then enable the module:
+
+```bash
 php bin/magento module:enable IMI_FriendlyCaptcha
 php bin/magento setup:upgrade
 ```
@@ -94,9 +107,15 @@ In the Magento Admin, go to:
 
 `Stores > Configuration > Security > Friendly Captcha`
 
-## Settings screen
+### Settings screen
 
 ![Configuration screen](./images/config.png)
+
+## Frontend Example
+
+Frontend form, protected by Friendly Captcha v2:
+
+![Contact Form](./images/contact-form.png)
 
 ## Configuration scopes
 
