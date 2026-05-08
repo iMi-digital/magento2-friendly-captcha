@@ -1,0 +1,14 @@
+name: ExtDN M2 Copy Paste Detector
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  phpcpd:
+    name: M2 Copy Paste Detector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: extdn/github-actions-m2/magento-copy-paste-detector@master
