@@ -34,21 +34,7 @@ class ContactFormProtectionTest extends AbstractController
      */
     public function testContactFormPostWithoutCaptchaSolutionIsRejectedAndDoesNotSendMail(): void
     {
-        $validator = $this->createMock(ValidateInterface::class);
-        $validator->expects(self::once())
-            ->method('validate')
-            ->with('')
-            ->willReturn(false);
-
-        $mail = $this->createMock(MailInterface::class);
-        $mail->expects(self::never())
-            ->method('send');
-
-        $objectManager = ObjectManager::getInstance();
-        $objectManager->addSharedInstance($validator, ValidateInterface::class);
-        $objectManager->addSharedInstance($validator, Validate::class);
-        $objectManager->addSharedInstance($mail, MailInterface::class);
-        $objectManager->addSharedInstance($mail, Mail::class);
+        $this->createNegativeSolutionMocks('');
 
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPostValue([
@@ -77,21 +63,7 @@ class ContactFormProtectionTest extends AbstractController
      */
     public function testContactFormPostWithInvalidCaptchaSolutionIsRejectedAndDoesNotSendMail(): void
     {
-        $validator = $this->createMock(ValidateInterface::class);
-        $validator->expects(self::once())
-            ->method('validate')
-            ->with(self::INVALID_CAPTCHA_SOLUTION)
-            ->willReturn(false);
-
-        $mail = $this->createMock(MailInterface::class);
-        $mail->expects(self::never())
-            ->method('send');
-
-        $objectManager = ObjectManager::getInstance();
-        $objectManager->addSharedInstance($validator, ValidateInterface::class);
-        $objectManager->addSharedInstance($validator, Validate::class);
-        $objectManager->addSharedInstance($mail, MailInterface::class);
-        $objectManager->addSharedInstance($mail, Mail::class);
+        $this->createNegativeSolutionMocks(self::INVALID_CAPTCHA_SOLUTION);
 
         $this->getRequest()->setMethod('POST');
         $this->getRequest()->setPostValue([
@@ -166,5 +138,24 @@ class ContactFormProtectionTest extends AbstractController
         $locationHeader = $response->getHeader('Location');
 
         return (string) $locationHeader;
+    }
+
+    private function createNegativeSolutionMocks(string $solution): void
+    {
+        $validator = $this->createMock(ValidateInterface::class);
+        $validator->expects(self::once())
+            ->method('validate')
+            ->with($solution)
+            ->willReturn(false);
+
+        $mail = $this->createMock(MailInterface::class);
+        $mail->expects(self::never())
+            ->method('send');
+
+        $objectManager = ObjectManager::getInstance();
+        $objectManager->addSharedInstance($validator, ValidateInterface::class);
+        $objectManager->addSharedInstance($validator, Validate::class);
+        $objectManager->addSharedInstance($mail, MailInterface::class);
+        $objectManager->addSharedInstance($mail, Mail::class);
     }
 }
