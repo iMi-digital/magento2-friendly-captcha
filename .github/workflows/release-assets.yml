@@ -62,7 +62,7 @@ jobs:
           (
             cd "${STAGING_DIR}"
             cd "${MODULE_NAME}" 
-            zip -r "../${ZIP_PATH}" .
+            zip -r "${ZIP_PATH}" .
           )
 
           echo "zip_path=${ZIP_PATH}" >> "${GITHUB_OUTPUT}"
