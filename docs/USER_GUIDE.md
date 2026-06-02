@@ -1,8 +1,8 @@
-# Magento 2 Friendly Captcha Extension - User Guide 
+# Friendly Captcha (Bot Protection)
 
 ![FriendlyCaptcha](./images/friendlycaptcha-appicon-240x240.png)
 
-This is the user guide for the official Friendly Captcha Magento 2 module. 
+This is the user guide for the official Friendly Captcha (Bot Protection) module for Magento 2. 
 
 ## Overview
 
@@ -99,7 +99,7 @@ Notes:
 
 - the API key is secret and must be treated like a password
 - Friendly Captcha only shows the full API key when it is created
-- the Magento module stores this value encrypted in configuration
+- the module stores this value encrypted in configuration
 
 ## Magento configuration path
 
@@ -191,7 +191,7 @@ Available options:
 What it does:
 
 - defines which Friendly Captcha puzzle endpoint is used by the storefront widget
-- defines which verification endpoint Magento calls on form submission
+- defines which verification endpoint the extension calls on form submission
 - also determines whether the module uses the v1 or v2 Friendly Captcha frontend assets
 
 Recommendation:
