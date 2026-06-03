@@ -2,7 +2,7 @@
 
 ## Installing on Magento 2
 
-**1. Install using composer**
+**1a. Install using composer**
 
 From command line: 
 
@@ -11,6 +11,19 @@ composer require imi/magento2-friendly-captcha
 php bin/magento module:enable IMI_FriendlyCaptcha
 php bin/magento setup:upgrade
 ```
+
+**1b. Or: Install via Marketplace**
+
+The module is also available via [Adobe Commerce Marketplace](https://commercemarketplace.adobe.com/friendly-captcha-magento2-friendly-captcha.html).
+After going through the free checkout process, you can install via composer:
+
+```
+composer require friendly-captcha/magento2-friendly-captcha
+php bin/magento module:enable IMI_FriendlyCaptcha
+php bin/magento setup:upgrade
+```
+
+Remark: The composer name is different from the GitHub version. Otherwise the module is identical.
 
 **2. Generate site key**
 
