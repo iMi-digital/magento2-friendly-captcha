@@ -3,13 +3,70 @@
  *  Copyright © iMi digital GmbH, based on work by MageSpecialist
  *  See LICENSE for license details.
  */
-/** @var \Magento\Framework\View\Element\Template $block */
 
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+
+/** @var \Magento\Framework\View\Element\Template $block */
+/** @var \Magento\Framework\Escaper $escaper */
+/** @var SecureHtmlRenderer $secureRenderer */
+
+$src = $escaper->escapeUrl(
+    $block->getViewFileUrl('IMI_FriendlyCaptcha::js/vendor/friendlycaptcha-sdk/site.min.js')
+);
+
+// Load the SDK on the first focus of a form that holds a widget, instead of on page load.
+// On page load the SDK injects its agent iframe right away, which opens an IndexedDB
+// connection and makes the page ineligible for the browser back/forward cache. Because
+// default.xml renders this block on every page, that affects the whole shop.
+$scriptString = <<<JS
+    'use strict';
+
+    var loaded = false;
+
+    document.addEventListener('focusin', function (event) {
+        if (loaded || typeof event.target.closest !== 'function') {
+            return;
+        }
+
+        var form = event.target.closest('form');
+
+        if (!form || !form.querySelector('.frc-captcha')) {
+            return;
+        }
+
+        loaded = true;
+
+        var script = document.createElement('script');
+
+        script.src = '{$src}';
+        script.type = 'module';
+        script.async = true;
+
+        // The SDK registers its own focusin listener only once it has loaded, so it can
+        // never see the focusin that triggered this load. Start the widgets of this form
+        // explicitly, otherwise they stay "unactivated" until the user leaves the form
+        // and comes back. On single field forms such as the newsletter subscription there
+        // is nothing to tab to, so the submit button would stay disabled for good.
+        script.onload = function () {
+            if (!window.frcaptcha) {
+                return;
+            }
+
+            window.frcaptcha.attached.then(function () {
+                var widgets = form.querySelectorAll('.frc-captcha');
+
+                for (var i = 0; i < widgets.length; i++) {
+                    // frcWidget is the handle the SDK stores on the widget element.
+                    if (widgets[i].frcWidget) {
+                        widgets[i].frcWidget.start();
+                    }
+                }
+            });
+        };
+
+        document.head.appendChild(script);
+    }, { passive: true });
+JS;
 ?>
-<script
-    src="<?= $escaper->escapeUrl(
-        $block->getViewFileUrl('IMI_FriendlyCaptcha::js/vendor/friendlycaptcha-sdk/site.min.js')
-    ) ?>"
-    type="module"
-    async
-></script>
+<?= /** noEscape */
+$secureRenderer->renderTag('script', [], $scriptString, false) ?>
