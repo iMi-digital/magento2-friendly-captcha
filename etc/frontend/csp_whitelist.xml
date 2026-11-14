@@ -7,5 +7,11 @@
                 <value id="friendly_captcha_eu" type="host">eu-api.friendlycaptcha.eu</value>
             </values>
         </policy>
+        <policy id="worker-src">
+            <values>
+                <value id="friendly_captcha_blob" type="host">blob:</value>
+                <value id="friendly_captcha_self" type="host">'self'</value>
+            </values>
+        </policy>
     </policies>
 </csp_whitelist>
