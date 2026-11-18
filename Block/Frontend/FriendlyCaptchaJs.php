@@ -33,11 +33,12 @@ class FriendlyCaptchaJs extends Template
         array $data = [],
         ?Config $config = null
     ) {
-        parent::__construct($context, $data);
         $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
 
-        if (!$this->getTemplate()) {
-            $this->setTemplate($this->config->isV2Api() ? self::TEMPLATE_V2 : self::TEMPLATE_V1);
+        if (!(array_key_exists('template', $data) ? $data['template'] : $this->_template)) {
+            $data['template'] = $this->config->isV2Api() ? self::TEMPLATE_V2 : self::TEMPLATE_V1;
         }
+
+        parent::__construct($context, $data);
     }
 }
