@@ -77,6 +77,11 @@ class FriendlyCaptcha extends Template
         return $this->config->getSiteKey();
     }
 
+    /**
+     * Get the puzzle endpoint
+     *
+     * @return string
+     */
     public function getPuzzleEndpoint(): string
     {
         return $this->config->getPuzzleEndpoint();
@@ -138,6 +143,8 @@ class FriendlyCaptcha extends Template
     }
 
     /**
+     * Render the captcha when enabled for the frontend
+     *
      * @return string
      */
     public function toHtml()
