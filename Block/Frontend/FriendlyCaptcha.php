@@ -55,15 +55,16 @@ class FriendlyCaptcha extends Template
         ?Config $config = null,
         ?Json $serializer = null
     ) {
-        parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
         $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
         $this->localeResolver = $localeResolver;
         $this->serializer = $serializer ?: ObjectManager::getInstance()->get(Json::class);
 
-        if (!$this->getTemplate()) {
-            $this->setTemplate($this->config->isV2Api() ? self::TEMPLATE_V2 : self::TEMPLATE_V1);
+        if (!(array_key_exists('template', $data) ? $data['template'] : $this->_template)) {
+            $data['template'] = $this->config->isV2Api() ? self::TEMPLATE_V2 : self::TEMPLATE_V1;
         }
+
+        parent::__construct($context, $data);
     }
 
     /**
@@ -76,6 +77,11 @@ class FriendlyCaptcha extends Template
         return $this->config->getSiteKey();
     }
 
+    /**
+     * Get the puzzle endpoint
+     *
+     * @return string
+     */
     public function getPuzzleEndpoint(): string
     {
         return $this->config->getPuzzleEndpoint();
@@ -137,6 +143,8 @@ class FriendlyCaptcha extends Template
     }
 
     /**
+     * Render the captcha when enabled for the frontend
+     *
      * @return string
      */
     public function toHtml()
